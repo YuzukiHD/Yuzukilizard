@@ -10,6 +10,7 @@ Yuzukilizard is a Small Heterogeneous, AI Powered Dev Board
 - One TF Card Slot, Support UHS-SDR104
 - On board XR829 WiFi, BT, up to 150Mbps
 - One CTP Connector
+- On board USB to UART bridge chip
 - Supports 2-lane MIPI DSI, up to 1280x720@60fps
 - Supports one 2-lane MIPI CSI inputs
 - Supports 1 individual ISP, with maximum resolution of 2560 x 1440
