@@ -1,0 +1,134 @@
+#!/bin/sh
+
+MODULES_DIR="/lib/modules/`uname -r`"
+
+run(){
+    while [ 1 ]
+    do
+        sleep 1
+        otg_role=`cat /sys/devices/platform/soc/usbc0/otg_role`
+        if [ "$otg_role" = "usb_device" ]
+        then
+            if [ $isudc == 0 ]
+            then
+                echo $udc > /sys/kernel/config/usb_gadget/g1/UDC
+                isudc=1
+            fi
+        else
+            isudc=0
+        fi
+    done
+}
+
+uvc_create_frame()
+{
+	format=$1
+	name=$2
+	width=$3
+	height=$4
+
+	dir=streaming/$format/$name/${height}p
+	mkdir -p $dir
+	echo $width > $dir/wWidth
+	echo $height > $dir/wHeight
+	echo $(($width * $height * 2 )) > $dir/dwMaxVideoFrameBufferSize
+	#20,30fps
+	#cat <<EOF > $dir/dwFrameInterval
+#500000
+#333333
+#EOF
+	#30fps
+	echo 333333 > $dir/dwFrameInterval
+	echo 333333 > $dir/dwDefaultFrameInterval
+	echo $(($width * $height * 2 * 30 * 8)) > $dir/dwMinBitRate
+	echo $(($width * $height * 2 * 30 * 8)) > $dir/dwMaxBitRate
+}
+
+enable_uvc()
+{
+	cd /sys/kernel/config/usb_gadget/g1/functions
+	mkdir uvc.usb0
+	cd uvc.usb0
+
+	uvc_create_frame mjpeg m 1920 1080
+	uvc_create_frame mjpeg m 1280 720
+	uvc_create_frame mjpeg m 640 480
+	uvc_create_frame uncompressed u 320 240
+	uvc_create_frame h264 h 1920 1080
+	uvc_create_frame h264 h 1280 720
+
+	mkdir -p streaming/header/h
+
+	ln -s streaming/mjpeg/m/ streaming/header/h/
+	ln -s streaming/uncompressed/u/ streaming/header/h/
+	ln -s streaming/h264/h/ streaming/header/h/
+
+	ln -s streaming/header/h/ streaming/class/fs
+	ln -s streaming/header/h/ streaming/class/hs
+
+	mkdir -p control/header/h
+
+	ln -s control/header/h/ control/class/fs/
+	ln -s control/header/h/ control/class/ss/
+
+	ln -s /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/ /sys/kernel/config/usb_gadget/g1/configs/c.1/
+}
+
+start() {
+    echo "enable android usb"
+
+    insmod $MODULES_DIR/sunxi_usb_udc.ko
+    insmod $MODULES_DIR/sunxi_usbc.ko
+
+    mount -t configfs none /sys/kernel/config
+    mkdir /sys/kernel/config/usb_gadget/g1
+    echo "0x1f3a" > /sys/kernel/config/usb_gadget/g1/idVendor
+    echo "0x100d" > /sys/kernel/config/usb_gadget/g1/idProduct
+
+    echo 0xef > /sys/kernel/config/usb_gadget/g1/bDeviceClass
+    echo 0x02 > /sys/kernel/config/usb_gadget/g1/bDeviceSubClass
+    echo 0x01 > /sys/kernel/config/usb_gadget/g1/bDeviceProtocol
+
+    mkdir /sys/kernel/config/usb_gadget/g1/configs/c.1
+    echo 0xc0 > /sys/kernel/config/usb_gadget/g1/configs/c.1/bmAttributes
+    echo 500 > /sys/kernel/config/usb_gadget/g1/configs/c.1/MaxPower
+    mkdir /sys/kernel/config/usb_gadget/g1/strings/0x409
+    echo "Tina UVC" > /sys/kernel/config/usb_gadget/g1/strings/0x409/product
+
+    #echo Y > /sys/module/usb_f_uvc/parameters/bulk_streaming_ep
+    enable_uvc
+
+    ls /sys/class/udc/ | xargs echo > /sys/kernel/config/usb_gadget/g1/UDC
+}
+
+stop() {
+    echo "disable android usb"
+
+    killall adbd 2>/dev/null
+
+    echo > /sys/kernel/config/usb_gadget/g1/UDC
+    rm -f /sys/kernel/config/usb_gadget/g1/configs/c.1/mass_storage.usb0
+    rm -f /sys/kernel/config/usb_gadget/g1/configs/c.1/uvc.usb0
+
+    rmmod $MODULES_DIR/sunxi_usbc.ko
+    rmmod $MODULES_DIR/sunxi_usb_udc.ko
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        # stop
+        ;;
+    restart|reload)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+
+exit $?
+

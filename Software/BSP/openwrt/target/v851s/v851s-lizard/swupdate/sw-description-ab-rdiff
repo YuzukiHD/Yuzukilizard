@@ -1,0 +1,171 @@
+software =
+{
+    version = "0.1.0";
+    description = "Firmware update for Tina Project";
+
+    stable = {
+
+        /* now in systemA, we need to upgrade systemB(bootB, rootfsB, dspxB) */
+        now_A_next_B = {
+            images: (
+                {
+                    filename = "kernel.rdiff.delta";
+                    type = "rdiff_image";
+                    device = "/dev/by-name/bootB_fifo";
+                    properties: {
+                        rdiffbase = ["/dev/by-name/bootA"];
+                    };
+                },
+                {
+                    filename = "rootfs.rdiff.delta";
+                    type = "rdiff_image";
+                    device = "/dev/by-name/rootfsB_fifo";
+                    properties: {
+                        rdiffbase = ["/dev/by-name/rootfsA"];
+                    };
+                },
+                {
+                    filename = "riscv.rdiff.delta";
+                    type = "rdiff_image";
+                    device = "/dev/by-name/riscv32B_fifo";
+                    properties: {
+                        rdiffbase = ["/dev/by-name/riscv32A"];
+                    };
+                },
+                {
+                    filename = "uboot";
+                    type = "awuboot";
+                },
+                {
+                    filename = "boot0";
+                    type = "awboot0";
+                }
+            );
+            scripts: (
+                {
+                    filename = "preinstall_B.sh";
+                    type = "preinstall";
+                },
+                {
+                    filename = "postinstall_B.sh";
+                    type = "postinstall";
+                }
+            );
+            bootenv: (
+                {
+                    name = "swu_mode";
+                    value = "";
+                },
+                {
+                    name = "boot_partition";
+                    value = "bootB";
+                },
+                {
+                    name = "root_partition";
+                    value = "rootfsB";
+                },
+                {
+                    name = "riscv32_partition";
+                    value = "riscv32B";
+                },
+                {
+                    name = "swu_next";
+                    value = "reboot";
+                }
+            );
+        };
+
+        /* now in systemB, we need to upgrade systemA(bootA, rootfsA, dspxA) */
+        now_B_next_A = {
+            images: (
+                {
+                    filename = "kernel.rdiff.delta";
+                    type = "rdiff_image";
+                    device = "/dev/by-name/bootA_fifo";
+                    properties: {
+                        rdiffbase = ["/dev/by-name/bootB"];
+                    };
+                },
+                {
+                    filename = "rootfs.rdiff.delta";
+                    type = "rdiff_image";
+                    device = "/dev/by-name/rootfsA_fifo";
+                    properties: {
+                        rdiffbase = ["/dev/by-name/rootfsB"];
+                    };
+                },
+                {
+                    filename = "riscv.rdiff.delta";
+                    type = "rdiff_image";
+                    device = "/dev/by-name/riscv32A_fifo";
+                    properties: {
+                        rdiffbase = ["/dev/by-name/riscv32B"];
+                    };
+                },
+                {
+                    filename = "uboot";
+                    type = "awuboot";
+                },
+                {
+                    filename = "boot0";
+                    type = "awboot0";
+                }
+            );
+            scripts: (
+                {
+                    filename = "preinstall_A.sh";
+                    type = "preinstall";
+                },
+                {
+                    filename = "postinstall_A.sh";
+                    type = "postinstall";
+                }
+            );
+            bootenv: (
+                {
+                    name = "swu_mode";
+                    value = "";
+                },
+                {
+                    name = "boot_partition";
+                    value = "bootA";
+                },
+                {
+                    name = "root_partition";
+                    value = "rootfsA";
+                },
+                {
+                    name = "riscv32_partition";
+                    value = "riscv32A";
+                },
+                {
+                    name = "swu_next";
+                    value = "reboot";
+                }
+            );
+        };
+
+
+    };
+
+    /* when not call with -e xxx,xxx    just clean */
+    bootenv: (
+        {
+            name = "swu_param";
+            value = "";
+        },
+        {
+            name = "swu_software";
+            value = "";
+        },
+        {
+            name = "swu_mode";
+            value = "";
+        },
+        {
+            name = "swu_version";
+            value = "";
+        }
+    );
+
+}

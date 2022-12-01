@@ -1,0 +1,272 @@
+#!/bin/sh
+
+name=`basename $0`
+
+usage() {
+  echo "$name Usage:"
+  echo ""
+  echo "$name [function]"
+  echo "function: mtp,     support MTP function"
+  echo "          adb,     support adb function"
+  echo "          uvc,     support uvc function"
+  echo "          uvc,uac1 support uvc and uac1 function"
+  echo "example:"
+  echo "$name uvc"
+  echo ""
+}
+
+enable_adb() {
+	[ -d /sys/kernel/config/usb_gadget/g1/functions/ffs.adb ] || {
+		mkdir /sys/kernel/config/usb_gadget/g1/functions/ffs.adb
+	}
+	echo "Tina ADB" > /sys/kernel/config/usb_gadget/g1/strings/0x409/product
+	ln -s /sys/kernel/config/usb_gadget/g1/functions/ffs.adb/ /sys/kernel/config/usb_gadget/g1/configs/c.1/ffs.adb
+
+	[ -d /dev/usb-ffs/adb ] || {
+		mkdir -p /dev/usb-ffs
+		mkdir /dev/usb-ffs/adb
+		mount -o uid=2000,gid=2000 -t functionfs adb /dev/usb-ffs/adb/
+	}
+}
+
+enable_mtp() {
+	mtp_name=mtp.gs0
+	mtp_ffs=false
+	kv=`uname -r`
+	kv=${kv:0:1}
+	if [ "x$kv" = "x5" ]; then
+		mtp_ffs=true
+		mtp_name=ffs.mtp
+	fi
+	[ -d /sys/kernel/config/usb_gadget/g1/functions/$mtp_name ] || {
+		mkdir /sys/kernel/config/usb_gadget/g1/functions/$mtp_name
+	}
+	if [ "x$mtp_ffs" = "xtrue" ]; then
+		[ -d /dev/usb-ffs/mtp ] || {
+			mkdir -p /dev/usb-ffs
+			mkdir /dev/usb-ffs/mtp
+			mount  -o rmode=0770,fmode=0660,uid=1024,gid=1024,no_disconnect=1 -t functionfs mtp /dev/usb-ffs/mtp/
+		}
+	fi
+	echo "Tina MTP" > /sys/kernel/config/usb_gadget/g1/strings/0x409/product
+	echo 1 > /sys/kernel/config/usb_gadget/g1/os_desc/use
+	ln -s /sys/kernel/config/usb_gadget/g1/functions/$mtp_name/ /sys/kernel/config/usb_gadget/g1/configs/c.1/$mtp_name
+	if [ "x$mtp_ffs" = "xtrue" ]; then
+		MtpTools -f connect
+		sleep .500
+	fi
+}
+
+uvc_create_frame()
+{
+	format=$1
+	name=$2
+	width=$3
+	height=$4
+	frameindex=$5
+
+	dir=streaming/$format/$name/${height}p
+	mkdir -p $dir
+	echo $width > $dir/wWidth
+	echo $height > $dir/wHeight
+	echo $(($width * $height * 2 )) > $dir/dwMaxVideoFrameBufferSize
+	#20,30fps
+	#cat <<EOF > $dir/dwFrameInterval
+#500000
+#333333
+#EOF
+
+	#30fps
+	echo 333333 > $dir/dwFrameInterval
+	echo 333333 > $dir/dwDefaultFrameInterval
+	echo $(($width * $height * 2 * 30 * 8)) > $dir/dwMinBitRate
+	echo $(($width * $height * 2 * 30 * 8)) > $dir/dwMaxBitRate
+	echo $frameindex > $dir/bFrameIndex
+}
+
+enable_uvc()
+{
+	cd /sys/kernel/config/usb_gadget/g1/functions
+	mkdir uvc.usb0
+	cd uvc.usb0
+
+	uvc_create_frame mjpeg m 1920 1080 1
+	uvc_create_frame mjpeg m 1280 720 2
+	uvc_create_frame mjpeg m 640 480 3
+	uvc_create_frame uncompressed u 320 240 1
+	uvc_create_frame h264 h 1920 1080 1
+	uvc_create_frame h264 h 1280 720 2
+
+	mkdir -p streaming/header/h
+
+	ln -s streaming/mjpeg/m/ streaming/header/h/
+	ln -s streaming/uncompressed/u/ streaming/header/h/
+	ln -s streaming/h264/h/ streaming/header/h/
+
+	ln -s streaming/header/h/ streaming/class/fs
+	ln -s streaming/header/h/ streaming/class/hs
+
+	mkdir -p control/header/h
+
+	ln -s control/header/h/ control/class/fs/
+	ln -s control/header/h/ control/class/ss/
+
+	#echo 3072 > streaming_maxpacket
+
+	ln -s /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/ /sys/kernel/config/usb_gadget/g1/configs/c.1/
+}
+
+udc_controller=`ls /sys/class/udc`
+
+set_usb_function() {
+# 1:function
+# 2:idVendor
+# 3:idProduct
+#
+
+  [ -d /sys/kernel/config/usb_gadget ] || {
+	mount -t configfs none /sys/kernel/config
+	mkdir /sys/kernel/config/usb_gadget/g1
+	mkdir /sys/kernel/config/usb_gadget/g1/strings/0x409
+	echo "Allwinner Technology Inc." > /sys/kernel/config/usb_gadget/g1/strings/0x409/manufacturer
+	echo "Tina" > /sys/kernel/config/usb_gadget/g1/strings/0x409/product
+  }
+  [ -d /sys/kernel/config/usb_gadget/g1/configs/c.1 ] || {
+	mkdir /sys/kernel/config/usb_gadget/g1/configs/c.1
+	echo 0xc0 > /sys/kernel/config/usb_gadget/g1/configs/c.1/bmAttributes
+	echo 500 > /sys/kernel/config/usb_gadget/g1/configs/c.1/MaxPower
+	mkdir /sys/kernel/config/usb_gadget/g1/configs/c.1/strings/0x409
+  }
+
+  rm -f /sys/kernel/config/usb_gadget/g1/configs/c.1/ffs.adb
+  rm -f /sys/kernel/config/usb_gadget/g1/configs/c.1/ffs.mtp
+  rm -f /sys/kernel/config/usb_gadget/g1/configs/c.1/mtp.gs0
+  rm -f /sys/kernel/config/usb_gadget/g1/configs/c.1/f1
+  rm -f /sys/kernel/config/usb_gadget/g1/configs/c.1/rndis.usb0
+  rm -f /sys/kernel/config/usb_gadget/g1/configs/c.1/uac1.usb0
+  rm -f /sys/kernel/config/usb_gadget/g1/configs/c.1/accessory.usb0
+  rm -f /sys/kernel/config/usb_gadget/g1/configs/c.1/hid.usb0
+  rm -f /sys/kernel/config/usb_gadget/g1/configs/c.1/hid.usb1
+  rm -f /sys/kernel/config/usb_gadget/g1/configs/c.1/loopback.usb0
+  rm -f /sys/kernel/config/usb_gadget/g1/configs/c.1/gser.usb0
+  rm -f /sys/kernel/config/usb_gadget/g1/configs/c.1/printer.usb0
+  rm -f /sys/kernel/config/usb_gadget/g1/configs/c.1/uvc.usb0
+  rm -f /sys/kernel/config/usb_gadget/g1/configs/c.1/mass_storage.usb0
+  rm -rf /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/header/h/
+  rm -rf /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/class/fs
+  rm -rf /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/class/hs
+  rm -rf /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/control/class/fs/
+  rm -rf /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/control/class/ss/
+  rm -rf /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/mjpeg/m
+  rm -rf /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/mjpeg/
+  rm -rf /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/uncompressed/
+
+  echo $2 > /sys/kernel/config/usb_gadget/g1/idVendor
+  echo $3 > /sys/kernel/config/usb_gadget/g1/idProduct
+
+  if [ $1 == "none" ]; then
+	return
+  elif [ $1 == "mtp" ]; then
+	enable_mtp
+  elif [ $1 == "adb" ]; then
+	enable_adb
+  elif [ $1 == "mass_storage" ]; then
+	[ -d /sys/kernel/config/usb_gadget/g1/functions/mass_storage.usb0 ] || {
+		mkdir /sys/kernel/config/usb_gadget/g1/functions/mass_storage.usb0
+		echo Tina > /sys/kernel/config/usb_gadget/g1/functions/mass_storage.usb0/lun.0/inquiry_string
+	}
+	ln -s /sys/kernel/config/usb_gadget/g1/functions/mass_storage.usb0/ /sys/kernel/config/usb_gadget/g1/configs/c.1/f1
+
+	#echo "/dev/by-name/UDISK" > /sys/kernel/config/usb_gadget/g1/functions/mass_storage.usb0/lun.0/file
+  elif [ $1 == "uac1" ]; then
+	[ -d /sys/kernel/config/usb_gadget/g1/functions/uac1.usb0 ] || {
+		mkdir /sys/kernel/config/usb_gadget/g1/functions/uac1.usb0
+		echo 0x1 > /sys/kernel/config/usb_gadget/g1/functions/uac1.usb0/p_chmask
+		echo 0 > /sys/kernel/config/usb_gadget/g1/functions/uac1.usb0/c_chmask
+		echo 16000 > /sys/kernel/config/usb_gadget/g1/functions/uac1.usb0/p_srate
+	}
+	echo "Tina UAC1" > /sys/kernel/config/usb_gadget/g1/strings/0x409/product
+	ln -s /sys/kernel/config/usb_gadget/g1/functions/uac1.usb0/ /sys/kernel/config/usb_gadget/g1/configs/c.1/uac1.usb0
+  elif [ $1 == "uvc" ]; then
+	[ $4 == "bulk" ] &&  {
+	  echo Y > /sys/module/usb_f_uvc/parameters/bulk_streaming_ep
+	}
+	echo 0xef > /sys/kernel/config/usb_gadget/g1/bDeviceClass
+	echo 0x02 > /sys/kernel/config/usb_gadget/g1/bDeviceSubClass
+	echo 0x01 > /sys/kernel/config/usb_gadget/g1/bDeviceProtocol
+	echo "Tina UVC" > /sys/kernel/config/usb_gadget/g1/strings/0x409/product
+
+	#echo 0x150 > /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/control/header/h/bcdUVC
+
+	enable_uvc
+  elif [ $1 == "uvc,uac1" ]; then
+	echo Y > /sys/module/usb_f_uvc/parameters/bulk_streaming_ep
+	echo 0xef > /sys/kernel/config/usb_gadget/g1/bDeviceClass
+	echo 0x02 > /sys/kernel/config/usb_gadget/g1/bDeviceSubClass
+	echo 0x01 > /sys/kernel/config/usb_gadget/g1/bDeviceProtocol
+	echo "Tina UVC" > /sys/kernel/config/usb_gadget/g1/strings/0x409/product
+
+	enable_uvc
+	[ -d /sys/kernel/config/usb_gadget/g1/functions/uac1.usb0 ] || {
+		mkdir /sys/kernel/config/usb_gadget/g1/functions/uac1.usb0
+		# enable PC capture only  ISOC(IN)
+		echo 0x1 > /sys/kernel/config/usb_gadget/g1/functions/uac1.usb0/p_chmask
+		echo 0 > /sys/kernel/config/usb_gadget/g1/functions/uac1.usb0/c_chmask
+		echo 16000 > /sys/kernel/config/usb_gadget/g1/functions/uac1.usb0/p_srate
+	}
+	echo "Tina UVC UAC1" > /sys/kernel/config/usb_gadget/g1/strings/0x409/product
+	ln -s /sys/kernel/config/usb_gadget/g1/functions/uac1.usb0/ /sys/kernel/config/usb_gadget/g1/configs/c.1/uac1.usb0
+  fi
+
+    echo $udc_controller > /sys/kernel/config/usb_gadget/g1/UDC
+}
+
+if [ $# -lt 1 ]; then
+  echo "Lack of arg!"
+  usage
+  exit
+fi
+
+# idVendor, idProduct only for test
+if [ $1 == "none" ]; then
+  set_usb_function none 0x1f3a 0x1001
+  return
+fi
+if [ $1 == "adb" ]; then
+  set_usb_function adb 0x18d1 0xD002
+  return
+fi
+if [ $1 == "mtp" ]; then
+  set_usb_function mtp 0x045E 0x00C9
+  return
+fi
+if [ $1 == "uac1" ]; then
+  if [ $# == 3 ]; then
+    set_usb_function uac1 $2 $3
+  else
+    set_usb_function uac1 0x1d61 0x0101
+  fi
+  return
+fi
+if [ $1 == "mass_storage" ]; then
+  set_usb_function mass_storage 0x1f3a 0x1000
+  return
+fi
+if [ $1 == "uvc" ]; then
+  if [ $2 == "bulk" ]; then
+    set_usb_function uvc 0x09a1 0x0026 bulk
+  else
+    set_usb_function uvc 0x09a1 0x0026
+  fi
+  return
+fi
+if [ $1 == "uac1,uvc" -o $1 == "uvc,uac1" ]; then
+  #set_usb_function uvc,uac1 0x1943 0x2263
+  #set_usb_function uvc,uac1 0x09a1 0x0026
+  if [ $# == 3 ]; then
+    set_usb_function uvc,uac1 $2 $3
+  else
+    set_usb_function uvc,uac1 0x09a1 0x002A
+  fi
+  return
+fi

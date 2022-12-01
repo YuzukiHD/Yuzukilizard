@@ -1,0 +1,33 @@
+#!/bin/sh
+#
+# Start wifi_deamon....
+#
+
+start() {
+    printf "Starting wifi_deamon....: "
+	wifi_deamon
+    sleep 2
+	wifi -o sta
+}
+
+stop() {
+	printf "Stopping wifi_deamon: "
+}
+
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+    restart|reload)
+	stop
+	start
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?

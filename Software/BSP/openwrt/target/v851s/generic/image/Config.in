@@ -1,0 +1,235 @@
+config SUNXI_SD_BOOT_PART
+	bool "Build filesystem for Boot (SD Card) partition"
+	default n
+
+config SUNXI_SD_BOOT_PARTSIZE
+	int "Boot (SD Card) filesystem partition size (in MB)"
+	depends on SUNXI_SD_BOOT_PART
+	default 4
+
+choice
+	prompt "Boot (SD Card) Kernel format"
+	default uImage
+
+	config SUNXI_SD_BOOT_KERNEL_FORMAT_UIMAGE
+	bool "uImage"
+
+	config SUNXI_SD_BOOT_KERNEL_FORMAT_BOOTIMG
+	bool "boot.img"
+endchoice
+
+config SUNXI_MKBOOTIMG_WITH_COMPRESS_KERNEL
+	bool "mkbootimge with compressed kernel"
+	depends on SUNXI_SD_BOOT_KERNEL_FORMAT_BOOTIMG
+	default n
+
+config SUNXI_MKBOOTIMG_ADD_DTB
+	bool "mkbootimge add dtb to boot.img"
+	depends on SUNXI_SD_BOOT_KERNEL_FORMAT_BOOTIMG
+	default n
+
+config SUNXI_SMALL_STORAGE_OTA
+	bool "For storage less than 32M, enable this when using ota"
+	default n
+
+config SUNXI_RECOVERY_INITRAMFS_PART
+	bool "Build filesystem for Boot-Recovery initramfs partition"
+	default n
+
+config SUNXI_RECOVERY_INITRAMFS_PARTSIZE
+	int "Boot-Recovery initramfs filesystem partition size (in MB)"
+	depends on SUNXI_RECOVERY_INITRAMFS_PART
+	default 7
+
+
+choice
+	prompt "Boot-Recovery initramfs Kernel format"
+	default uImage
+
+	config SUNXI_RECOVERY_INITRAMFS_KERNEL_FORMAT_UIMAGE
+	bool "uImage"
+
+	config SUNXI_RECOVERY_INITRAMFS_KERNEL_FORMAT_BOOTIMG
+	bool "boot.img"
+endchoice
+
+config SUNXI_SEPARATE_APP_FROM_ROOTFS
+	bool "Separate /mnt/app from rootfs"
+	default n
+
+config SUNXI_SEPARATE_DATA_FROM_ROOTFS
+	bool "Separate /data from rootfs"
+	default n
+
+menuconfig CUSTOMIZE_IMAGE_NAME
+	bool "customize image name"
+	default n
+	help
+	   Customize image name
+
+	choice
+		prompt "Boot Image(kernel) name suffix"
+		default CONFIG_BOOT_IMAGE_NAME_SUFFIX_NONE
+		depends on CUSTOMIZE_IMAGE_NAME
+		help
+		   Customize Boot image(kernel) name
+
+		config SUNXI_BOOT_IMAGE_NAME_SUFFIX_NONE
+		bool "boot.img/boot_initramfs.img"
+
+		config SUNXI_BOOT_IMAGE_NAME_SUFFIX_RECOVERY
+		bool "boot_recovery.img/boot_initramfs_recovery.img"
+
+		config SUNXI_BOOT_IMAGE_NAME_SUFFIX_RAMFS
+		bool "boot_ramfs.img/boot_initramfs_ramfs.img"
+	endchoice
+
+	choice
+		prompt "Rootfs Image name suffix"
+		default CONFIG_ROOTFS_IMAGE_NAME_SUFFIX_NONE
+		depends on CUSTOMIZE_IMAGE_NAME
+		help
+		   Customize rootfs image name
+
+		config SUNXI_ROOTFS_IMAGE_NAME_SUFFIX_NONE
+		bool "rootfs.img"
+
+		config SUNXI_ROOTFS_IMAGE_NAME_SUFFIX_RECOVERY
+		bool "rootfs_recovery.img"
+
+		config SUNXI_ROOTFS_IMAGE_NAME_SUFFIX_RAMFS
+		bool "rootfs_ramfs.img"
+	endchoice
+
+menuconfig CUSTOMIZE_CONFIG_FILE
+	bool "customize config file"
+	default n
+	help
+	   Customize image config file
+
+	choice
+		prompt "Kernel config file suffix"
+		default KERNEL_CONFIG_FILE_SUFFIX_NONE
+		depends on CUSTOMIZE_CONFIG_FILE
+		help
+		  Customize kernel config file
+
+		config KERNEL_CONFIG_FILE_SUFFIX_NONE
+		bool "config-x.x"
+
+		config KERNEL_CONFIG_FILE_SUFFIX_RECOVERY
+		bool "config-x.x_recovery"
+
+		config KERNEL_CONFIG_FILE_SUFFIX_RAMFS
+		bool "config-x.x_ramfs"
+	endchoice
+
+	menuconfig TARGET_ROOTFS_INCLUDE_KERNEL
+		bool "Include kernel in root filesystem"
+		depends on TARGET_ROOTFS_UBIFS || TARGET_ROOTFS_EXT4FS
+		default n
+		help
+		  Include the kernel image in the rootfs. Typically, the image is placed
+		  below /boot.
+
+		config TARGET_ROOTFS_INCLUDE_UIMAGE
+			bool "include uImage" if TARGET_ROOTFS_INCLUDE_KERNEL
+			default y
+			help
+			  This option might not apply to all targets. Make sure
+			  to check target/allwinner/<your_target>/image/Makefile to
+			  see if this option will have any effect.
+
+		config TARGET_ROOTFS_INCLUDE_ZIMAGE
+			bool "include zImage" if TARGET_ROOTFS_INCLUDE_KERNEL
+			default y
+			help
+			  This option might not apply to all targets. Make sure
+			  to check target/allwinner/<your_target>/image/Makefile to
+			  see if this option will have any effect.
+
+		config TARGET_ROOTFS_INCLUDE_FIT
+			bool "include FIT" if TARGET_ROOTFS_INCLUDE_KERNEL
+			default y
+			help
+			  This option might not apply to all targets. Make sure
+			  to check target/allwinner/<your_target>/image/Makefile to
+			  see if this option will have any effect.
+
+	config TARGET_ROOTFS_INCLUDE_DTB
+		bool "Include DTB in root filesystem"
+		depends on USES_DEVICETREE && (TARGET_ROOTFS_UBIFS || TARGET_ROOTFS_EXT4FS)
+		default n
+		help
+		  Include the device tree blob file(s) in the rootfs. Typically the DTBs
+		  are placed below /boot.
+
+	comment "Kernel Image Compression Mode setting"
+
+	menuconfig TARGET_KERNEL_COMPRESSION_MODE
+		bool "kernel compression mode setting"
+		default n
+		help
+		  setting kernel image compression mode.
+
+		choice
+			prompt "Compression"
+			default KERNEL_KERNEL_GZIP
+			depends on TARGET_KERNEL_COMPRESSION_MODE
+			help
+			  Select kernel image compression.
+
+			config KERNEL_KERNEL_GZIP
+				bool "Gzip"
+
+			config KERNEL_KERNEL_LZMA
+				bool "LZMA"
+
+			config KERNEL_KERNEL_XZ
+				bool "XZ"
+
+			config KERNEL_KERNEL_LZO
+				bool "LZO"
+		endchoice
+
+	comment "Downsize root filesystem"
+
+	config REDUCE_ROOTFS_SIZE
+		bool "downsize the root filesystem or initramfs"
+		default n
+		help
+		  This option will reduce the storage size of the rootfs. Please read file
+		  scripts/reduce-rootfs-size.sh.
+
+	comment "Optimize kernel size"
+
+	config REDUCE_KERNEL_SIZE
+		bool "downsize the kernel size (EXPERIMENTAL)"
+		default n
+		help
+		  This option will reduce the storage size of the kernel by removing log
+		  and debug information. Please read file scripts/reduce-kernel-size.sh
+
+	comment "Boot Time Optimization"
+
+	config BOOT_TIME_OPTIMIZATION
+		bool "Boot Time Optimization"
+		depends on KERNEL_KERNEL_LZO && ( KERNEL_SQUASHFS_ZLIB || TARGET_ROOTFS_EXT4FS)
+		default n
+		help
+		  This option will optimize boot time.
+
+
+	config SUNXI_MAKE_REDUNDANT_ENV
+		bool "sunxi make redundant env data"
+		default n
+		help
+		  Create redundant env data with mkenvimage tools
+
+	config SUNXI_REDUNDANT_ENV_SIZE
+		string "redundant env data size"
+		depends on SUNXI_MAKE_REDUNDANT_ENV
+		default 0x20000
+		help
+		 redundant env data size
+

@@ -1,0 +1,136 @@
+software =
+{
+    version = "0.1.0";
+    description = "Firmware update for Tina Project";
+
+    stable = {
+
+        /* upgrade recovery,uboot,boot0 ==> change swu_mode,boot_partition ==> reboot */
+        upgrade_recovery = {
+            /* upgrade recovery */
+            images: (
+                {
+                    filename = "recovery";
+                    volume = "recovery"
+                    installed-directly = true;
+                },
+                {
+                    filename = "riscv";
+                    volume = "riscv32-r"
+                    installed-directly = true;
+                },
+                {
+                    filename = "uboot";
+                    type = "awuboot";
+                },
+                {
+                    filename = "boot0";
+                    type = "awboot0";
+                }
+            );
+            /* change swu_mode to upgrade_kernel,boot_partition to recovery & reboot*/
+            bootenv: (
+                {
+                    name = "swu_mode";
+                    value = "upgrade_kernel";
+                },
+                {
+                    name = "boot_partition";
+                    value = "recovery";
+                },
+                {
+                    name = "riscv32_partition";
+                    value = "riscv32-r";
+                },
+                {
+                    name = "swu_next";
+                    value = "reboot";
+                }
+            );
+        };
+
+        /* upgrade kernel,rootfs ==> change sw_mode */
+        upgrade_kernel = {
+            /* upgrade kernel,rootfs */
+            images: (
+                {
+                    filename = "kernel";
+                    volume = "boot"
+                    installed-directly = true;
+                },
+                {
+                    filename = "rootfs";
+                    volume = "rootfs"
+                    installed-directly = true;
+                },
+                {
+                    filename = "riscv";
+                    volume = "riscv32"
+                    installed-directly = true;
+                }
+            );
+            /* change sw_mode to upgrade_usr,change boot_partition to boot */
+            bootenv: (
+                {
+                    name = "swu_mode";
+                    value = "upgrade_usr";
+                },
+                {
+                    name = "riscv32_partition";
+                    value = "riscv32";
+                },
+                {
+                    name = "boot_partition";
+                    value = "boot";
+                }
+            );
+        };
+
+        /* upgrade usr ==> clean ==> reboot */
+        upgrade_usr = {
+            /* upgrade usr */
+
+            /* clean swu_param,swu_software,swu_mode & reboot */
+            bootenv: (
+                {
+                    name = "swu_param";
+                    value = "";
+                },
+                {
+                    name = "swu_software";
+                    value = "";
+                },
+                {
+                    name = "swu_mode";
+                    value = "";
+                },
+                {
+                    name = "swu_next";
+                    value = "reboot";
+                }
+            );
+        };
+
+    };
+
+    /* when not call with -e xxx,xxx    just clean */
+    bootenv: (
+        {
+            name = "swu_param";
+            value = "";
+        },
+        {
+            name = "swu_software";
+            value = "";
+        },
+        {
+            name = "swu_mode";
+            value = "";
+        },
+        {
+            name = "swu_version";
+            value = "";
+        }
+    );
+
+}

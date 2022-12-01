@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo "------run rc.modules file-----"
+#insmod sound modules
+#echo "insmod sound modules"
+#/sbin/insmod /lib/modules/3.4.39/snd-seq-device.ko
+#/sbin/insmod /lib/modules/3.4.39/snd-mixer-oss.ko
+#/sbin/insmod /lib/modules/3.4.39/snd-pcm-oss.ko
+insmod /lib/modules/4.9.191/xradio_mac.ko
+insmod /lib/modules/4.9.191/xradio_core.ko
+insmod /lib/modules/4.9.191/xradio_wlan.ko

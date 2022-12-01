@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# Config network parameters....
+#
+
+echo "307200" > /proc/sys/net/core/wmem_max
+echo "307200" > /proc/sys/net/core/wmem_default
+echo "0"      > /proc/sys/net/ipv4/tcp_low_latency
+echo "16288"  > /proc/sys/net/ipv4/udp_wmem_min
+echo "60" > /proc/sys/net/ipv4/tcp_keepalive_intvl
+echo "2" > /proc/sys/net/ipv4/tcp_keepalive_probes
+echo "180" > /proc/sys/net/ipv4/tcp_keepalive_time
+
+exit $?
+

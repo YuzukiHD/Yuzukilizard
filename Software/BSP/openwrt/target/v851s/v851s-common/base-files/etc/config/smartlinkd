@@ -1,0 +1,6 @@
+config  pragram "record"
+   list "record_on" "amixer cset iface=MIXER,name='Left Input Mixer MIC1 Boost Switch' 1"
+   list "record_on" "amixer cset iface=MIXER,name='Right Input Mixer MIC1 Boost Switch' 1"
+   list "record_off" "amixer cset iface=MIXER,name='Left Input Mixer MIC1 Boost Switch' 0"
+   list "record_off" "amixer cset iface=MIXER,name='Right Input Mixer MIC1 Boost Switch' 0"
+   list "record_vol" "amixer cset iface=MIXER,name='MIC1 boost volume'"

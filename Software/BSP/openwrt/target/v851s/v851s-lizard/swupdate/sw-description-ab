@@ -1,0 +1,133 @@
+software =
+{
+    version = "0.1.0";
+    description = "Firmware update for Tina Project";
+
+    stable = {
+
+        /* now in systemA, we need to upgrade systemB(bootB, rootfsB, dspxB) */
+        now_A_next_B = {
+            images: (
+                {
+                    filename = "kernel";
+                    volume = "bootB";
+                    installed-directly = true;
+                },
+                {
+                    filename = "rootfs";
+                    volume = "rootfsB";
+                    installed-directly = true;
+                },
+                {
+                    filename = "riscv";
+                    volume = "riscv32B";
+                    installed-directly = true;
+                },
+                {
+                    filename = "uboot";
+                    type = "awuboot";
+                },
+                {
+                    filename = "boot0";
+                    type = "awboot0";
+                }
+            );
+            bootenv: (
+                {
+                    name = "swu_mode";
+                    value = "";
+                },
+                {
+                    name = "boot_partition";
+                    value = "bootB";
+                },
+                {
+                    name = "root_partition";
+                    value = "rootfsB";
+                },
+                {
+                    name = "riscv32_partition";
+                    value = "riscv32B";
+                },
+                {
+                    name = "swu_next";
+                    value = "reboot";
+                }
+            );
+        };
+
+        /* now in systemB, we need to upgrade systemA(bootA, rootfsA, dspxA) */
+        now_B_next_A = {
+            images: (
+                {
+                    filename = "kernel";
+                    volume = "bootA";
+                    installed-directly = true;
+                },
+                {
+                    filename = "rootfs";
+                    volume = "rootfsA";
+                    installed-directly = true;
+                },
+                {
+                    filename = "riscv";
+                    volume = "riscv32A";
+                    installed-directly = true;
+                },
+                {
+                    filename = "uboot";
+                    type = "awuboot";
+                },
+                {
+                    filename = "boot0";
+                    type = "awboot0";
+                }
+            );
+            bootenv: (
+                {
+                    name = "swu_mode";
+                    value = "";
+                },
+                {
+                    name = "boot_partition";
+                    value = "bootA";
+                },
+                {
+                    name = "root_partition";
+                    value = "rootfsA";
+                },
+                {
+                    name = "riscv32_partition";
+                    value = "riscv32A";
+                },
+                {
+                    name = "swu_next";
+                    value = "reboot";
+                }
+            );
+        };
+
+
+    };
+
+    /* when not call with -e xxx,xxx    just clean */
+    bootenv: (
+        {
+            name = "swu_param";
+            value = "";
+        },
+        {
+            name = "swu_software";
+            value = "";
+        },
+        {
+            name = "swu_mode";
+            value = "";
+        },
+        {
+            name = "swu_version";
+            value = "";
+        }
+    );
+
+}
