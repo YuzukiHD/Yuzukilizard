@@ -1,8 +1,10 @@
 # Yuzukilizard
 Yuzukilizard is a Small Heterogeneous, AI Powered Dev Board
 
-## Features
 ![@7OI1656AFCA6ZEPBX73Z`8](https://user-images.githubusercontent.com/12003087/204966483-ad38dac5-753b-414b-ac92-19cfefb8ae4e.jpg)
+
+## Features
+![image](https://user-images.githubusercontent.com/12003087/205477494-dda777c6-f7a6-48e2-b17c-c5807ccb7f92.png)
 
 - Cortex-A7 Core@900MHz + RISC-V E907GC@600MHz + 0.5Tops@int8 NPU
 - Built in 64M DDR2 memory
