@@ -1,6 +1,8 @@
 # Yuzukilizard
 Yuzukilizard is a Small Heterogeneous, AI Powered Dev Board
 
+Mirror: [https://gitee.com/GloomyGhost/Yuzukilizard](https://gitee.com/GloomyGhost/Yuzukilizard)
+
 ![@7OI1656AFCA6ZEPBX73Z`8](https://user-images.githubusercontent.com/12003087/204966483-ad38dac5-753b-414b-ac92-19cfefb8ae4e.jpg)
 
 ## Features
