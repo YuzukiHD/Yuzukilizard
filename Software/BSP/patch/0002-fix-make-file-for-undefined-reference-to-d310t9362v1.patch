@@ -1,0 +1,25 @@
+From e30f33c5f6398e7fd1c93d0e156ef61881009d2c Mon Sep 17 00:00:00 2001
+From: YuzukiTsuru <gloomyghost@gloomyghost.com>
+Date: Mon, 12 Dec 2022 15:02:15 +0800
+Subject: [PATCH] fix make file for undefined reference to d310t9362v1_panel
+
+Change-Id: Ie6c8f145935f44d4eafa4118201a49620849e496
+---
+ drivers/video/fbdev/sunxi/disp2/disp/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/video/fbdev/sunxi/disp2/disp/Makefile b/drivers/video/fbdev/sunxi/disp2/disp/Makefile
+index 3653d84e..09c4c835 100644
+--- a/drivers/video/fbdev/sunxi/disp2/disp/Makefile
++++ b/drivers/video/fbdev/sunxi/disp2/disp/Makefile
+@@ -68,6 +68,7 @@ disp-$(CONFIG_LCD_SUPPORT_KD080D24) += lcd/kd080d24.o
+ disp-$(CONFIG_LCD_SUPPORT_JD9161Z_MIPI) += lcd/jd9161z_mipi.o
+ disp-$(CONFIG_LCD_SUPPORT_ICN6202) += lcd/icn6202.o
+ disp-$(CONFIG_LCD_SUPPORT_NT35510_MIPI) += lcd/nt35510.o
++disp-$(CONFIG_LCD_SUPPORT_D310T9362V1_MIPI) += lcd/d310t9362v1.o
+ disp-y += lcd/super_lcd_driver.o
+ 
+ disp-$(CONFIG_EINK_PANEL_USED) += de/disp_eink_manager.o \
+-- 
+2.17.1
+
