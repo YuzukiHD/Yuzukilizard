@@ -1,0 +1,41 @@
+From 52c2215ba179143b8531973ba6afd5813e47e207 Mon Sep 17 00:00:00 2001
+From: YuzukiTsuru <gloomyghost@gloomyghost.com>
+Date: Mon, 12 Dec 2022 14:55:20 +0800
+Subject: [PATCH] add SPi NAND Driver for FS35SQA001G
+
+Change-Id: I10690a8fa590af3830fbeaf74bd480360a84a462
+---
+ drivers/mtd/awnand/spinand/physic/id.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/mtd/awnand/spinand/physic/id.c b/drivers/mtd/awnand/spinand/physic/id.c
+index 7366e52f..7d74c372 100644
+--- a/drivers/mtd/awnand/spinand/physic/id.c
++++ b/drivers/mtd/awnand/spinand/physic/id.c
+@@ -370,7 +370,22 @@ struct aw_spinand_phy_info foresee[] = {
+ 		.EccType	= BIT2_LIMIT1_ERR2,
+ 		.EccProtectedType = SIZE16_OFF0_LEN16,
+ 		.BadBlockFlag = BAD_BLK_FLAG_FRIST_1_PAGE,
+-	}
++	},
++	{
++		.Model		= "FS35SQA001G",
++		.NandID		= {0xcd, 0x71, 0x71, 0xff, 0xff, 0xff, 0xff, 0xff},
++		.DieCntPerChip  = 1,
++		.SectCntPerPage = 4,
++		.PageCntPerBlk  = 64,
++		.BlkCntPerDie	= 1024,
++		.OobSizePerPage = 64,
++		.OperationOpt	= SPINAND_QUAD_READ | SPINAND_QUAD_PROGRAM |
++			SPINAND_DUAL_READ,
++		.MaxEraseTimes  = 50000,
++		.EccType	= BIT2_LIMIT1_ERR2,
++		.EccProtectedType = SIZE16_OFF0_LEN16,
++		.BadBlockFlag = BAD_BLK_FLAG_FRIST_1_PAGE,
++	},
+ };
+ 
+ struct aw_spinand_phy_info zetta[] = {
+-- 
+2.17.1
+
