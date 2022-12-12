@@ -22,10 +22,8 @@ CONFIG_AUDIO_SUPPORT=y
 CONFIG_GPIO_SUPPORT=y
 CONFIG_USB_SUPPORT=y
 CONFIG_RTC_SUPPORT=y
-CONFIG_USES_DEVICETREE=y
 CONFIG_USES_EXT4=y
 CONFIG_arm=y
-CONFIG_arm_v7=y
 CONFIG_ARCH="arm"
 
 #
@@ -2299,7 +2297,15 @@ CONFIG_PACKAGE_dnsmasq=y
 # CONFIG_PACKAGE_fwtool is not set
 # CONFIG_PACKAGE_getrandom is not set
 CONFIG_PACKAGE_jsonfilter=y
-# CONFIG_PACKAGE_libatomic is not set
+CONFIG_PACKAGE_libatomic=y
+
+#
+# Configuration
+#
+CONFIG_LIBATOMIC_ROOT_DIR="$(LICHEE_TOP_DIR)/prebuilt/rootfsbuilt/arm/toolchain-sunxi-musl-gcc-830/toolchain"
+CONFIG_LIBATOMIC_FILE_SPEC="./lib/libatomic.so.*"
+# end of Configuration
+
 CONFIG_PACKAGE_libc=y
 
 #
@@ -2482,15 +2488,6 @@ CONFIG_SUNXI_DISPLAY_DE=y
 # end of Multimedia
 
 #
-# NPU
-#
-# CONFIG_PACKAGE_lenet is not set
-CONFIG_PACKAGE_viplite-driver=y
-# CONFIG_PACKAGE_vpm_run is not set
-# CONFIG_PACKAGE_yolov3 is not set
-# end of NPU
-
-#
 # Other
 #
 # CONFIG_PACKAGE_ir_test is not set
@@ -2553,110 +2550,6 @@ CONFIG_PACKAGE_wifimanager-demo=y
 # CONFIG_WMG_PROTOCOL_SOUNDWAVE is not set
 CONFIG_PACKAGE_wirelesscommon=y
 # end of Wireless
-
-#
-# eyesee-mpp
-#
-CONFIG_PACKAGE_eyesee-mpp-external=y
-# CONFIG_mpp_external_sqlite is not set
-# CONFIG_mpp_external_civetweb is not set
-# CONFIG_mpp_external_lz4 is not set
-# CONFIG_mpp_external_uvoice is not set
-# CONFIG_mpp_external_jsoncpp is not set
-# CONFIG_PACKAGE_eyesee-mpp-framework is not set
-CONFIG_PACKAGE_eyesee-mpp-middleware=y
-# CONFIG_imx317 is not set
-# CONFIG_imx278 is not set
-# CONFIG_imx258 is not set
-# CONFIG_imx386 is not set
-# CONFIG_sc2232 is not set
-# CONFIG_imx335 is not set
-# CONFIG_gc4663 is not set
-CONFIG_gc2053=y
-CONFIG_mpp_fwrite_method_vfs=y
-# CONFIG_mpp_fwrite_method_directIO is not set
-# CONFIG_mpp_hw_display is not set
-CONFIG_mpp_vi=y
-CONFIG_mpp_vo=y
-# CONFIG_mpp_textenc is not set
-CONFIG_mpp_venc=y
-CONFIG_mpp_vdec=y
-CONFIG_mpp_aio=y
-CONFIG_mpp_aenc=y
-CONFIG_mpp_aenc_pcm=y
-CONFIG_mpp_aenc_g711=y
-CONFIG_mpp_aenc_g726=y
-CONFIG_mpp_aenc_aac=y
-CONFIG_mpp_aenc_mp3=y
-CONFIG_mpp_adec=y
-# CONFIG_mpp_muxer is not set
-# CONFIG_mpp_demuxer is not set
-# CONFIG_mpp_adas_detect is not set
-# CONFIG_mpp_adas_detect_v2 is not set
-# CONFIG_mpp_body_detect is not set
-# CONFIG_mpp_aec is not set
-# CONFIG_mpp_softdrc is not set
-# CONFIG_mpp_agc is not set
-# CONFIG_mpp_ai_agc is not set
-# CONFIG_mpp_ans is not set
-# CONFIG_mpp_uvc is not set
-# CONFIG_mpp_compile_static_lib is not set
-CONFIG_mpp_compile_dynamic_lib=y
-# CONFIG_mpp_systrace is not set
-CONFIG_mpp_sample=y
-# CONFIG_mpp_sample_adec is not set
-# CONFIG_mpp_sample_adec2ao is not set
-# CONFIG_mpp_sample_aec is not set
-# CONFIG_mpp_sample_aenc is not set
-# CONFIG_mpp_sample_ai is not set
-# CONFIG_mpp_sample_ai2aenc is not set
-# CONFIG_mpp_sample_ai2ao is not set
-# CONFIG_mpp_sample_ai2aenc2muxer is not set
-# CONFIG_mpp_sample_ao is not set
-# CONFIG_mpp_sample_ao_resample_mixer is not set
-# CONFIG_mpp_sample_ao2ai_aec is not set
-# CONFIG_mpp_sample_ao2ai_aec_rate_mixer is not set
-# CONFIG_mpp_sample_aoSync is not set
-# CONFIG_mpp_sample_driverVipp is not set
-# CONFIG_mpp_sample_g2d is not set
-# CONFIG_mpp_sample_glog is not set
-# CONFIG_mpp_sample_hello is not set
-# CONFIG_mpp_sample_MotionDetect is not set
-# CONFIG_mpp_sample_motor is not set
-# CONFIG_mpp_sample_OnlineVenc is not set
-# CONFIG_mpp_sample_pthread_cancel is not set
-# CONFIG_mpp_sample_region is not set
-# CONFIG_mpp_sample_region_detect is not set
-# CONFIG_mpp_sample_select is not set
-# CONFIG_mpp_sample_takePicture is not set
-# CONFIG_mpp_sample_twinchn_virvi2venc2ce is not set
-# CONFIG_mpp_sample_vdec is not set
-# CONFIG_mpp_sample_venc is not set
-# CONFIG_mpp_sample_vencGdcZoom is not set
-# CONFIG_mpp_sample_vencQpMap is not set
-# CONFIG_mpp_sample_vencRecreate is not set
-# CONFIG_mpp_sample_vi_reset is not set
-# CONFIG_mpp_sample_vin_isp_test is not set
-# CONFIG_mpp_sample_virvi is not set
-# CONFIG_mpp_sample_virvi2venc is not set
-# CONFIG_mpp_sample_virvi2venc2ce is not set
-# CONFIG_PACKAGE_eyesee-mpp-private-onvif is not set
-# CONFIG_PACKAGE_eyesee-mpp-private-rtsp is not set
-CONFIG_PACKAGE_eyesee-mpp-system=y
-# CONFIG_wifi_8189ftv is not set
-# CONFIG_wifi_ap6181 is not set
-# CONFIG_wifi_ap6255 is not set
-# CONFIG_wifi_ap6335 is not set
-# CONFIG_wifi_xr819 is not set
-CONFIG_wifi_disable=y
-# CONFIG_mpp_system_newfs_msdos is not set
-# CONFIG_mpp_system_reboot_efex is not set
-# CONFIG_mpp_system_luaconfig is not set
-# CONFIG_mpp_system_wifi is not set
-# CONFIG_mpp_system_smartlink is not set
-# CONFIG_mpp_system_rgb_ctrl is not set
-# CONFIG_mpp_system_ntpclient is not set
-# end of eyesee-mpp
 # end of Allwinner
 
 #
@@ -2698,7 +2591,6 @@ CONFIG_wifi_disable=y
 # CONFIG_PACKAGE_pkgconf is not set
 # CONFIG_PACKAGE_trace-cmd is not set
 # CONFIG_PACKAGE_trace-cmd-extra is not set
-# CONFIG_PACKAGE_valgrind is not set
 # end of Development
 
 #
@@ -2890,7 +2782,6 @@ CONFIG_LVGL8_USE_SUNXIFB_G2D_ROTATE=y
 # CONFIG_LVGL8_USE_FREETYPE is not set
 CONFIG_PACKAGE_lv_g2d_test=y
 # CONFIG_PACKAGE_lv_monitor is not set
-# CONFIG_PACKAGE_lv_nes is not set
 # end of Littlevgl
 
 #
@@ -3112,7 +3003,6 @@ CONFIG_QT5_USE_PREBUILT=y
 # CONFIG_PACKAGE_kmod-iio-bmp280-spi is not set
 # CONFIG_PACKAGE_kmod-iio-ccs811 is not set
 # CONFIG_PACKAGE_kmod-iio-core is not set
-# CONFIG_PACKAGE_kmod-iio-dht11 is not set
 # CONFIG_PACKAGE_kmod-iio-fxas21002c is not set
 # CONFIG_PACKAGE_kmod-iio-fxas21002c-i2c is not set
 # CONFIG_PACKAGE_kmod-iio-fxas21002c-spi is not set
@@ -4730,7 +4620,6 @@ CONFIG_PACKAGE_ell=y
 # CONFIG_PACKAGE_getdns is not set
 # CONFIG_PACKAGE_giflib is not set
 CONFIG_PACKAGE_glib2=y
-CONFIG_PACKAGE_glog=y
 # CONFIG_PACKAGE_google-authenticator-libpam is not set
 # CONFIG_PACKAGE_hidapi is not set
 # CONFIG_PACKAGE_ibrcommon is not set
@@ -5094,6 +4983,7 @@ CONFIG_PACKAGE_libxml2=y
 # CONFIG_PACKAGE_nspr is not set
 # CONFIG_PACKAGE_oniguruma is not set
 # CONFIG_PACKAGE_open-isns is not set
+CONFIG_PACKAGE_opencv=y
 # CONFIG_PACKAGE_p11-kit is not set
 # CONFIG_PACKAGE_poco is not set
 # CONFIG_PACKAGE_poco-all is not set
