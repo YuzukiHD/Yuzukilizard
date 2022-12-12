@@ -1,0 +1,68 @@
+#ifndef _BLUETOOTH_CONSTANT_H
+#define _BLUETOOTH_CONSTANT_H
+
+
+// Do not modify without upating the HAL files.
+
+    // TODO: Some of the constants are repeated from BluetoothAdapter.java.
+    // Get rid of them and maintain just one.
+    int BT_STATE_OFF = 0x00;
+    int BT_STATE_ON = 0x01;
+
+    int BT_SCAN_MODE_NONE = 0x00;
+    int BT_SCAN_MODE_CONNECTABLE = 0x01;
+    int BT_SCAN_MODE_CONNECTABLE_DISCOVERABLE = 0x02;
+
+    int BT_PROPERTY_BDNAME = 0x01;
+    int BT_PROPERTY_BDADDR = 0x02;
+    int BT_PROPERTY_UUIDS = 0x03;
+    int BT_PROPERTY_CLASS_OF_DEVICE = 0x04;
+    int BT_PROPERTY_TYPE_OF_DEVICE = 0x05;
+    int BT_PROPERTY_SERVICE_RECORD = 0x06;
+    int BT_PROPERTY_ADAPTER_SCAN_MODE = 0x07;
+    int BT_PROPERTY_ADAPTER_BONDED_DEVICES = 0x08;
+    int BT_PROPERTY_ADAPTER_DISCOVERABLE_TIMEOUT = 0x09;
+
+    int BT_PROPERTY_REMOTE_FRIENDLY_NAME = 0x0A;
+    int BT_PROPERTY_REMOTE_RSSI = 0x0B;
+
+    int BT_PROPERTY_REMOTE_VERSION_INFO = 0x0C;
+    int BT_PROPERTY_LOCAL_LE_FEATURES = 0x0D;
+
+    int BT_DEVICE_TYPE_BREDR = 0x01;
+    int BT_DEVICE_TYPE_BLE = 0x02;
+    int BT_DEVICE_TYPE_DUAL = 0x03;
+
+    int BT_BOND_STATE_NONE = 0x00;
+    int BT_BOND_STATE_BONDED = 0x01;
+
+    int BT_SSP_VARIANT_PASSKEY_CONFIRMATION = 0x00;
+    int BT_SSP_VARIANT_PASSKEY_ENTRY = 0x01;
+    int BT_SSP_VARIANT_CONSENT = 0x02;
+    int BT_SSP_VARIANT_PASSKEY_NOTIFICATION = 0x03;
+
+    int BT_DISCOVERY_STOPPED = 0x00;
+    int BT_DISCOVERY_STARTED = 0x01;
+
+    int BT_ACL_STATE_CONNECTED = 0x00;
+    int BT_ACL_STATE_DISCONNECTED = 0x01;
+
+    int BT_UUID_SIZE = 16; // bytes
+
+/*
+    int BT_STATUS_SUCCESS = 0;
+    int BT_STATUS_FAIL = 1;
+    int BT_STATUS_NOT_READY = 2;
+    int BT_STATUS_NOMEM = 3;
+    int BT_STATUS_BUSY = 4;
+    int BT_STATUS_DONE = 5;
+    int BT_STATUS_UNSUPPORTED = 6;
+    int BT_STATUS_PARM_INVALID = 7;
+    int BT_STATUS_UNHANDLED = 8;
+    int BT_STATUS_AUTH_FAILURE = 9;
+    int BT_STATUS_RMT_DEV_DOWN = 10;
+    int BT_STATUS_AUTH_REJECTED =11;
+    int BT_STATUS_AUTH_TIMEOUT = 12;
+*/
+
+#endif

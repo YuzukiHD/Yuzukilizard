@@ -1,0 +1,14 @@
+
+SRC_FILES :=
+INC_DIRS := 			
+			
+TARGET_NAME :=
+TARGET_DIR :=
+LD_FLAGS :=
+CC_FLAGS :=
+
+build-share := f
+build-static := f
+build-exe := f
+
+ALL :=

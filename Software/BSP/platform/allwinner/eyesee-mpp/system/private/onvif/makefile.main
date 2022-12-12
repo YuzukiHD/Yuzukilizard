@@ -1,0 +1,78 @@
+CC := gcc
+CXX := g++
+AR := ar
+
+# CC := arm-aw-linux-gnueabi-gcc
+# CXX := arm-aw-linux-gnueabi-g++
+# AR := arm-aw-linux-gnueabi-ar
+
+CPP_OBJ_FILES := $(patsubst %.cpp, %.o, $(filter %.cpp, $(SRC_FILES)))
+C_OBJ_FILES := $(patsubst %.c, %.o, $(filter %.c, $(SRC_FILES)))
+SRC_DIRS := $(dir $(SRC_FILES))
+D_FILES := $(CPP_OBJ_FILES:.o=.d)
+D_FILES += $(C_OBJ_FILES:.o=.d)
+
+D_FILES_TMP := $(addsuffix .*, $(D_FILES))
+
+CC_FLAGS += $(foreach dir, $(INC_DIRS), -I$(dir))
+
+TARGET_SHARED_LIB := $(addprefix $(TARGET_DIR)/, $(addsuffix .so, $(TARGET_NAME)))
+TARGET_STATIC_LIB := $(addprefix $(TARGET_DIR)/, $(addsuffix .a, $(TARGET_NAME)))
+TARGET_EXE_FILE   := $(addprefix $(TARGET_DIR)/, $(TARGET_NAME))
+
+TARGET_CLEAN += $(CPP_OBJ_FILES) $(C_OBJ_FILES)
+
+ifeq ($(build-share), t)
+	ALL += $(TARGET_SHARED_LIB)
+	LD_FLAGS += -shared
+	CC_FLAGS += -fPIC
+	TARGET_CLEAN += $(TARGET_SHARED_LIB)
+endif
+
+ifeq ($(build-static), t)
+	ALL += $(TARGET_STATIC_LIB)
+	LD_FLAGS +=
+	CC_FLAGS +=
+	TARGET_CLEAN += $(TARGET_STATIC_LIB)
+endif
+
+ifeq ($(build-exe), t)
+	ALL += $(TARGET_NAME)
+	LD_FLAGS +=
+	CC_FLAGS += -Wall -Wno-unknown-pragmas -Wno-format
+	TARGET_CLEAN += $(TARGET_EXE_FILE)
+endif
+
+all: $(ALL)
+
+$(TARGET_STATIC_LIB) : $(CPP_OBJ_FILES) $(C_OBJ_FILES)
+	$(AR) cr $(LD_FLAGS) -o $@ $^
+
+$(TARGET_SHARED_LIB) : $(CPP_OBJ_FILES) $(C_OBJ_FILES)
+	$(CXX) $(LD_FLAGS) -o $@ $^
+
+$(TARGET_NAME) : $(CPP_OBJ_FILES) $(C_OBJ_FILES)
+	$(CXX) $(LD_FLAGS) -o $(TARGET_DIR)/$@ $^
+
+%.o : %.cpp
+	$(CXX) $(CC_FLAGS) -c -o $@ $<
+
+%.o : %.c
+	$(CC) $(CC_FLAGS) -c -o $@ $<
+
+%.d : %.cpp
+	@set -e; \
+	$(CXX) -MM $(CC_FLAGS) $< > $@.$$$$; \
+	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+	rm -f $@.$$$$
+
+%.d : %.c
+	@set -e; \
+	$(CXX) -MM $(CC_FLAGS) $< > $@.$$$$; \
+	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+	rm -f $@.$$$$
+
+-include $(D_FILES)
+
+# debug
+# $(info "TARGET_CLEAN:" $(TARGET_CLEAN))

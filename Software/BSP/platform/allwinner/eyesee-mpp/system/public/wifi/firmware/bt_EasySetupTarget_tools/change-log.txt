@@ -1,0 +1,69 @@
+v1.0.0, 20141202
+changes:
+    1. Works with latest BCAST (v2.13) firmware.
+    2. Don't print error when no IP is received.
+
+v1.0.1, 20141212
+changes:
+    1. Add get security API
+    2. Remove the wrong trailing '\n' in IP address
+
+v1.0.2, 20150108
+changes:
+    1. clean the code
+
+v1.0.3, 20150112
+changes:
+    1. fix a bug of copy key string
+
+v1.0.4, 20150128
+    1. don't specify the scan channel
+
+v1.0.5, 20150227
+changes:
+    1. fix decryption failure issue due to incorrect random bytes
+
+v1.0.6, 20150227
+changes:
+    1. fix the failure getting ip address
+
+v2.0.0, 20150402
+changes:
+    1. all-in-one support
+
+v3.0.0, 20150514
+changes:
+    1. enhanced all-in-one support
+    2. change to iovar from ioctl
+    3. bcast co-works with qqcon
+    4. add changhong smart link
+    5. single target package for linux and wiced
+
+v3.1.0, 20150525
+changes:
+    1. interop with new qqconnect
+
+v3.2.0, 20150619
+changes:
+    1. scan with ssid other than bssid
+
+v3.3.0, 20150902
+changes:
+    1. add encryption for changhong
+
+v3.4.0, 20151012
+changes:
+    1. add jingdong+honeywell
+    2. restore changhong without encryption
+
+v3.5.0, 20151221
+changes:
+    1. add jingdong JoyLink
+
+v3.6.0, 20160303
+changes:
+    1. ctrl-c to terminate ES
+
+v3.7.0, 20160310
+changes:
+    1. xiaoyi smartlink

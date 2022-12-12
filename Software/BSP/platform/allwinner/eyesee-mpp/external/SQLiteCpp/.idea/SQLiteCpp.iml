@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="CPP_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/build.bat" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/examples" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/README.md" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/LICENSE.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/SQLiteCpp/SQLiteCpp.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/SQLiteCpp/Assertion.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/SQLiteCpp/Database.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/SQLiteCpp/Transaction.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/SQLiteCpp/Backup.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/SQLiteCpp/Exception.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/SQLiteCpp/Column.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/SQLiteCpp/Statement.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/SQLiteCpp/VariadicBind.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/.travis.yml" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Doxyfile" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CHANGELOG.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/build.sh" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/sqlite3/sqlite3.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/sqlite3/sqlite3.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/sqlite3/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cpplint.py" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/TODO.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/FindSQLiteCpp.cmake" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Column.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Statement.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Transaction.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Backup.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Database.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Exception.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/appveyor.yml" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="Header Search Paths">
+        <CLASSES>
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include" />
+          <root url="file:///usr/include" />
+          <root url="file:///usr/local/include" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include" />
+          <root url="file:///usr/include" />
+          <root url="file:///usr/local/include" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+  </component>
+</module>

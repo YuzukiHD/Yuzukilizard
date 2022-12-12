@@ -1,0 +1,57 @@
+可运行的sample:
+sample_adec
+sample_aec
+sample_aenc
+sample_ai
+sample_ai2aenc
+sample_ai2aenc2muxer
+sample_ai2ao
+sample_ao
+sample_ao2ai
+sample_demux
+sample_demux2adec
+sample_demux2adec2ao
+sample_demux2vdec
+sample_demux2vdec2vo
+sample_demux2vdec_saveFrame
+sample_g2d
+sample_region
+sample_select
+sample_vdec
+sample_venc
+sample_venc2muxer
+sample_virvi
+sample_virvi2venc
+sample_virvi2venc2muxer
+sample_virvi2vo
+sample_vi_g2d
+sample_vo
+
+需打开ise, eis, usb等功能后才能正常运行的sample:
+sample_fish
+sample_UVC/sample_uvc2vdec_vo
+sample_UVC/sample_uvc2vdenc2vo
+sample_UVC/sample_uvc2vo
+sample_UVC/sample_uvc_vo
+sample_uvcout
+sample_virvi2eis2venc
+sample_virvi2fish2venc
+sample_virvi2fish2vo
+
+依赖库libssl 和 libcrypto 的sample:
+sample_twinchn_virvi2venc2ce
+sample_virvi2venc2ce
+
+依赖库libactivate.a 或libtxzEngineUSB.so 的sample:
+sample_sound_controler
+
+依赖库libTinyServer 的sample:
+sample_rtsp
+
+依赖库librgb_ctrl 的sample:
+sample_isposd
+
+暂不支持的sample:
+sample_face_detect
+
+

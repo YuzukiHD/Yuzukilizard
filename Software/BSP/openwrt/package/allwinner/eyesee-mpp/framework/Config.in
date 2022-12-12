@@ -1,0 +1,9 @@
+if PACKAGE_eyesee-mpp-framework
+
+config mpp_framework_videoresizer
+	bool "support video resizer"
+	help
+	  video resizer can decode big picture and encode it to small picture.
+	  If need it, enable videoResizer in framework.
+
+endif

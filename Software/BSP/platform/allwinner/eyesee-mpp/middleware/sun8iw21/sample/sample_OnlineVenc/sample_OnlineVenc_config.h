@@ -1,0 +1,73 @@
+
+#ifndef _SAMPLE_ONLINEVENC_CONFIG_H_
+#define _SAMPLE_ONLINEVENC_CONFIG_H_
+
+#define CFG_MainIsp                     "main_isp"
+#define CFG_MainVipp                    "main_vipp"
+#define CFG_MainSrcWidth                "main_src_width"
+#define CFG_MainSrcHeight               "main_src_height"
+#define CFG_MainPixelFormat             "main_pixel_format"
+#define CFG_MainWdrEnable               "main_wdr_enable"
+#define CFG_MainViBufNum                "main_vi_buf_num"
+#define CFG_MainSrcFrameRate            "main_src_frame_rate"
+#define CFG_MainViChn                   "main_viChn"
+#define CFG_MainVEncChn                 "main_venc_chn"
+#define CFG_MainEncodeType              "main_encode_type"
+#define CFG_MainEncodeWidth             "main_encode_width"
+#define CFG_MainEncodeHeight            "main_encode_height"
+#define CFG_MainEncodeFrameRate         "main_encode_frame_rate"
+#define CFG_MainEncodeBitrate           "main_encode_bitrate"
+#define CFG_MainFilePathh               "main_file_path"
+#define CFG_MainOnlineEnable            "main_online_en"
+#define CFG_MainOnlineShareBufNum       "main_online_share_buf_num"
+#define CFG_MainEncppEnable             "main_encpp_enable"
+
+#define CFG_SubIsp                      "sub_isp"
+#define CFG_SubVipp                     "sub_vipp"
+#define CFG_SubSrcWidth                 "sub_src_width"
+#define CFG_SubSrcHeight                "sub_src_height"
+#define CFG_SubPixelFormat              "sub_pixel_format"
+#define CFG_SubWdrEnable                "sub_wdr_enable"
+#define CFG_SubViBufNum                 "sub_vi_buf_num"
+#define CFG_SubSrcFrameRate             "sub_src_frame_rate"
+
+#define CFG_SubVippCropEnable           "sub_vipp_crop_en"
+#define CFG_SubVippCropRectX            "sub_vipp_crop_rect_x"
+#define CFG_SubVippCropRectY            "sub_vipp_crop_rect_y"
+#define CFG_SubVippCropRectWidth        "sub_vipp_crop_rect_w"
+#define CFG_SubVippCropRectHeight       "sub_vipp_crop_rect_h"
+
+#define CFG_SubViChn                    "sub_viChn"
+#define CFG_SubVEncChn                  "sub_venc_chn"
+#define CFG_SubEncodeType               "sub_encode_type"
+#define CFG_SubEncodeWidth              "sub_encode_width"
+#define CFG_SubEncodeHeight             "sub_encode_height"
+#define CFG_SubEncodeFrameRate          "sub_encode_frame_rate"
+#define CFG_SubEncodeBitrate            "sub_encode_bitrate"
+#define CFG_SubFilePath                 "sub_file_path"
+#define CFG_SubEncppEnable              "sub_encpp_enable"
+
+#define CFG_SubLapseViChn               "sub_lapse_viChn"
+#define CFG_SubLapseVEncChn             "sub_lapse_venc_chn"
+#define CFG_SubLapseEncodeType          "sub_lapse_encode_type"
+#define CFG_SubLapseEncodeWidth         "sub_lapse_encode_width"
+#define CFG_SubLapseEncodeHeight        "sub_lapse_encode_height"
+#define CFG_SubLapseEncodeFrameRate     "sub_lapse_encode_frame_rate"
+#define CFG_SubLapseEncodeBitrate       "sub_lapse_encode_bitrate"
+#define CFG_SubLapseFilePath            "sub_lapse_file_path"
+#define CFG_SubLapseTime                "sub_lapse_time"
+#define CFG_SubLapseEncppEnable         "sub_lapse_encpp_enable"
+
+#define CFG_IspAndVeLinkageEnable       "isp_ve_linkage_enable"
+#define CFG_IspAndVeLinkageStreamChn    "isp_ve_linkage_stream_channel"
+
+#define CFG_WbYuvEnable                 "wb_yuv_enable"
+#define CFG_WbYuvBufNum                 "wb_yuv_buf_num"
+#define CFG_WbYuvStartIndex             "wb_yuv_start_index"
+#define CFG_WbYuvTotalCnt               "wb_yuv_total_cnt"
+#define CFG_WbYuvStreamChannel          "wb_yuv_stream_channel"
+#define CFG_WbYuvFilePath               "wb_yuv_file_path"
+
+#define CFG_TestDuration                "test_duration"
+
+#endif  /* _SAMPLE_ONLINEVENC_CONFIG_H_ */

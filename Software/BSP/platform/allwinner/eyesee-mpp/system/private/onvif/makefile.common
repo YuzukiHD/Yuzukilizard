@@ -1,0 +1,11 @@
+
+TARGET_CLEAN :=
+
+-include makefile.main
+
+.PHONY: clean
+clean:
+	rm -vf $(TARGET_CLEAN) \
+			$(CPP_OBJ_FILES) $(C_OBJ_FILES) \
+			$(D_FILES) $(D_FILES_TMP)
+

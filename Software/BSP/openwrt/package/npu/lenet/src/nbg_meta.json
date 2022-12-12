@@ -1,0 +1,36 @@
+{
+    "Inputs": {
+        "conv2d_2_input_14": {
+            "name": "conv2d_2_input",
+            "shape": [
+                1,
+                28,
+                28,
+                1
+            ],
+            "format": "nhwc",
+            "quantizer": "asymmetric_affine",
+            "quantize": {
+                "qtype": "u8",
+                "zero_point": [
+                    0
+                ],
+                "scale": [
+                    0.0038999998942017555
+                ]
+            }
+        }
+    },
+    "Outputs": {
+        "attach_dense_5/Softmax/out0_0": {
+            "name": "attach_dense_5/Softmax/out0",
+            "shape": [
+                1,
+                10
+            ],
+            "format": "nhwc",
+            "dtype": "float16"
+        }
+    },
+    "Recurrent_connections": {}
+}

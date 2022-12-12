@@ -1,0 +1,348 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AKISS_KEY_STRING_LEN	jni/proto/akiss.h	6;"	d
+AKISS_PORT	jni/main_wiced.c	40;"	d	file:
+BSSID	jni/easy_setup/scan.c	/^    struct ether_addr BSSID;$/;"	m	struct:wl_bss_info	typeref:struct:wl_bss_info::ether_addr	file:
+BSSID	jni/easy_setup/scan.c	/^    struct ether_addr BSSID;$/;"	m	struct:wl_bss_info_107	typeref:struct:wl_bss_info_107::ether_addr	file:
+CC	jni/Makefile	/^CC ?= gcc$/;"	m
+CFLAGS	jni/Makefile	/^CFLAGS := -Ieasy_setup -Iproto$/;"	m
+CHECK_IOCTL_BUFFER	jni/easy_setup_wiced.c	53;"	d	file:
+CLIENT_AP_BAND	jni/wifi_config_dct.h	48;"	d
+CLIENT_AP_BSS_TYPE	jni/wifi_config_dct.h	45;"	d
+CLIENT_AP_CHANNEL	jni/wifi_config_dct.h	47;"	d
+CLIENT_AP_PASSPHRASE	jni/wifi_config_dct.h	44;"	d
+CLIENT_AP_SECURITY	jni/wifi_config_dct.h	46;"	d
+CLIENT_AP_SSID	jni/wifi_config_dct.h	43;"	d
+CONFIG_AP_CHANNEL	jni/wifi_config_dct.h	34;"	d
+CONFIG_AP_PASSPHRASE	jni/wifi_config_dct.h	32;"	d
+CONFIG_AP_SECURITY	jni/wifi_config_dct.h	33;"	d
+CONFIG_AP_SSID	jni/wifi_config_dct.h	31;"	d
+BCAST_KEY_STRING_LEN	jni/proto/bcast.h	6;"	d
+BCAST_NONCE_PAD_LEN	jni/proto/bcast.h	7;"	d
+DEFAULT_PROTOCOL_MASK	jni/easy_setup_linux.c	26;"	d	file:
+DOT11_BSSTYPE_ANY	jni/easy_setup/scan.c	9;"	d	file:
+EASY_SETUP_PROTO_AKISS	jni/easy_setup/easy_setup.h	/^    EASY_SETUP_PROTO_AKISS,$/;"	e	enum:__anon22
+EASY_SETUP_PROTO_CHANGHONG	jni/easy_setup/easy_setup.h	/^    EASY_SETUP_PROTO_CHANGHONG,$/;"	e	enum:__anon22
+EASY_SETUP_PROTO_BCAST	jni/easy_setup/easy_setup.h	/^    EASY_SETUP_PROTO_BCAST = 0,$/;"	e	enum:__anon22
+EASY_SETUP_PROTO_JD	jni/easy_setup/easy_setup.h	/^    EASY_SETUP_PROTO_JD,$/;"	e	enum:__anon22
+EASY_SETUP_PROTO_JINGDONG	jni/easy_setup/easy_setup.h	/^    EASY_SETUP_PROTO_JINGDONG,$/;"	e	enum:__anon22
+EASY_SETUP_PROTO_MAX	jni/easy_setup/easy_setup.h	/^    EASY_SETUP_PROTO_MAX,$/;"	e	enum:__anon22
+EASY_SETUP_PROTO_NEEZE	jni/easy_setup/easy_setup.h	/^    EASY_SETUP_PROTO_NEEZE,$/;"	e	enum:__anon22
+EASY_SETUP_PROTO_XIAOYI	jni/easy_setup/easy_setup.h	/^    EASY_SETUP_PROTO_XIAOYI,$/;"	e	enum:__anon22
+EASY_SETUP_RESTART	jni/easy_setup/easy_setup.h	/^    EASY_SETUP_RESTART,$/;"	e	enum:__anon23
+EASY_SETUP_START	jni/easy_setup/easy_setup.h	/^    EASY_SETUP_START,$/;"	e	enum:__anon23
+EASY_SETUP_STATE_DONE	jni/easy_setup/easy_setup.h	6;"	d
+EASY_SETUP_STOP	jni/easy_setup/easy_setup.h	/^    EASY_SETUP_STOP = 0,$/;"	e	enum:__anon23
+ES_TARGET_VERSION	jni/easy_setup_linux.c	13;"	d	file:
+ETHER_ADDR_LEN	jni/easy_setup/scan.c	8;"	d	file:
+IPADDR	jni/setup.py	/^IPADDR = '192.168.0.255'$/;"	v
+JD_KEY_STRING_LEN	jni/proto/jd.h	6;"	d
+JINGDONG_KEY_STRING_LEN	jni/proto/jingdong.h	6;"	d
+JINGDONG_NONCE_PAD_LEN	jni/proto/jingdong.h	7;"	d
+LOCAL_CFLAGS	jni/Android.mk	/^LOCAL_CFLAGS := -I$(LOCAL_PATH)\/proto -I$(LOCAL_PATH)\/easy_setup$/;"	m
+LOCAL_FORCE_STATIC_EXECUTABLE	jni/Android.mk	/^LOCAL_FORCE_STATIC_EXECUTABLE := true$/;"	m
+LOCAL_LDFLAGS	jni/Android.mk	/^LOCAL_LDFLAGS := -static$/;"	m
+LOCAL_MODULE	jni/Android.mk	/^LOCAL_MODULE    := setup$/;"	m
+LOCAL_MODULE_TAGS	jni/Android.mk	/^LOCAL_MODULE_TAGS := optional$/;"	m
+LOCAL_PATH	jni/Android.mk	/^LOCAL_PATH := $(call my-dir)$/;"	m
+LOCAL_SRC_FILES	jni/Android.mk	/^LOCAL_SRC_FILES := main_linux.c easy_setup_linux.c easy_setup\/easy_setup.c easy_setup\/scan.c proto\/bcast.c proto\/neeze.c proto\/akiss.c proto\/changhong.c proto\/jingdong.c proto\/xiaoyi.c$/;"	m
+LOCAL_STATIC_LIBRARIES	jni/Android.mk	/^LOCAL_STATIC_LIBRARIES := libc$/;"	m
+LOGD	jni/easy_setup/common.h	17;"	d
+LOGE	jni/easy_setup/common.h	16;"	d
+NAME	jni/setup.mk	/^NAME := App_easy_setup$/;"	m
+NEEZE_KEY_STRING_LEN	jni/proto/neeze.h	6;"	d
+NEEZE_NONCE_PAD_LEN	jni/proto/neeze.h	7;"	d
+PACKETDATA	jni/setup.py	/^PACKETDATA = 'Hello!'$/;"	v
+PARAM_MAX_LEN	jni/easy_setup_linux.c	20;"	d	file:
+PARAM_MAX_LEN	jni/easy_setup_wiced.c	22;"	d	file:
+PORTNUM	jni/setup.py	/^PORTNUM = 50007$/;"	v
+QUERY_INTERVAL_MS	jni/easy_setup_linux.c	16;"	d	file:
+QUERY_TIMEOUT_MS	jni/easy_setup_linux.c	15;"	d	file:
+RESULT_MAX_LEN	jni/easy_setup_linux.c	21;"	d	file:
+RESULT_MAX_LEN	jni/easy_setup_wiced.c	23;"	d	file:
+RSSI	jni/easy_setup/scan.c	/^    int16       RSSI;$/;"	m	struct:wl_bss_info	file:
+RSSI	jni/easy_setup/scan.c	/^    int16       RSSI;$/;"	m	struct:wl_bss_info_107	file:
+SCAN_TO_GET_SECURITY	jni/easy_setup_wiced.c	38;"	d	file:
+SNR	jni/easy_setup/scan.c	/^    int16       SNR;$/;"	m	struct:wl_bss_info	file:
+SOFT_AP_CHANNEL	jni/wifi_config_dct.h	40;"	d
+SOFT_AP_PASSPHRASE	jni/wifi_config_dct.h	38;"	d
+SOFT_AP_SECURITY	jni/wifi_config_dct.h	39;"	d
+SOFT_AP_SSID	jni/wifi_config_dct.h	37;"	d
+SSID	jni/easy_setup/scan.c	/^    uint8       SSID[32];$/;"	m	struct:wl_bss_info	file:
+SSID	jni/easy_setup/scan.c	/^    uint8       SSID[32];$/;"	m	struct:wl_bss_info_107	file:
+SSID	jni/easy_setup/scan.c	/^    uint8       SSID[32];$/;"	m	struct:wlc_ssid	file:
+SSID_len	jni/easy_setup/scan.c	/^    uint32      SSID_len;$/;"	m	struct:wlc_ssid	file:
+SSID_len	jni/easy_setup/scan.c	/^    uint8       SSID_len;$/;"	m	struct:wl_bss_info	file:
+SSID_len	jni/easy_setup/scan.c	/^    uint8       SSID_len;$/;"	m	struct:wl_bss_info_107	file:
+WICED_COUNTRY_CODE	jni/wifi_config_dct.h	51;"	d
+WIFI_CONFIG_DCT_H	jni/setup.mk	/^WIFI_CONFIG_DCT_H := wifi_config_dct.h$/;"	m
+WLAN_IFACE	jni/easy_setup_linux.c	18;"	d	file:
+WLAN_SECURITY_NONE	jni/easy_setup/easy_setup.h	/^    WLAN_SECURITY_NONE = 0,$/;"	e	enum:__anon21
+WLAN_SECURITY_WEP	jni/easy_setup/easy_setup.h	/^    WLAN_SECURITY_WEP,$/;"	e	enum:__anon21
+WLAN_SECURITY_WPA	jni/easy_setup/easy_setup.h	/^    WLAN_SECURITY_WPA,$/;"	e	enum:__anon21
+WLAN_SECURITY_WPA2	jni/easy_setup/easy_setup.h	/^    WLAN_SECURITY_WPA2,$/;"	e	enum:__anon21
+WLC_GET_VAR	jni/easy_setup_linux.c	23;"	d	file:
+WLC_SCAN	jni/easy_setup/scan.c	15;"	d	file:
+WLC_SCAN_RESULTS	jni/easy_setup/scan.c	16;"	d	file:
+WLC_SET_VAR	jni/easy_setup_linux.c	24;"	d	file:
+XIAOYI_MAX_LEN	jni/proto/xiaoyi.h	6;"	d
+__AKISS_H__	jni/proto/akiss.h	2;"	d
+__CHANGHONG_H__	jni/proto/changhong.h	2;"	d
+__CHANGHONG_H__	jni/proto/xiaoyi.h	2;"	d
+__BCAST_H__	jni/proto/bcast.h	2;"	d
+__EASY_SETUP_COMMON_H__	jni/easy_setup/common.h	2;"	d
+__EASY_SETUP_H__	jni/easy_setup/easy_setup.h	2;"	d
+__EASY_SETUP_SCAN_H__	jni/easy_setup/scan.h	2;"	d
+__JD_H__	jni/proto/jd.h	2;"	d
+__JINGDONG_H__	jni/proto/jingdong.h	2;"	d
+__NEEZE_H__	jni/proto/neeze.h	2;"	d
+abort_scan	jni/easy_setup_wiced.c	/^    int abort_scan;$/;"	m	struct:__anon13	file:
+active_time	jni/easy_setup/scan.c	/^    int32 active_time;$/;"	m	struct:wl_scan_params	file:
+akiss_get_param	jni/proto/akiss.c	/^void akiss_get_param(void* p) {$/;"	f
+akiss_get_random	jni/proto/akiss.c	/^int akiss_get_random(uint8* random) {$/;"	f
+akiss_param_t	jni/proto/akiss.h	/^} akiss_param_t;$/;"	t	typeref:struct:__anon3
+akiss_result_t	jni/proto/akiss.h	/^} akiss_result_t;$/;"	t	typeref:struct:__anon4
+akiss_set_key	jni/proto/akiss.c	/^int akiss_set_key(const char* key) {$/;"	f
+akiss_set_result	jni/proto/akiss.c	/^void akiss_set_result(const void* p) {$/;"	f
+ap_bssid	jni/easy_setup/easy_setup.h	/^    mac_t          ap_bssid;             \/* target AP's mac address *\/$/;"	m	struct:__anon25
+ap_ssid	jni/easy_setup/easy_setup.h	/^    ssid_t         ap_ssid;              \/* target AP's name *\/$/;"	m	struct:__anon25
+application_start	jni/main_wiced.c	/^void application_start(void)$/;"	f
+atim_window	jni/easy_setup/scan.c	/^    uint16      atim_window;$/;"	m	struct:wl_bss_info	file:
+atim_window	jni/easy_setup/scan.c	/^    uint16      atim_window;$/;"	m	struct:wl_bss_info_107	file:
+basic_mcs	jni/easy_setup/scan.c	/^    uint8       basic_mcs[16];$/;"	m	struct:wl_bss_info	file:
+beacon_period	jni/easy_setup/scan.c	/^    uint16      beacon_period;$/;"	m	struct:wl_bss_info	file:
+beacon_period	jni/easy_setup/scan.c	/^    uint16      beacon_period;$/;"	m	struct:wl_bss_info_107	file:
+bss_info	jni/easy_setup/scan.c	/^    wl_bss_info_t bss_info[1];$/;"	m	struct:wl_scan_results	file:
+bss_type	jni/easy_setup/scan.c	/^    int8 bss_type;$/;"	m	struct:wl_scan_params	file:
+bssid	jni/easy_setup/scan.c	/^    struct ether_addr bssid;$/;"	m	struct:wl_scan_params	typeref:struct:wl_scan_params::ether_addr	file:
+buf	jni/easy_setup_linux.c	/^    void *buf;       \/* pointer to user buffer *\/$/;"	m	struct:wl_ioctl	file:
+buf	jni/proto/xiaoyi.h	/^    uint8 buf[XIAOYI_MAX_LEN];$/;"	m	struct:__anon12
+buflen	jni/easy_setup/scan.c	/^    uint32 buflen;$/;"	m	struct:wl_scan_results	file:
+capability	jni/easy_setup/scan.c	/^    uint16      capability;$/;"	m	struct:wl_bss_info	file:
+capability	jni/easy_setup/scan.c	/^    uint16      capability;$/;"	m	struct:wl_bss_info_107	file:
+changhong_get_sec_mode	jni/proto/changhong.c	/^int changhong_get_sec_mode(uint8* sec) {$/;"	f
+changhong_result_t	jni/proto/changhong.h	/^} changhong_result_t;$/;"	t	typeref:struct:__anon5
+changhong_set_result	jni/proto/changhong.c	/^void changhong_set_result(const void* p) {$/;"	f
+channel	jni/easy_setup/scan.c	/^    uint8       channel;$/;"	m	struct:wl_bss_info_107	file:
+channel	jni/easy_setup_wiced.c	/^    uint8_t channel;$/;"	m	struct:__anon13	file:
+channel_list	jni/easy_setup/scan.c	/^    uint16 channel_list[1];$/;"	m	struct:wl_scan_params	file:
+channel_num	jni/easy_setup/scan.c	/^    int32 channel_num;$/;"	m	struct:wl_scan_params	file:
+chanspec	jni/easy_setup/scan.c	/^    uint16      chanspec;$/;"	m	struct:wl_bss_info	file:
+cmd	jni/easy_setup_linux.c	/^    uint cmd;        \/* common ioctl definition *\/$/;"	m	struct:wl_ioctl	file:
+bcast_get_param	jni/proto/bcast.c	/^void bcast_get_param(void* p) {$/;"	f
+bcast_get_sender_ip	jni/proto/bcast.c	/^int bcast_get_sender_ip(char buff[], int buff_len) {$/;"	f
+bcast_get_sender_port	jni/proto/bcast.c	/^int bcast_get_sender_port(uint16* port) {$/;"	f
+bcast_param_t	jni/proto/bcast.h	/^} bcast_param_t;$/;"	t	typeref:struct:__anon6
+bcast_result_t	jni/proto/bcast.h	/^} bcast_result_t;$/;"	t	typeref:struct:__anon7
+bcast_set_key	jni/proto/bcast.c	/^int bcast_set_key(const char* key) {$/;"	f
+bcast_set_key_qqcon	jni/proto/bcast.c	/^int bcast_set_key_qqcon(const char* key) {$/;"	f
+bcast_set_result	jni/proto/bcast.c	/^void bcast_set_result(const void* p) {$/;"	f
+count	jni/easy_setup/scan.c	/^        uint    count;$/;"	m	struct:wl_bss_info::__anon15	file:
+count	jni/easy_setup/scan.c	/^        uint    count;$/;"	m	struct:wl_bss_info_107::__anon14	file:
+count	jni/easy_setup/scan.c	/^    uint32 count;$/;"	m	struct:wl_scan_results	file:
+crc	jni/proto/jd.h	/^    uint8 crc;$/;"	m	struct:__anon9
+ctl_ch	jni/easy_setup/scan.c	/^    uint8       ctl_ch;$/;"	m	struct:wl_bss_info	file:
+debug_enable	jni/main_linux.c	/^int debug_enable = 0;$/;"	v
+dtim_period	jni/easy_setup/scan.c	/^    uint8       dtim_period; $/;"	m	struct:wl_bss_info_107	file:
+dtim_period	jni/easy_setup/scan.c	/^    uint8       dtim_period;$/;"	m	struct:wl_bss_info	file:
+dtoh16	jni/easy_setup/scan.c	13;"	d	file:
+dtoh32	jni/easy_setup/scan.c	12;"	d	file:
+easy_setup_assert	jni/easy_setup_wiced.c	45;"	d	file:
+easy_setup_enable	jni/easy_setup_wiced.c	/^wwd_result_t easy_setup_enable( uint16_t proto_mask, easy_setup_workspace_t *ws )$/;"	f
+easy_setup_enable_akiss	jni/easy_setup/easy_setup.c	/^void easy_setup_enable_akiss() {$/;"	f
+easy_setup_enable_changhong	jni/easy_setup/easy_setup.c	/^void easy_setup_enable_changhong() {$/;"	f
+easy_setup_enable_bcast	jni/easy_setup/easy_setup.c	/^void easy_setup_enable_bcast() {$/;"	f
+easy_setup_enable_jd	jni/easy_setup/easy_setup.c	/^void easy_setup_enable_jd() {$/;"	f
+easy_setup_enable_jingdong	jni/easy_setup/easy_setup.c	/^void easy_setup_enable_jingdong() {$/;"	f
+easy_setup_enable_neeze	jni/easy_setup/easy_setup.c	/^void easy_setup_enable_neeze() {$/;"	f
+easy_setup_enable_protocols	jni/easy_setup/easy_setup.c	/^void easy_setup_enable_protocols(uint16 proto_mask) {$/;"	f
+easy_setup_enable_xiaoyi	jni/easy_setup/easy_setup.c	/^void easy_setup_enable_xiaoyi() {$/;"	f
+easy_setup_events	jni/easy_setup_wiced.c	/^static const wwd_event_num_t easy_setup_events[] = { WLC_E_WAKE_EVENT, WLC_E_NONE };$/;"	v	file:
+easy_setup_get_param	jni/easy_setup/easy_setup.c	/^void easy_setup_get_param(uint16 proto_mask, tlv_t** pptr) {$/;"	f
+easy_setup_get_password	jni/easy_setup_linux.c	/^int easy_setup_get_password(char buff[], int buff_len) {$/;"	f
+easy_setup_get_protocol	jni/easy_setup_linux.c	/^int easy_setup_get_protocol(uint8* protocol) {$/;"	f
+easy_setup_get_protocol	jni/easy_setup_wiced.c	/^int easy_setup_get_protocol(uint8_t* protocol) {$/;"	f
+easy_setup_get_security	jni/easy_setup_linux.c	/^int easy_setup_get_security() {$/;"	f
+easy_setup_get_ssid	jni/easy_setup_linux.c	/^int easy_setup_get_ssid(char buff[], int buff_len) {$/;"	f
+easy_setup_ioctl	jni/easy_setup_linux.c	/^int easy_setup_ioctl(int cmd, int set, void* param, int size) {$/;"	f
+easy_setup_iovar	jni/easy_setup_linux.c	/^int easy_setup_iovar(int set, void* param, int size) {$/;"	f
+easy_setup_param_t	jni/easy_setup/easy_setup.h	/^} easy_setup_param_t;$/;"	t	typeref:struct:__anon24
+easy_setup_query	jni/easy_setup_linux.c	/^int easy_setup_query() {$/;"	f
+easy_setup_query	jni/easy_setup_wiced.c	/^int easy_setup_query( easy_setup_workspace_t *ws )$/;"	f
+easy_setup_restart	jni/easy_setup_wiced.c	/^wwd_result_t easy_setup_restart( void )$/;"	f
+easy_setup_result_handler	jni/easy_setup_wiced.c	/^static void* easy_setup_result_handler( const wwd_event_header_t* event_header, $/;"	f	file:
+easy_setup_result_t	jni/easy_setup/easy_setup.h	/^} easy_setup_result_t;$/;"	t	typeref:struct:__anon25
+easy_setup_set_result	jni/easy_setup/easy_setup.c	/^void easy_setup_set_result(uint8 protocol, void* p) {$/;"	f
+easy_setup_start	jni/easy_setup_linux.c	/^int easy_setup_start() {$/;"	f
+easy_setup_start	jni/easy_setup_wiced.c	/^int easy_setup_start()$/;"	f
+easy_setup_stop	jni/easy_setup_linux.c	/^int easy_setup_stop() {$/;"	f
+easy_setup_stop	jni/easy_setup_wiced.c	/^int easy_setup_stop( void )$/;"	f
+easy_setup_workspace_t	jni/easy_setup_wiced.c	/^} easy_setup_workspace_t;$/;"	t	typeref:struct:__anon13	file:
+enable	jni/easy_setup/easy_setup.h	/^    uint8 enable;    \/* START\/STOP\/RESTART easy setup *\/ $/;"	m	struct:__anon24
+es_complete	jni/easy_setup_wiced.c	/^    wiced_semaphore_t es_complete;$/;"	m	struct:__anon13	file:
+es_result	jni/proto/akiss.h	/^    easy_setup_result_t es_result;$/;"	m	struct:__anon4
+es_result	jni/proto/changhong.h	/^    easy_setup_result_t es_result;$/;"	m	struct:__anon5
+es_result	jni/proto/bcast.h	/^    easy_setup_result_t es_result;$/;"	m	struct:__anon7
+es_result	jni/proto/jd.h	/^    easy_setup_result_t es_result;$/;"	m	struct:__anon9
+es_result	jni/proto/jingdong.h	/^    easy_setup_result_t es_result;$/;"	m	struct:__anon2
+es_result	jni/proto/neeze.h	/^    easy_setup_result_t es_result;$/;"	m	struct:__anon11
+es_result	jni/proto/xiaoyi.h	/^    easy_setup_result_t es_result;$/;"	m	struct:__anon12
+ether_addr	jni/easy_setup/scan.c	/^struct    ether_addr {$/;"	s	file:
+flags	jni/easy_setup/scan.c	/^    uint8       flags;$/;"	m	struct:wl_bss_info	file:
+g_akiss_param	jni/proto/akiss.c	/^static akiss_param_t g_akiss_param;$/;"	v	file:
+g_akiss_result	jni/proto/akiss.c	/^static akiss_result_t g_akiss_result;$/;"	v	file:
+g_changhong_result	jni/proto/changhong.c	/^static changhong_result_t g_changhong_result;$/;"	v	file:
+g_bcast_param	jni/proto/bcast.c	/^static bcast_param_t g_bcast_param = {$/;"	v	file:
+g_bcast_result	jni/proto/bcast.c	/^static bcast_result_t g_bcast_result;$/;"	v	file:
+g_debug	jni/easy_setup_linux.c	/^static uint8 g_debug = 0;$/;"	v	file:
+g_ioc_fd	jni/easy_setup_linux.c	/^static int g_ioc_fd = -1; \/* socket fd *\/$/;"	v	file:
+g_jd_param	jni/proto/jd.c	/^static jd_param_t g_jd_param;$/;"	v	file:
+g_jd_result	jni/proto/jd.c	/^static jd_result_t g_jd_result;$/;"	v	file:
+g_jingdong_param	jni/proto/jingdong.c	/^static jingdong_param_t g_jingdong_param = {$/;"	v	file:
+g_jingdong_result	jni/proto/jingdong.c	/^static jingdong_result_t g_jingdong_result;$/;"	v	file:
+g_neeze_param	jni/proto/neeze.c	/^static neeze_param_t g_neeze_param = {$/;"	v	file:
+g_neeze_result	jni/proto/neeze.c	/^static neeze_result_t g_neeze_result;$/;"	v	file:
+g_protocol	jni/easy_setup_linux.c	/^static uint8 g_protocol = 0;$/;"	v	file:
+g_protocol	jni/easy_setup_wiced.c	/^static uint8_t g_protocol = 0;$/;"	v	file:
+g_protocol_mask	jni/easy_setup_linux.c	/^uint16 g_protocol_mask = 0; \/* default no protocols enabled *\/$/;"	v
+g_protocol_mask	jni/easy_setup_wiced.c	/^uint16_t g_protocol_mask = 0x0;$/;"	v
+g_result	jni/easy_setup_linux.c	/^static easy_setup_result_t g_result;$/;"	v	file:
+g_xiaoyi_result	jni/proto/xiaoyi.c	/^static xiaoyi_result_t g_xiaoyi_result;$/;"	v	file:
+hex_str_to_int	jni/easy_setup_wiced.c	/^static int hex_str_to_int( const char* hex_str )$/;"	f	file:
+home_time	jni/easy_setup/scan.c	/^    int32 home_time;$/;"	m	struct:wl_scan_params	file:
+host_ip_address	jni/proto/bcast.h	/^    ip_address_t   host_ip_address;      \/* setup client's ip address *\/$/;"	m	struct:__anon7
+host_ip_address	jni/proto/neeze.h	/^    ip_address_t host_ip_address;      \/* setup client's ip address *\/$/;"	m	struct:__anon11
+host_port	jni/proto/bcast.h	/^    uint16         host_port;            \/* setup client's port *\/$/;"	m	struct:__anon7
+host_port	jni/proto/neeze.h	/^    uint16 host_port;            \/* setup client's port *\/$/;"	m	struct:__anon11
+htod32	jni/easy_setup/scan.c	11;"	d	file:
+ie_length	jni/easy_setup/scan.c	/^    uint32      ie_length;$/;"	m	struct:wl_bss_info	file:
+ie_length	jni/easy_setup/scan.c	/^    uint32      ie_length;$/;"	m	struct:wl_bss_info_107	file:
+ie_offset	jni/easy_setup/scan.c	/^    uint16      ie_offset;$/;"	m	struct:wl_bss_info	file:
+int16	jni/easy_setup/common.h	11;"	d
+int32	jni/easy_setup/common.h	12;"	d
+int8	jni/easy_setup/common.h	10;"	d
+ip	jni/easy_setup/common.h	/^    } ip;$/;"	m	struct:__anon19	typeref:union:__anon19::__anon20
+ip	jni/proto/jd.h	/^    uint32 ip;$/;"	m	struct:__anon9
+ip_address_t	jni/easy_setup/common.h	/^} ip_address_t;$/;"	t	typeref:struct:__anon19
+jd_get_crc	jni/proto/jd.c	/^int jd_get_crc(uint8* crc) {$/;"	f
+jd_get_ip	jni/proto/jd.c	/^int jd_get_ip(uint32* ip) {$/;"	f
+jd_get_param	jni/proto/jd.c	/^void jd_get_param(void* p) {$/;"	f
+jd_get_port	jni/proto/jd.c	/^int jd_get_port(uint16* port) {$/;"	f
+jd_param_t	jni/proto/jd.h	/^} jd_param_t;$/;"	t	typeref:struct:__anon8
+jd_result_t	jni/proto/jd.h	/^} jd_result_t;$/;"	t	typeref:struct:__anon9
+jd_set_key	jni/proto/jd.c	/^int jd_set_key(const char* key) {$/;"	f
+jd_set_result	jni/proto/jd.c	/^void jd_set_result(const void* p) {$/;"	f
+jingdong_get_param	jni/proto/jingdong.c	/^void jingdong_get_param(void* p) {$/;"	f
+jingdong_get_sec_mode	jni/proto/jingdong.c	/^int jingdong_get_sec_mode(uint8* sec) {$/;"	f
+jingdong_param_t	jni/proto/jingdong.h	/^} jingdong_param_t;$/;"	t	typeref:struct:__anon1
+jingdong_result_t	jni/proto/jingdong.h	/^} jingdong_result_t;$/;"	t	typeref:struct:__anon2
+jingdong_set_key	jni/proto/jingdong.c	/^int jingdong_set_key(const char* key) {$/;"	f
+jingdong_set_result	jni/proto/jingdong.c	/^void jingdong_set_result(const void* p) {$/;"	f
+key_bytes	jni/proto/akiss.h	/^    uint8 key_bytes[AKISS_KEY_STRING_LEN];  \/* key string for decoding *\/$/;"	m	struct:__anon3
+key_bytes	jni/proto/bcast.h	/^    uint8 key_bytes[BCAST_KEY_STRING_LEN];  \/* key string for decoding *\/$/;"	m	struct:__anon6
+key_bytes	jni/proto/jd.h	/^    uint8 key_bytes[JD_KEY_STRING_LEN];  \/* key string for decoding *\/$/;"	m	struct:__anon8
+key_bytes	jni/proto/jingdong.h	/^    uint8 key_bytes[JINGDONG_KEY_STRING_LEN];  \/* key string for decoding *\/$/;"	m	struct:__anon1
+key_bytes	jni/proto/neeze.h	/^    uint8 key_bytes[NEEZE_KEY_STRING_LEN];  \/* key string for decoding *\/$/;"	m	struct:__anon10
+key_bytes_qqcon	jni/proto/bcast.h	/^    uint8 key_bytes_qqcon[BCAST_KEY_STRING_LEN];  \/* key string for decoding for qqcon *\/$/;"	m	struct:__anon6
+key_bytes_qqcon	jni/proto/neeze.h	/^    uint8 key_bytes_qqcon[NEEZE_KEY_STRING_LEN];  \/* key string for decoding for qqcon *\/$/;"	m	struct:__anon10
+killed	jni/main_linux.c	/^int killed = 0;$/;"	v
+len	jni/easy_setup/common.h	/^    uint8 len;     \/**< SSID length *\/$/;"	m	struct:__anon17
+len	jni/easy_setup_linux.c	/^    uint len;        \/* length of user buffer *\/$/;"	m	struct:wl_ioctl	file:
+len	jni/proto/xiaoyi.h	/^    uint8 len;$/;"	m	struct:__anon12
+length	jni/easy_setup/common.h	/^    uint8 length;$/;"	m	struct:__anon16
+length	jni/easy_setup/scan.c	/^    uint32      length;$/;"	m	struct:wl_bss_info	file:
+length	jni/easy_setup/scan.c	/^    uint32      length;$/;"	m	struct:wl_bss_info_107	file:
+mac_t	jni/easy_setup/common.h	/^} mac_t;$/;"	t	typeref:struct:__anon18
+main	jni/main_linux.c	/^int main(int argc, char* argv[])$/;"	f
+n_cap	jni/easy_setup/scan.c	/^    uint8       n_cap;$/;"	m	struct:wl_bss_info	file:
+nbss_cap	jni/easy_setup/scan.c	/^    uint32      nbss_cap;$/;"	m	struct:wl_bss_info	file:
+needed	jni/easy_setup_linux.c	/^    uint needed;     \/* bytes needed (optional) *\/$/;"	m	struct:wl_ioctl	file:
+neeze_get_param	jni/proto/neeze.c	/^void neeze_get_param(void* p) {$/;"	f
+neeze_get_sender_ip	jni/proto/neeze.c	/^int neeze_get_sender_ip(char buff[], int buff_len) {$/;"	f
+neeze_get_sender_port	jni/proto/neeze.c	/^int neeze_get_sender_port(uint16* port) {$/;"	f
+neeze_param_t	jni/proto/neeze.h	/^} neeze_param_t;$/;"	t	typeref:struct:__anon10
+neeze_result_t	jni/proto/neeze.h	/^} neeze_result_t;$/;"	t	typeref:struct:__anon11
+neeze_set_key	jni/proto/neeze.c	/^int neeze_set_key(const char* key) {$/;"	f
+neeze_set_key_qqcon	jni/proto/neeze.c	/^int neeze_set_key_qqcon(const char* key) {$/;"	f
+neeze_set_result	jni/proto/neeze.c	/^void neeze_set_result(const void* p) {$/;"	f
+nprobes	jni/easy_setup/scan.c	/^    int32 nprobes;$/;"	m	struct:wl_scan_params	file:
+obj_list	jni/Makefile	/^obj_list := $(src_list:%.c=%.o)$/;"	m
+octet	jni/easy_setup/common.h	/^    uint8 octet[6]; \/**< Unique 6-byte MAC address *\/$/;"	m	struct:__anon18
+octet	jni/easy_setup/scan.c	/^    uint8 octet[ETHER_ADDR_LEN];$/;"	m	struct:ether_addr	file:
+padding1	jni/easy_setup/scan.c	/^    uint8       padding1[3];$/;"	m	struct:wl_bss_info	file:
+param	jni/easy_setup/easy_setup.h	/^    tlv_t param; \/* param blocks for each protocol *\/$/;"	m	struct:__anon24
+param	jni/easy_setup_wiced.c	/^    easy_setup_param_t param;$/;"	m	struct:__anon13	file:
+passive_time	jni/easy_setup/scan.c	/^    int32 passive_time;    $/;"	m	struct:wl_scan_params	file:
+phy_noise	jni/easy_setup/scan.c	/^    int8        phy_noise;$/;"	m	struct:wl_bss_info	file:
+phy_noise	jni/easy_setup/scan.c	/^    int8        phy_noise;$/;"	m	struct:wl_bss_info_107	file:
+port	jni/proto/jd.h	/^    uint16 port;$/;"	m	struct:__anon9
+protocol	jni/easy_setup_wiced.c	/^    uint8_t protocol;$/;"	m	struct:__anon13	file:
+protocol_mask	jni/easy_setup/easy_setup.h	/^    uint16 protocol_mask;  \/* set parameters to which protocol *\/ $/;"	m	struct:__anon24
+random	jni/proto/akiss.h	/^    uint8 random; \/* akiss random byte *\/$/;"	m	struct:__anon4
+random_bytes	jni/proto/bcast.h	/^    uint8 random_bytes[BCAST_NONCE_PAD_LEN]; \/* random bytes *\/$/;"	m	struct:__anon6
+random_bytes	jni/proto/jingdong.h	/^    uint8 random_bytes[JINGDONG_NONCE_PAD_LEN]; \/* random bytes *\/$/;"	m	struct:__anon1
+random_bytes	jni/proto/neeze.h	/^    uint8 random_bytes[NEEZE_NONCE_PAD_LEN]; \/* random bytes *\/$/;"	m	struct:__anon10
+random_bytes_qqcon	jni/proto/bcast.h	/^    uint8 random_bytes_qqcon[BCAST_NONCE_PAD_LEN]; \/* random bytes for qqcon *\/$/;"	m	struct:__anon6
+random_bytes_qqcon	jni/proto/neeze.h	/^    uint8 random_bytes_qqcon[NEEZE_NONCE_PAD_LEN]; \/* random bytes for qqcon *\/$/;"	m	struct:__anon10
+rates	jni/easy_setup/scan.c	/^        uint8   rates[16];$/;"	m	struct:wl_bss_info::__anon15	file:
+rates	jni/easy_setup/scan.c	/^        uint8   rates[16];$/;"	m	struct:wl_bss_info_107::__anon14	file:
+rateset	jni/easy_setup/scan.c	/^    } rateset;$/;"	m	struct:wl_bss_info	typeref:struct:wl_bss_info::__anon15	file:
+rateset	jni/easy_setup/scan.c	/^    } rateset;$/;"	m	struct:wl_bss_info_107	typeref:struct:wl_bss_info_107::__anon14	file:
+reserved	jni/easy_setup/scan.c	/^    uint8       reserved[2];$/;"	m	struct:wl_bss_info	file:
+result	jni/easy_setup_wiced.c	/^    easy_setup_result_t result;$/;"	m	struct:__anon13	file:
+s	jni/setup.py	/^s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0)$/;"	v
+scan_and_get_security	jni/easy_setup/scan.c	/^int scan_and_get_security(ssid_t* ssid) {$/;"	f
+scan_and_get_security_internal	jni/easy_setup/scan.c	/^static int scan_and_get_security_internal(int ch, uint8* bssid, ssid_t* ssid) {$/;"	f	file:
+scan_complete	jni/easy_setup_wiced.c	/^    wiced_semaphore_t scan_complete;$/;"	m	struct:__anon13	file:
+scan_result	jni/easy_setup_wiced.c	/^static wiced_scan_result_t  scan_result[1];$/;"	v	file:
+scan_result_callback	jni/easy_setup_wiced.c	/^static void scan_result_callback( wiced_scan_result_t** result_ptr, void* user_data, wiced_scan_status_t status  )$/;"	f	file:
+scan_type	jni/easy_setup/scan.c	/^    uint8 scan_type;$/;"	m	struct:wl_scan_params	file:
+sec_mode	jni/proto/changhong.h	/^    uint8 sec_mode; \/* sec mode *\/$/;"	m	struct:__anon5
+sec_mode	jni/proto/jingdong.h	/^    uint8 sec_mode; \/* sec mode *\/$/;"	m	struct:__anon2
+security	jni/easy_setup_wiced.c	/^    wiced_security_t security;$/;"	m	struct:__anon13	file:
+security_key	jni/easy_setup/easy_setup.h	/^    uint8          security_key[64];     \/* target AP's password *\/$/;"	m	struct:__anon25
+security_key_length	jni/easy_setup/easy_setup.h	/^    uint8          security_key_length;  \/* length of password *\/$/;"	m	struct:__anon25
+send_akiss_random	jni/main_wiced.c	/^static wiced_result_t send_akiss_random(uint8_t random)$/;"	f	file:
+set	jni/easy_setup_linux.c	/^    unsigned char set;  \/* 1=set IOCTL; 0=query IOCTL *\/$/;"	m	struct:wl_ioctl	file:
+signal_handler	jni/main_linux.c	/^static void signal_handler(int sig) {$/;"	f	file:
+src_list	jni/Makefile	/^src_list := main_linux.c easy_setup_linux.c easy_setup\/easy_setup.c easy_setup\/scan.c proto\/bcast.c proto\/neeze.c proto\/akiss.c proto\/changhong.c$/;"	m
+ssid	jni/easy_setup/scan.c	/^    wlc_ssid_t ssid;$/;"	m	struct:wl_scan_params	file:
+ssid_t	jni/easy_setup/common.h	/^} ssid_t;$/;"	t	typeref:struct:__anon17
+state	jni/easy_setup/easy_setup.h	/^    uint8          state;$/;"	m	struct:__anon25
+tlv_t	jni/easy_setup/common.h	/^} tlv_t;$/;"	t	typeref:struct:__anon16
+type	jni/easy_setup/common.h	/^    uint8 type;$/;"	m	struct:__anon16
+uint16	jni/easy_setup/common.h	7;"	d
+uint32	jni/easy_setup/common.h	8;"	d
+uint8	jni/easy_setup/common.h	6;"	d
+usage	jni/main_linux.c	/^void usage() {$/;"	f
+used	jni/easy_setup_linux.c	/^    uint used;       \/* bytes read or written (optional) *\/$/;"	m	struct:wl_ioctl	file:
+v4	jni/easy_setup/common.h	/^        uint32 v4;   \/**< IPv4 IP address *\/$/;"	m	union:__anon19::__anon20
+v6	jni/easy_setup/common.h	/^        uint32 v6[4];\/**< IPv6 IP address *\/$/;"	m	union:__anon19::__anon20
+val	jni/easy_setup/common.h	/^    uint8 val[32]; \/**< SSID name (AP name)  *\/$/;"	m	struct:__anon17
+value	jni/easy_setup/common.h	/^    uint8 value[0];$/;"	m	struct:__anon16
+version	jni/easy_setup/common.h	/^    uint8 version;   \/**< IPv4 or IPv6 type *\/$/;"	m	struct:__anon19
+version	jni/easy_setup/scan.c	/^    uint32      version;$/;"	m	struct:wl_bss_info	file:
+version	jni/easy_setup/scan.c	/^    uint32      version;$/;"	m	struct:wl_bss_info_107	file:
+version	jni/easy_setup/scan.c	/^    uint32 version;$/;"	m	struct:wl_scan_results	file:
+vht_cap	jni/easy_setup/scan.c	/^    uint8       vht_cap;$/;"	m	struct:wl_bss_info	file:
+vht_rxmcsmap	jni/easy_setup/scan.c	/^    uint16      vht_rxmcsmap;$/;"	m	struct:wl_bss_info	file:
+vht_txmcsmap	jni/easy_setup/scan.c	/^    uint16      vht_txmcsmap;$/;"	m	struct:wl_bss_info	file:
+wl_bss_info	jni/easy_setup/scan.c	/^typedef struct wl_bss_info {$/;"	s	file:
+wl_bss_info_107	jni/easy_setup/scan.c	/^typedef struct wl_bss_info_107 {$/;"	s	file:
+wl_bss_info_107_t	jni/easy_setup/scan.c	/^} wl_bss_info_107_t;$/;"	t	typeref:struct:wl_bss_info_107	file:
+wl_bss_info_t	jni/easy_setup/scan.c	/^} wl_bss_info_t;$/;"	t	typeref:struct:wl_bss_info	file:
+wl_ioctl	jni/easy_setup_linux.c	/^typedef struct wl_ioctl {$/;"	s	file:
+wl_ioctl_t	jni/easy_setup_linux.c	/^} wl_ioctl_t;$/;"	t	typeref:struct:wl_ioctl	file:
+wl_scan_params	jni/easy_setup/scan.c	/^typedef struct wl_scan_params {$/;"	s	file:
+wl_scan_params_t	jni/easy_setup/scan.c	/^} wl_scan_params_t;$/;"	t	typeref:struct:wl_scan_params	file:
+wl_scan_results	jni/easy_setup/scan.c	/^typedef struct wl_scan_results {$/;"	s	file:
+wl_scan_results_t	jni/easy_setup/scan.c	/^} wl_scan_results_t; $/;"	t	typeref:struct:wl_scan_results	file:
+wlc_ssid	jni/easy_setup/scan.c	/^typedef struct wlc_ssid {$/;"	s	file:
+wlc_ssid_t	jni/easy_setup/scan.c	/^} wlc_ssid_t;$/;"	t	typeref:struct:wlc_ssid	file:
+xiaoyi_get_buffer	jni/proto/xiaoyi.c	/^int xiaoyi_get_buffer(uint8* len, uint8* buf) {$/;"	f
+xiaoyi_result_t	jni/proto/xiaoyi.h	/^} xiaoyi_result_t;$/;"	t	typeref:struct:__anon12
+xiaoyi_set_result	jni/proto/xiaoyi.c	/^void xiaoyi_set_result(const void* p) {$/;"	f

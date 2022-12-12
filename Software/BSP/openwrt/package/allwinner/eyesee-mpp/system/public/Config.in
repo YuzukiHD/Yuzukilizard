@@ -1,0 +1,73 @@
+if PACKAGE_eyesee-mpp-system
+
+choice
+
+prompt "select wifi-chip"
+default wifi_disable
+help
+  "tell eyesee-mpp-system the used wifi chip"
+
+config wifi_8189ftv
+	bool "use wifi 8189ftv"
+
+config wifi_ap6181
+	bool "use wifi ap6181"
+
+config wifi_ap6255
+	bool "use wifi ap6255"
+
+config wifi_ap6335
+	bool "use wifi ap6335"
+
+config wifi_xr819
+	bool "use wifi xr819"
+
+config wifi_disable
+	bool "wifi disable"
+
+endchoice
+
+config mpp_system_newfs_msdos
+	bool "enable newfs_msdos"
+	default n
+	help
+	  newfs_msdos is for file system.
+
+config mpp_system_reboot_efex
+	bool "enable reboot_efex"
+	default n
+	help
+	  reboot_efex is for burn directly.
+
+config mpp_system_luaconfig
+	bool "enable luaconfig"
+	default n
+	help
+	  luaconfig is for parse lua script.
+
+config mpp_system_wifi
+	bool "enable wifi"
+	default n
+	help
+	  wifi is for config wifi.
+
+config mpp_system_smartlink
+	bool "enable smartlink"
+	default n
+	help
+	  smartlink is for ipc network link.
+
+config mpp_system_rgb_ctrl
+	bool "enable rgb_ctrl"
+	default n
+	select mpp_external_lz4
+	help
+	  rgb_ctrl is for osd.
+
+config mpp_system_ntpclient
+	bool "enable ntpclient"
+	default n
+	help
+	  ntpclient is for network time.
+
+endif
