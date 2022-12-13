@@ -52,6 +52,7 @@ CMAKE_OPTIONS += \
 	-DBUILD_opencv_superres:BOOL=OFF -DBUILD_opencv_ts:BOOL=OFF \
 	-DBUILD_opencv_highgui:BOOL=OFF \
 	-DBUILD_opencv_videostab:BOOL=OFF \
+	-DBUILD_opencv_python:BOOL=ON \
 	-DWITH_FFMPEG:BOOL=OFF \
 	-DWITH_GSTREAMER:BOOL=OFF \
 	-DWITH_LIBV4L:BOOL=OFF \
