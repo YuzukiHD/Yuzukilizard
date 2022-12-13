@@ -43,7 +43,7 @@ define Package/opencv
   CATEGORY:=Libraries
   TITLE:=OpenCV
   URL:=https://opencv.org/
-  DEPENDS:=+libpthread +librt +libatomic +libstdcpp +zlib +libjpeg
+  DEPENDS:=+libpthread +librt +libatomic +libstdcpp +zlib +libjpeg +python3 +python3-numpy
 endef
 
 CMAKE_OPTIONS += \
@@ -52,7 +52,6 @@ CMAKE_OPTIONS += \
 	-DBUILD_opencv_superres:BOOL=OFF -DBUILD_opencv_ts:BOOL=OFF \
 	-DBUILD_opencv_highgui:BOOL=OFF \
 	-DBUILD_opencv_videostab:BOOL=OFF \
-	-DBUILD_opencv_python:BOOL=ON \
 	-DWITH_FFMPEG:BOOL=OFF \
 	-DWITH_GSTREAMER:BOOL=OFF \
 	-DWITH_LIBV4L:BOOL=OFF \
@@ -60,13 +59,17 @@ CMAKE_OPTIONS += \
 	-DWITH_GTK:BOOL=OFF \
 	-DWITH_TIFF:BOOL=OFF \
 	-DCMAKE_VERBOSE:BOOL=OFF \
-	-DENABLE_PRECOMPILED_HEADERS=OFF
+	-DENABLE_PRECOMPILED_HEADERS=OFF \
+	-DPYTHON3_INCLUDE_PATH=$(STAGING_DIR)/usr/include/python3.9 \
+	-DPYTHON3_LIBRARIES=$(STAGING_DIR)/usr/lib/libpython3.9.so \
+	-DPYTHON3_NUMPY_INCLUDE_DIRS=$(TARGET_ROOTFS_DIR)/pypi/numpy-1.20.1/ipkg-install/usr/lib/python3.9/site-packages/numpy/core/include \
+	-DBUILD_OPENCV_PYTHON3:BOOL=ON
 
 TARGET_LDFLAGS += -latomic
 
 define Package/opencv/install
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libopencv* $(1)/usr/lib/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/* $(1)/usr/lib/
 endef
 
 $(eval $(call BuildPackage,opencv))
