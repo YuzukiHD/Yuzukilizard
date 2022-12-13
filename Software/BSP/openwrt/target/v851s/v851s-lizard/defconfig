@@ -2488,6 +2488,16 @@ CONFIG_SUNXI_DISPLAY_DE=y
 # end of Multimedia
 
 #
+# NPU
+#
+# CONFIG_PACKAGE_lenet is not set
+CONFIG_PACKAGE_viplite-driver=y
+# CONFIG_PACKAGE_vpm_run is not set
+CONFIG_PACKAGE_yolov3=y
+# CONFIG_PACKAGE_yolov3-model is not set
+# end of NPU
+
+#
 # Other
 #
 # CONFIG_PACKAGE_ir_test is not set
@@ -2550,6 +2560,17 @@ CONFIG_PACKAGE_wifimanager-demo=y
 # CONFIG_WMG_PROTOCOL_SOUNDWAVE is not set
 CONFIG_PACKAGE_wirelesscommon=y
 # end of Wireless
+
+#
+# eyesee-mpp
+#
+# CONFIG_PACKAGE_eyesee-mpp-external is not set
+# CONFIG_PACKAGE_eyesee-mpp-framework is not set
+# CONFIG_PACKAGE_eyesee-mpp-middleware is not set
+# CONFIG_PACKAGE_eyesee-mpp-private-onvif is not set
+# CONFIG_PACKAGE_eyesee-mpp-private-rtsp is not set
+# CONFIG_PACKAGE_eyesee-mpp-system is not set
+# end of eyesee-mpp
 # end of Allwinner
 
 #
@@ -3692,7 +3713,7 @@ CONFIG_GOLANG_BUILD_CACHE_DIR=""
 CONFIG_PACKAGE_libpython3=y
 # CONFIG_PACKAGE_micropython is not set
 # CONFIG_PACKAGE_micropython-lib is not set
-# CONFIG_PACKAGE_python-pip-conf is not set
+CONFIG_PACKAGE_python-pip-conf=y
 CONFIG_PACKAGE_python3=y
 # CONFIG_PACKAGE_python3-aiohttp is not set
 # CONFIG_PACKAGE_python3-aiohttp-cors is not set
@@ -3843,7 +3864,8 @@ CONFIG_PACKAGE_python3-ncurses=y
 # CONFIG_PACKAGE_python3-netifaces is not set
 # CONFIG_PACKAGE_python3-networkx is not set
 # CONFIG_PACKAGE_python3-newt is not set
-# CONFIG_PACKAGE_python3-numpy is not set
+CONFIG_PACKAGE_python3-numpy=y
+# CONFIG_PACKAGE_python3-numpy-src is not set
 # CONFIG_PACKAGE_python3-oauthlib is not set
 # CONFIG_PACKAGE_python3-openpyxl is not set
 CONFIG_PACKAGE_python3-openssl=y
@@ -3855,8 +3877,10 @@ CONFIG_PACKAGE_python3-openssl=y
 # CONFIG_PACKAGE_python3-parsley is not set
 # CONFIG_PACKAGE_python3-passlib is not set
 # CONFIG_PACKAGE_python3-pillow is not set
-# CONFIG_PACKAGE_python3-pip is not set
-# CONFIG_PACKAGE_python3-pkg-resources is not set
+CONFIG_PACKAGE_python3-pip=y
+# CONFIG_PACKAGE_python3-pip-src is not set
+CONFIG_PACKAGE_python3-pkg-resources=y
+# CONFIG_PACKAGE_python3-pkg-resources-src is not set
 # CONFIG_PACKAGE_python3-pluggy is not set
 # CONFIG_PACKAGE_python3-ply is not set
 # CONFIG_PACKAGE_python3-psutil is not set
@@ -3901,7 +3925,8 @@ CONFIG_PACKAGE_python3-readline=y
 # CONFIG_PACKAGE_python3-sepolgen is not set
 # CONFIG_PACKAGE_python3-sepolicy is not set
 # CONFIG_PACKAGE_python3-service-identity is not set
-# CONFIG_PACKAGE_python3-setuptools is not set
+CONFIG_PACKAGE_python3-setuptools=y
+# CONFIG_PACKAGE_python3-setuptools-src is not set
 # CONFIG_PACKAGE_python3-simplejson is not set
 # CONFIG_PACKAGE_python3-six is not set
 # CONFIG_PACKAGE_python3-slugify is not set
@@ -4490,7 +4515,24 @@ CONFIG_PACKAGE_libxtables=y
 #
 # SSL
 #
-# CONFIG_PACKAGE_libgnutls is not set
+CONFIG_PACKAGE_libgnutls=y
+
+#
+# Configuration
+#
+CONFIG_GNUTLS_DTLS_SRTP=y
+CONFIG_GNUTLS_ALPN=y
+CONFIG_GNUTLS_OCSP=y
+# CONFIG_GNUTLS_CRYPTODEV is not set
+CONFIG_GNUTLS_HEARTBEAT=y
+# CONFIG_GNUTLS_SRP is not set
+CONFIG_GNUTLS_PSK=y
+CONFIG_GNUTLS_ANON=y
+# CONFIG_GNUTLS_TPM is not set
+# CONFIG_GNUTLS_PKCS11 is not set
+# CONFIG_GNUTLS_EXT_LIBTASN1 is not set
+# end of Configuration
+
 # CONFIG_PACKAGE_libmbedtls is not set
 # CONFIG_PACKAGE_libnss is not set
 CONFIG_PACKAGE_libopenssl=y
@@ -4620,6 +4662,7 @@ CONFIG_PACKAGE_ell=y
 # CONFIG_PACKAGE_getdns is not set
 # CONFIG_PACKAGE_giflib is not set
 CONFIG_PACKAGE_glib2=y
+# CONFIG_PACKAGE_glog is not set
 # CONFIG_PACKAGE_google-authenticator-libpam is not set
 # CONFIG_PACKAGE_hidapi is not set
 # CONFIG_PACKAGE_ibrcommon is not set
@@ -4718,7 +4761,7 @@ CONFIG_PACKAGE_libfreetype=y
 # CONFIG_PACKAGE_libgd-full is not set
 CONFIG_PACKAGE_libgdbm=y
 # CONFIG_PACKAGE_libgee is not set
-# CONFIG_PACKAGE_libgmp is not set
+CONFIG_PACKAGE_libgmp=y
 # CONFIG_PACKAGE_libgpg-error is not set
 # CONFIG_PACKAGE_libgpgme is not set
 # CONFIG_PACKAGE_libgpgmepp is not set
@@ -4791,7 +4834,14 @@ CONFIG_PACKAGE_libncurses=y
 # CONFIG_PACKAGE_libnetfilter-log is not set
 # CONFIG_PACKAGE_libnetfilter-queue is not set
 # CONFIG_PACKAGE_libnetsnmp is not set
-# CONFIG_PACKAGE_libnettle is not set
+CONFIG_PACKAGE_libnettle=y
+
+#
+# Configuration
+#
+# CONFIG_LIBNETTLE_MINI is not set
+# end of Configuration
+
 # CONFIG_PACKAGE_libnewt is not set
 # CONFIG_PACKAGE_libnfnetlink is not set
 # CONFIG_PACKAGE_libnftnl is not set
@@ -5026,7 +5076,7 @@ CONFIG_TSLIB_ENABLE_input=y
 # CONFIG_TSLIB_ENABLE_tools is not set
 CONFIG_PACKAGE_uclibcxx=y
 # CONFIG_PACKAGE_uw-imap is not set
-# CONFIG_PACKAGE_x264 is not set
+CONFIG_PACKAGE_x264=y
 # CONFIG_PACKAGE_xkeyboard-config is not set
 # CONFIG_PACKAGE_xmlrpc-c is not set
 # CONFIG_PACKAGE_xmlrpc-c-client is not set
@@ -5088,6 +5138,18 @@ CONFIG_POSTFIX_PCRE=y
 #
 # Multimedia
 #
+
+#
+# FFmpeg
+#
+CONFIG_PACKAGE_ffmpeg=y
+# CONFIG_PACKAGE_libffmpeg-custom is not set
+# CONFIG_PACKAGE_ffmpeg-mini is not set
+# CONFIG_PACKAGE_ffprobe is not set
+# CONFIG_PACKAGE_libffmpeg-audio-dec is not set
+CONFIG_PACKAGE_libffmpeg-full=y
+# CONFIG_PACKAGE_libffmpeg-mini is not set
+# end of FFmpeg
 
 #
 # GStreamer
@@ -6063,7 +6125,14 @@ CONFIG_PACKAGE_fdk-aac=y
 
 # CONFIG_PACKAGE_ices is not set
 # CONFIG_PACKAGE_lame is not set
-# CONFIG_PACKAGE_lame-lib is not set
+CONFIG_PACKAGE_lame-lib=y
+
+#
+# Configuration
+#
+# CONFIG_LAME-LIB_OPTIMIZE_SPEED is not set
+# end of Configuration
+
 # CONFIG_PACKAGE_liblo-utils is not set
 # CONFIG_PACKAGE_madplay is not set
 # CONFIG_PACKAGE_moc is not set

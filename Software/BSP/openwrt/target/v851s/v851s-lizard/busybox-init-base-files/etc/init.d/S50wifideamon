@@ -1,17 +1,17 @@
 #!/bin/sh
 #
-# Start wifi_deamon....
+# Start wifi_daemon....
 #
 
 start() {
-    printf "Starting wifi_deamon....: "
-	wifi_deamon
+    printf "Starting wifi_daemon....: "
+	wifi_daemon
     sleep 2
 	wifi -o sta
 }
 
 stop() {
-	printf "Stopping wifi_deamon: "
+	printf "Stopping wifi_daemon: "
 }
 
 case "$1" in
