@@ -58,10 +58,5 @@ size = 4096
     user_type    = 0x8000
 
 [partition]
-    name         = rootfs_data
-    size         = 10240
-    user_type    = 0x8000
-
-[partition]
     name         = UDISK
     user_type    = 0x8100
