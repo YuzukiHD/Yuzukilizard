@@ -1,0 +1,222 @@
+# Kconfig - general configuration options
+
+#
+# Copyright (c) 2014-2015 Wind River Systems, Inc.
+# Copyright (c) 2016 Intel Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+menu "Environment Setup"
+
+config SDK_RELEASE
+	bool "sdk release for customer flag."
+	default n
+
+config DEBUG_INFO
+	bool "Generate DEBUG Info."
+	default y
+
+config DEBUG_MACROS
+	bool "show macros value on debugger"
+	default n
+
+config MODULES
+	bool "Support Modules"
+	default y
+
+config MODVERSIONS
+	bool "Modversions"
+	default y
+config BOOT_LOGO_BMP
+	bool "boot logo bmp"
+	default y 
+
+config SHOW_FULL_VERSION
+	bool "displays full version information."
+	default y
+
+config CROSS_COMPILE
+	string "Cross-compiler tool prefix"
+	default arm-melis-eabi-
+	#default arm-none-eabi-
+	#default arm-eabi-
+	help
+	Same as running 'make CROSS_COMPILE=prefix-' but stored for
+  	default make runs in this kernel build directory.  You dont
+  	need to set this unless you want the configured kernel build
+  	directory to select the cross-compiler automatically.
+
+config INIT_CARD_PRODUCT
+	bool "Init mod card product"
+	default n
+	help
+
+config LOG_DEFAULT_LEVEL
+	int
+	prompt "Default log level"
+	default 1
+	range 0 5
+	help
+	Sets log level for modules which dont specify it explicitly. When                                                                                                                                    
+	set to 0 it means log wont be activated for those modules.
+	Levels are:
+	0 OFF, do not write by default
+	1 LOG, default to only write SYS_LOG
+	2 ERROR, default to only write SYS_LOG_ERR
+	3 WARNING, default to write SYS_LOG_WRN in addition to previous level
+	4 INFO, default to write SYS_LOG_INF in addition to previous levels
+	5 DEBUG, default to write SYS_LOG_DBG in addition to previous levels
+
+config CC_STACKPROTECTOR_STRONG
+	bool "enable stack-protector"
+	default y
+	help
+		Enable stack-proctor
+
+config LOG_RELEASE
+	bool "Log release option"
+	default n
+	help
+		Reduce log
+
+config BOOTUP_TURBO
+	bool "bootup turbost"
+	default n
+	select SDK_THUMB_MODE
+	help
+		fast bootup
+
+config DISABLE_ALL_DEBUGLOG
+	bool "disable module log verbose"
+	default n
+	help
+		Reduce all the log.
+
+config DYNAMIC_LOG_LEVEL_SUPPORT
+	bool "dynamic log level support"
+	help
+	support set log level when system up.
+
+if DYNAMIC_LOG_LEVEL_SUPPORT
+choice
+	prompt "Log Level Save"
+	default LOG_LEVEL_STORAGE_NONE
+	help
+	select log level storage position
+
+    config LOG_LEVEL_STORAGE_NONE
+	bool "NONE"
+	help
+	"Just a global variable to save log level"
+    config LOG_LEVEL_STORAGE_RTC
+	bool "RTC"
+	help
+	"Use RTC register to save log level"
+endchoice
+
+config DYNAMIC_LOG_DEFAULT_LEVEL
+	int "dynamic log level"
+	default 5
+	range 0 5
+	help
+	set dynamic log level, it will set initial value for g_log_level in printk.
+	0 NONE, do not write by default
+	1 LOG, default to only write SYS_LOG
+	2 ERROR, default to only write SYS_LOG_ERR
+	3 WARNING, default to write SYS_LOG_WRN in addition to previous level
+	4 INFO, default to write SYS_LOG_INF in addition to previous levels
+	5 DEBUG, default to write SYS_LOG_DBG in addition to previous levels"
+endif
+
+config FRAME_POINTER  
+	bool "enable FP register as frame pointer"
+	default y 
+	select CC_OPTIMIZE_FOR_DEBUG
+	help
+		frame pointer enabled!
+
+config FRAME_WARN
+	int "Warn for stack frames larger than (needs gcc 4.4)"
+	range 0 8192
+	default 8192
+	help
+		Tell gcc to warn at build time for stack frames larger than this.
+		Setting this too low will cause a lot of warnings.
+		Setting it to 0 disables the warning.
+		Requires gcc 4.4
+
+
+choice
+	prompt "Compiler optimization level"
+	default CC_OPTIMIZE_FOR_DEBUG if FRAME_POINTER=y
+	default CC_OPTIMIZE_FOR_SIZE if  FRAME_POINTER=n
+
+	config CC_OPTIMIZE_FOR_SIZE
+		bool "Optimize for release"
+		help
+		Enabling this option will pass "-Os" instead of "-O0" to your compiler
+		resulting in a smaller kernel, this is the default optimization level
+		for the kernel.
+
+	config CC_OPTIMIZE_FOR_DEBUG
+		bool "Optimize for debug"
+		help
+		Building the project with '-O0' optimization level for best performance 
+		and generate most helpful debug infomation for GDB.
+endchoice
+
+config CC_OPTIMIZE_LEVEL
+	int "Optimize for debug"
+	default 0
+	range 0 3
+	depends on CC_OPTIMIZE_FOR_DEBUG
+	help
+	Building the project with optimization level(range 0-3)
+
+config ARM_UNWIND
+	bool "Enable stack unwinding support (EXPERIMENTAL)"
+	default n if FRAME_POINTER=y
+	help
+		This option enables stack unwinding support in the kernel
+		using the information automatically generated by the
+		compiler. The resulting kernel image is slightly bigger but
+		the performance is not affected. Currently, this feature
+		only works with EABI compilers. If unsure say Y.
+
+config OS_MELIS
+       bool "Melis OS"
+       default y
+
+config SDK_THUMB_MODE
+	bool "Enable Thumb mode sdk compile flags"
+	depends on BOOTUP_TURBO
+	help
+		compile whole sdk with -mthumb flags.
+
+menu "Toolchain Setup"
+
+config TOOLCHAIN_MACH_FLAGS
+    string "Toolchain arch flags"
+	default ""
+	help
+		Toolchain Arch Flags
+
+config TOOLCHAIN_LD_FLAGS
+    string "Toolchain ld flags"
+	default ""
+	help
+		Toolchain LD Flags
+
+endmenu
+
+endmenu

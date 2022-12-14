@@ -1,0 +1,21 @@
+subdir-ccflags-y += -I$(srctree)/ekernel/core/rt-thread/include
+subdir-ccflags-y += -I$(srctree)/ekernel/subsys
+subdir-ccflags-y += -I$(srctree)/ekernel/subsys/thirdparty/dfs/include
+subdir-ccflags-y += -I$(srctree)/ekernel/subsys/finsh_cli
+subdir-ccflags-y += -I$(srctree)/ekernel/drivers/include/osal
+subdir-ccflags-y += -I$(srctree)/ekernel/drivers/include/hal
+subdir-ccflags-y += -I$(srctree)/ekernel/drivers/include/drv
+
+obj-${CONFIG_PTHREAD} += pthreads/
+obj-${CONFIG_EXTERN_LIBC} += libc/
+obj-${CONFIG_BENCHMARK} += benchmark/
+obj-${CONFIG_CXX} += cplusplus/
+obj-${CONFIG_SAMPLES} += samples/
+obj-y += lib/
+obj-${CONFIG_RT_USING_FINSH} += finsh_cli/
+obj-y += debug/
+obj-y += aw/
+obj-y += thirdparty/
+obj-y += config/
+obj-${CONFIG_STANDBY} += standby/
+obj-${CONFIG_SUBSYS_ARCHIVAL} += archival/

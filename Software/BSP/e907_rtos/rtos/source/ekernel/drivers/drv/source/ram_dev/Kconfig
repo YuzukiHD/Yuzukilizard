@@ -1,0 +1,33 @@
+menu "Ramfs Device Support"
+
+config  RAMFS_DEVICE
+        bool "Support Ramfs Device"
+        default n
+
+if RAMFS_DEVICE
+config  RAMFS_DEVICE_SIZE
+        hex "Ramfs Device Size"
+        default 0x1000000
+        help
+            "set ramfs device size for ramfs"
+
+config  RAMFS_DEVICE_NAME
+        string "Ramfs Device Name"
+        default "ram"
+        help
+            "set ramfs device name"
+
+config  RAMFS_TYPE
+        string "Ramfs Type"
+        default "lfs"
+        help
+            "set ramfs type"
+
+config  RAMFS_MOUNT_PATH
+        string "Ramfs Mount Path"
+        default "/tmp"
+        help
+            "set ramfs mount path"
+endif
+
+endmenu

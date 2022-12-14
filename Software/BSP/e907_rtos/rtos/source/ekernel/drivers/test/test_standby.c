@@ -1,0 +1,67 @@
+/*
+* Copyright (c) 2019-2025 Allwinner Technology Co., Ltd. ALL rights reserved.
+*
+* Allwinner is a trademark of Allwinner Technology Co.,Ltd., registered in
+* the the People's Republic of China and other countries.
+* All Allwinner Technology Co.,Ltd. trademarks are used with permission.
+*
+* DISCLAIMER
+* THIRD PARTY LICENCES MAY BE REQUIRED TO IMPLEMENT THE SOLUTION/PRODUCT.
+* IF YOU NEED TO INTEGRATE THIRD PARTY’S TECHNOLOGY (SONY, DTS, DOLBY, AVS OR MPEGLA, ETC.)
+* IN ALLWINNERS’SDK OR PRODUCTS, YOU SHALL BE SOLELY RESPONSIBLE TO OBTAIN
+* ALL APPROPRIATELY REQUIRED THIRD PARTY LICENCES.
+* ALLWINNER SHALL HAVE NO WARRANTY, INDEMNITY OR OTHER OBLIGATIONS WITH RESPECT TO MATTERS
+* COVERED UNDER ANY REQUIRED THIRD PARTY LICENSE.
+* YOU ARE SOLELY RESPONSIBLE FOR YOUR USAGE OF THIRD PARTY’S TECHNOLOGY.
+*
+*
+* THIS SOFTWARE IS PROVIDED BY ALLWINNER"AS IS" AND TO THE MAXIMUM EXTENT
+* PERMITTED BY LAW, ALLWINNER EXPRESSLY DISCLAIMS ALL WARRANTIES OF ANY KIND,
+* WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING WITHOUT LIMITATION REGARDING
+* THE TITLE, NON-INFRINGEMENT, ACCURACY, CONDITION, COMPLETENESS, PERFORMANCE
+* OR MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+* IN NO EVENT SHALL ALLWINNER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+* SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+* NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+* LOSS OF USE, DATA, OR PROFITS, OR BUSINESS INTERRUPTION)
+* HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+* STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+* OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+#include <getopt.h>
+#include <log.h>
+#include <rtthread.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+#include <hal_uart.h>
+#include <melis/standby/standby.h>
+
+static int cmd_hal_standby(int argc, const char **argv)
+{
+	standby_enter(STANDBY_NORMAL);
+
+	return 0;
+}
+
+FINSH_FUNCTION_EXPORT_ALIAS(cmd_hal_standby, __cmd_standby, standby test code);
+
+static int cmd_hal_standby_for(int argc, const char **argv)
+{
+	int i = 0, m;
+
+	if (argc > 1)
+		m = strtol(argv[1], NULL, 0);
+	else
+		m = 100000;
+
+	while (i < m) {
+		printf("standby cnt: %d\n", ++i);
+		standby_enter(STANDBY_TEST);
+	}
+
+	return 0;
+}
+
+FINSH_FUNCTION_EXPORT_ALIAS(cmd_hal_standby_for, __cmd_standby_for, standby code);

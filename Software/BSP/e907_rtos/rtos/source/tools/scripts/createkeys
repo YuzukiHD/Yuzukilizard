@@ -1,0 +1,93 @@
+#!/bin/bash
+#
+# pack/pack
+# (c) Copyright 2013
+# Allwinner Technology Co., Ltd. <www.allwinnertech.com>
+# flord wang <wangflord@allwinnertech.com>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+function gettop
+{
+    local TOPFILE=tools/scripts/envsetup.sh
+    if [ -n "$RTOS_TOP" -a -f "$RTOS_TOP/$TOPFILE" ] ; then
+        # The following circumlocution ensures we remove symlinks from TOP.
+        (\cd $RTOS_TOP; PWD= /bin/pwd)
+    else
+        if [ -f $TOPFILE ] ; then
+          # The following circumlocution (repeated below as well) ensures
+          # that we record the true directory name and not one that is
+          # faked up with symlink names.
+          PWD= /bin/pwd
+        else
+           local here="${PWD}"
+           while [ "${here}" != "/" ]; do
+               if [ -f "${here}/${TOPFILE}" ]; then
+                   (\cd ${here}; PWD= /bin/pwd)
+                   break
+               fi
+               here="$(dirname ${here})"
+             done
+        fi
+    fi
+}
+
+RTOS_BUILD_TOP=$(gettop)
+ROOT_DIR=${RTOS_BUILD_TOP}/out
+echo "$ROOT_DIR"
+
+HOST_DIR=${RTOS_BUILD_TOP}/tools/tool
+export PATH=${HOST_DIR}:$PATH
+
+function pack_error()
+{
+    echo -e "\033[47;31mERROR: $*\033[0m"
+}
+
+function pack_warn()
+{
+    echo -e "\033[47;34mWARN: $*\033[0m"
+}
+
+function pack_info()
+{
+    echo -e "\033[0;31;1mINFO: $*\033[0m"
+}
+
+createkeys()
+{
+    pack_info "Use $RTOS_BUILD_TOP/board/sign_config/dragon_toc.cfg creat keys"
+
+	if [ -f $RTOS_BUILD_TOP/board/sign_config/dragon_toc.cfg ]
+	then
+		if [ ! -d $ROOT_DIR ]
+		then
+			mkdir -p $ROOT_DIR
+		fi
+		cp $RTOS_BUILD_TOP/board/sign_config/dragon_toc.cfg $ROOT_DIR/dragon_toc.cfg
+	fi
+
+	if [ $? -ne 0 ]
+	then
+		pack_error "dragon toc config file is not exist"
+		exit 1
+	fi
+
+	echo "$ROOT_DIR/keys"
+
+	dragonsecboot -key $ROOT_DIR/dragon_toc.cfg $ROOT_DIR/keys
+	if [ $? -ne 0 ]
+	then
+		pack_error "dragon toc run error"
+		rm -rf dragon_toc.cfg
+		exit 1
+	else
+		pack_info "creat keys successful!"
+	fi
+
+	rm -rf $ROOT_DIR/dragon_toc.cfg
+}
+
+createkeys

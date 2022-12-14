@@ -1,0 +1,58 @@
+menu "RISC-V ARCH Setup"
+
+config SUPPORT_FP_KERNEL
+	bool  "kernel compiled with/without 'fd' flag, AKA vfp support"
+	default n
+	depends on RISCV
+	help
+		kernel compiled with/without 'fd' flag, AKA vfp support"
+
+choice
+    prompt "RISCV bit mode"
+	default RV32
+
+config RV32
+	bool  "CPU Support rv32bit ISA"
+	depends on RISCV
+	help
+		processor supports rv32bit mode.
+endchoice
+
+config RV_MACHINE_MODE
+	bool "Kernel Run In Machine Mode"
+	depends on RISCV
+	default n
+
+config RV_CLINT
+	bool "Kernel CLINT Driver"
+	depends on RISCV
+	default n
+
+config CPU_DCACHE_DISABLE
+    bool  "Disable RISCV CPU Dcache"
+	default n
+	depends on RISCV
+	help
+		Disable RISCV CPU Dcache.
+
+config ARCH_RISCV_FPU
+    bool  "CPU Support FPU"
+	default n
+	depends on RISCV
+	help
+		CPU Spuuort RISCV FPU.
+
+choice
+	prompt "Selete Float Point Format"
+	default FPU_DOUBLE
+config FPU_FLOAT
+	bool "Use Singal float"
+	depends on ARCH_RISCV_FPU
+config FPU_DOUBLE
+	bool "Use Double float"
+	depends on ARCH_RISCV_FPU
+endchoice
+
+source "ekernel/arch/riscv/sunxi/Kconfig"
+
+endmenu

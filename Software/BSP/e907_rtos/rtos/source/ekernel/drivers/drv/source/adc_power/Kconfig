@@ -1,0 +1,9 @@
+config POWER_GPADC_SECLET
+	bool "power use gpadc"
+	default n 
+	---help---
+
+config POWER_TPADC_SECLET
+	bool  "power use tpadc"
+	default n
+	---help---

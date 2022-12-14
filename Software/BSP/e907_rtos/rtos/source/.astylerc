@@ -1,0 +1,43 @@
+#===========================================================================================
+#
+#      Filename:  .astylerc
+#
+#   Description:  use --option=/path/to/.astylerc for default astyle format config file.
+#
+#       Version:  Melis3.0 
+#        Create:  2018-12-26 13:33:04
+#      Revision:  none
+#      Compiler:  GCC:version 7.2.1 20170904 (release),ARM/embedded-7-branch revision 255204
+#
+#        Author:  caozilong@allwinnertech.com
+#  Organization:  BU1-PSW
+# Last Modified:  2018-12-26 13:33:04
+#
+#===========================================================================================
+
+--style=allman 
+--indent=spaces=4 
+--indent-switches 
+--indent-namespaces 
+--add-brackets 
+--indent-col1-comments 
+--indent-classes 
+--pad-oper 
+--pad-header 
+--unpad-paren 
+--verbose
+--suffix=none 
+--align-pointer=name 
+--align-reference=name
+--lineend=linux 
+--convert-tabs 
+--recursive 
+--formatted 
+--indent-continuation=1
+--attach-closing-while 
+--min-conditional-indent=0
+--attach-inlines
+--indent-preproc-define
+--ignore-exclude-errors
+--attach-return-type
+--max-continuation-indent=40

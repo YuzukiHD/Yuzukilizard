@@ -1,0 +1,11 @@
+menu "ARCH Support"
+
+config  RISCV
+	bool "Support riscv ISA processors"
+	default y
+
+if RISCV
+source "ekernel/arch/riscv/Kconfig"
+endif
+
+endmenu

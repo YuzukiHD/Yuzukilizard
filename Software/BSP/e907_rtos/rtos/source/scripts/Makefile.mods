@@ -1,0 +1,51 @@
+#=====================================================================================
+#
+#      Filename:  Makefile.mods
+#
+#   Description:  makefile
+#
+#       Version:  2.0 
+#        Create:  2017-11-18 18:22:55
+#      Revision:  none
+#      Compiler:  gcc version 6.3.0 (crosstool-NG crosstool-ng-1.23.0)
+#
+#        Author:  caozilong@allwinnertech.com
+#  Organization:  BU1-PSW
+# Last Modified:  2017-11-18 18:22:55
+#                 This File NOT used by ekernel.
+#=====================================================================================
+
+include $(MELIS_BASE)/scripts/Makefile.common
+OBJCOPYFLAGS	:= -S -O $(TARGET_BINARY_FORMAT) -R .note -R .comment -R COMMON -R .ARM.attributes -R .en_frame --gap-fill=0xff
+
+always += $(MOD_NAME).$(SUF_NAME)
+
+obj-m += $(MOD_NAME).o
+
+ifeq (${CONFIG_ARM}, y)
+linkfile:=linker.lds
+endif
+
+ifeq (${CONFIG_RISCV}, y)
+OBJCOPYFLAGS	+= -R .got -R .got.plt -R .riscv.attributes
+linkfile:=linker_riscv.lds
+endif
+
+lnkflags-y +=	-N \
+		--gc-sections -cref \
+		-T $(obj)/lds/${linkfile} \
+		-Map=$(obj)/linker.map
+
+usrlibs-y +=	-L$(srctree)/$(elibrary-libs) \
+		-L$(srctree)/$(elibrary-libs)/3rd \
+		-L$(srctree)/$(eboard-libs) \
+		-L$(srctree)/scripts
+
+$(obj)/$(MOD_NAME).$(SUF_NAME) :%.$(SUF_NAME) :%.o FORCE
+	$(call if_changed,objcopy)
+	@cp -f $@ $(PRJ_PATH)
+	@cp -f $@ $(TEMP_PATH)
+	@mv $< $(<:.o=.elf)
+	@$(SIZE)  $(<:.o=.elf)
+
+clean: mod_clean

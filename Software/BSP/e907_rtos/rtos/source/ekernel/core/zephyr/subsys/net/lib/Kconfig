@@ -1,0 +1,27 @@
+#
+# Copyright (c) 2016 Intel Corporation
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+menu "Network Protocols"
+
+source "ekernel/core/zephyr/subsys/net/lib/zoap/Kconfig"
+
+source "ekernel/core/zephyr/subsys/net/lib/dns/Kconfig"
+
+source "ekernel/core/zephyr/subsys/net/lib/mqtt/Kconfig"
+
+source "ekernel/core/zephyr/subsys/net/lib/http/Kconfig"
+
+source "ekernel/core/zephyr/subsys/net/lib/lwm2m/Kconfig"
+
+endmenu
+
+menu "Network Application Support"
+
+source "ekernel/core/zephyr/subsys/net/lib/app/Kconfig"
+
+source "ekernel/core/zephyr/subsys/net/lib/sockets/Kconfig"
+
+endmenu

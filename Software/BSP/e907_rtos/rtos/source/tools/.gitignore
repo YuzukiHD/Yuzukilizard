@@ -1,0 +1,12 @@
+!*.*
+!*/
+*.d
+*.o
+*.a
+!Makefile
+!makefile
+*.Plo
+*.lo
+*.la
+.err
+*.swp

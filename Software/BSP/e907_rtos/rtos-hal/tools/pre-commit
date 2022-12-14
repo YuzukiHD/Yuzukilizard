@@ -1,0 +1,65 @@
+#!/bin/sh
+
+#删除注释的函数
+function del_comment_file()
+{
+    #delete the comment line begin with '//comment'
+    sed  -i '/^[ \t]*\/\//d' $1    #i选项表示直接对文件而不是副本操作
+   
+    #delete the commnet line end with '//comment'
+    sed  -i 's/\/\/[^\"]*//' $1
+ 
+    #delete the comment only occupied one line '/* commnet */'
+    sed  -i 's/\/\*.*\*\// /' $1
+   
+    #delete the comment that occupied many lines '/*comment
+    #                                              *comment
+    #                                              */
+    sed  -i '/^[ \t]*\/\*/,/.*\*\//d' $1
+}
+
+
+#有需要时需要修改keyword.dat文件的路径
+keywordpath=.git/hooks/keyword.dat
+#逐个检查即将commit的文件
+for FILE in `git diff --name-only --cached`; do
+
+
+    # 只对.c和.h文件进行检查
+    dirfile=$(dirname $FILE)
+    if [[ $FILE != *".c"*] && [$FILE != *".h"* ]] ; then
+        continue
+    fi
+
+
+
+    #忽略来自include/osal文件夹里面的文件
+    if [ $dirfile == include/osal ] ; then
+    continue
+    fi
+
+
+    #将文件暂存至同目录的副本tem.c中
+    cp ${FILE} ${dirfile}/tem.c
+    temcpath=${dirfile}/tem.c
+
+    #删除副本tem.c中的注释
+    del_comment_file ${temcpath}
+
+
+    #逐行检查所给关键词列表文件按（keyword.dat）中是否出现在即将commit的文件中
+    for line in $(sed '/^#.*\|^$/d' ${keywordpath});  do
+    #按特定字符串查找文本
+    grep "\<${line}\>"  ${temcpath} 2>&1 >/dev/null
+    if [ $? -eq 0 ]; then
+        # 输出报错信息
+        echo -e "\033[31m${FILE}文件中包含了关键字${line}请重新修改后再提交\033[0m"
+        #删除创建的副本
+        rm -f ${dirfile}/tem.c
+        exit 1
+    fi   
+    done
+    #删除创建的副本
+    rm -f ${dirfile}/tem.c
+done
+exit 

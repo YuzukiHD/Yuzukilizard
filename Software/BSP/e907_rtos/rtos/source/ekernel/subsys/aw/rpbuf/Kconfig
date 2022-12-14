@@ -1,0 +1,32 @@
+menu "RPBuf framework"
+
+config COMPONENTS_RPBUF
+	bool
+	help
+	  The RPBuf (Remote Processor Buffer) framework provides mechanisms to
+	  allocate buffers and transmit their references to remote processor.
+	  This allows user to exchange large data with remote processor.
+
+config COMPONENTS_RPBUF_SERVICE_RPMSG
+	bool "RPMsg-based RPBuf service component"
+	select COMPONENTS_RPBUF
+	select SUPPORT_AMP
+	help
+	  Say y here to enable support for the RPMsg-based RPBuf service component.
+	  This is one kind of RPBuf service backend implemented with RPMsg.
+
+config COMPONENTS_RPBUF_CONTROLLER
+	bool "RPBuf controller component"
+	select COMPONENTS_RPBUF
+	help
+	  Say y here to enable support for the RPBuf controller component.
+
+config COMPONENTS_RPBUF_RPMSG_DEMO
+	bool "RPMsg-based RPBuf service component demo"
+	select COMPONENTS_RPBUF
+	select SUPPORT_AMP
+	help
+	  Say y here to enable support for the RPBuf rpmsg demo.
+
+
+endmenu

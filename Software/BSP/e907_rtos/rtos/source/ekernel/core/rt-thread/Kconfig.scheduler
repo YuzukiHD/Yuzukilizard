@@ -1,0 +1,18 @@
+config CONSISTENT_CONTEXT_SWITCH
+    bool "take rt_schedule as interrupt preempt schedule entry point"
+    default y    
+    help         
+    	this option will take `rt_schedule` as the totally solely schedule
+	point of the whole system, except the trigger schedule from system
+	bringup.
+	this way something like linux implemtation, which use '__schedule' 
+	as the solely schedule entry point of the kernel.
+
+config NEST_INTERRUPT
+	bool "Support interrupt nest or not."
+	default y
+	help
+		This option would enable the nest interrupt mechanism.
+
+
+

@@ -1,0 +1,7 @@
+menu "CXX Setup"
+
+config CPLUSPLUS_TEST
+	bool  "Cxx Test"
+	default n
+
+endmenu

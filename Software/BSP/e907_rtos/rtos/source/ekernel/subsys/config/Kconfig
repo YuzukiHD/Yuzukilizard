@@ -1,0 +1,11 @@
+menu "devicetree support"
+
+config OF
+    bool "support devicetree runtime configuration or not"
+    default n
+
+config FEXCONFIG
+    bool "support traditional fex configuration method parser."
+    default y
+
+endmenu

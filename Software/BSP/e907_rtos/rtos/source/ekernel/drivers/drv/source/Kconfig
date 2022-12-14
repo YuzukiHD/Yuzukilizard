@@ -1,0 +1,38 @@
+menu "Melis Source Support"
+
+config  DRIVER_GPIO
+        bool "Support GPIO Driver"
+        default y
+
+config  DRIVER_TWIBUS
+        bool "Support i2c bus Driver"
+        default y
+
+config  DRIVER_PWM
+        bool "Support pwm Driver"
+        default y
+
+config  DRIVER_SERIAL
+	bool "Support Serial Driver"
+	default y
+
+config  DRIVER_DMA
+	bool "Support DMA Driver"
+	default y
+
+config  DRIVER_CCMU
+	bool "Support CCMU Driver"
+	default y
+
+config  DRIVER_NAND_FLASH
+	bool "Support Nand Flash Driver"
+	default n
+
+menu "adc select"
+	depends on DRIVER_ADC_POWER
+
+source "ekernel/drivers/drv/source/adc_power/Kconfig"
+
+endmenu
+
+endmenu

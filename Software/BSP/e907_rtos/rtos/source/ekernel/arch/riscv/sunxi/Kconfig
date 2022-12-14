@@ -1,0 +1,15 @@
+menu "Sunxi Platform Support"
+
+menuconfig CPUFREQ_SUPPORT
+	bool "cpufreq support"
+	default n
+	help
+		support cpufreq module.
+
+if CPUFREQ_SUPPORT
+
+source "ekernel/arch/riscv/sunxi/sun20iw3/Kconfig"
+
+endif
+
+endmenu

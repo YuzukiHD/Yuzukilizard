@@ -1,0 +1,47 @@
+menu "Iobox Command"
+
+    config  IOBOX_TAIL
+        bool "Tail command"
+        default n
+
+    config  IOBOX_TOUCH
+        bool "Touch command"
+        default n
+
+    config  IOBOX_GREP
+        bool "Grep command"
+        default n
+
+    config  IOBOX_HEXDUMP
+        bool "Hexdump command"
+        default y
+
+    config  IOBOX_LS
+        bool "Ls command"
+        default y
+
+    config  IOBOX_RM
+        bool "Rm command"
+        default y
+
+    config  IOBOX_RWCHECK
+        bool "Rwcheck command"
+        default n
+
+    config  IOBOX_RWSPEED
+        bool "Rwspeed command"
+        default n
+
+    config  IOBOX_RSPEED
+        bool "Rspeed command"
+        default n
+
+    config  IOBOX_WSPEED
+        bool "Wspeed command"
+        default n
+
+    config  IOBOX_MOUNT
+        bool "Mount command"
+        default n
+
+endmenu

@@ -1,0 +1,48 @@
+choice
+	prompt "kconfig test select"
+	default KCONFIG_INTERNAL_CHOICE_ITEM5
+
+	config KCONFIG_INTERNAL_CHOICE_ITEM1
+		bool "kernel internal config choice item1"
+		help
+			kernel internal config choice item1
+
+	config KCONFIG_INTERNAL_CHOICE_ITEM2
+		bool "kernel internal config choice item2"
+		help
+			kernel internal config choice item2
+
+	config KCONFIG_INTERNAL_CHOICE_ITEM3
+		bool "kernel internal config choice item3"
+		help
+			kernel internal config choice item3
+
+	config KCONFIG_INTERNAL_CHOICE_ITEM4
+		bool "kernel internal config choice item4"
+		help
+			kernel internal config choice item4
+
+	config KCONFIG_INTERNAL_CHOICE_ITEM5
+		bool "kernel internal config choice item5"
+		select KCONFIG_COMMON_CONFIG3
+		help
+			kernel internal config choice item5
+endchoice
+
+config KCONFIG_INTERNAL_COMMON_CONFIG1
+	bool "kernel internal common config 1"
+	default n
+	help
+		kernel internal common config 1
+
+config KCONFIG_INTERNAL_COMMON_CONFIG2
+	bool "kernel internal common config 2"
+	default n
+	help
+		kernel internal common config 2
+
+config KCONFIG_INTERNAL_COMMON_CONFIG3
+	bool "kernel internal common config 3"
+	default n
+	help
+		kernel internal common config 3

@@ -1,0 +1,13 @@
+menu "Allwinner Components Support"
+
+config BLKPART_SHOW_INFO_CMD
+    bool "blkpart information cmd"
+    default n
+    help
+        Show All partitions information
+
+source "ekernel/subsys/aw/multi_console/Kconfig"
+
+source "ekernel/subsys/aw/rpbuf/Kconfig"
+
+endmenu

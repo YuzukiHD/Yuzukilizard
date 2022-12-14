@@ -1,0 +1,26 @@
+# Kconfig - Subsystem configuration options
+#
+# Copyright (c) 2016-2017 Intel Corporation
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+source "ekernel/core/zephyr/subsys/bluetooth/Kconfig"
+
+source "ekernel/core/zephyr/subsys/console/Kconfig"
+
+source "ekernel/core/zephyr/subsys/cpp/Kconfig"
+
+source "ekernel/core/zephyr/subsys/debug/Kconfig"
+
+source "ekernel/core/zephyr/subsys/disk/Kconfig"
+
+source "ekernel/core/zephyr/subsys/fs/Kconfig"
+
+source "ekernel/core/zephyr/subsys/logging/Kconfig"
+
+source "ekernel/core/zephyr/subsys/net/Kconfig"
+
+source "ekernel/core/zephyr/subsys/shell/Kconfig"
+
+source "ekernel/core/zephyr/subsys/usb/Kconfig"

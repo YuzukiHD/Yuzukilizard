@@ -1,0 +1,15 @@
+menu "Osal Setup"
+
+config DRIVER_OSAL_CFG
+    bool "Osal Config"
+    default y
+	help
+		config interface for sys_config.fex
+
+if DRIVER_OSAL_CFG
+	config SYSCONF_BUILDIN
+		bool "sys_config.bin build in kernel image."
+		default n
+endif
+
+endmenu

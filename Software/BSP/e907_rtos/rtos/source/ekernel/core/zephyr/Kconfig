@@ -1,0 +1,8 @@
+menu "Zephyr Kernel Setup"
+depends on ZEPHYRKERNEL 
+
+source "ekernel/core/zephyr/kernel/Kconfig"
+source "ekernel/core/zephyr/misc/Kconfig"
+source "ekernel/core/zephyr/subsys/Kconfig"
+
+endmenu

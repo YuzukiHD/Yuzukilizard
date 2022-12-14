@@ -1,0 +1,9 @@
+obj-$(CONFIG_DRIVERS_CCMU) += ccmu/
+obj-$(CONFIG_DRIVERS_UART) += uart/
+obj-$(CONFIG_DRIVERS_RTC) += rtc/
+obj-$(CONFIG_DRIVERS_GPIO) += gpio/
+obj-$(CONFIG_DRIVERS_DMA) += dma/
+obj-$(CONFIG_DRIVERS_TWI) += twi/
+obj-$(CONFIG_DRIVERS_PWM) += pwm/
+obj-$(CONFIG_DRIVERS_MSGBOX) += msgbox/
+obj-y += common/

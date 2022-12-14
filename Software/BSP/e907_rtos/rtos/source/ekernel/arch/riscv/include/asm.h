@@ -1,0 +1,95 @@
+/*
+* Copyright (c) 2019-2025 Allwinner Technology Co., Ltd. ALL rights reserved.
+*
+* Allwinner is a trademark of Allwinner Technology Co.,Ltd., registered in
+* the the People's Republic of China and other countries.
+* All Allwinner Technology Co.,Ltd. trademarks are used with permission.
+*
+* DISCLAIMER
+* THIRD PARTY LICENCES MAY BE REQUIRED TO IMPLEMENT THE SOLUTION/PRODUCT.
+* IF YOU NEED TO INTEGRATE THIRD PARTY’S TECHNOLOGY (SONY, DTS, DOLBY, AVS OR MPEGLA, ETC.)
+* IN ALLWINNERS’SDK OR PRODUCTS, YOU SHALL BE SOLELY RESPONSIBLE TO OBTAIN
+* ALL APPROPRIATELY REQUIRED THIRD PARTY LICENCES.
+* ALLWINNER SHALL HAVE NO WARRANTY, INDEMNITY OR OTHER OBLIGATIONS WITH RESPECT TO MATTERS
+* COVERED UNDER ANY REQUIRED THIRD PARTY LICENSE.
+* YOU ARE SOLELY RESPONSIBLE FOR YOUR USAGE OF THIRD PARTY’S TECHNOLOGY.
+*
+*
+* THIS SOFTWARE IS PROVIDED BY ALLWINNER"AS IS" AND TO THE MAXIMUM EXTENT
+* PERMITTED BY LAW, ALLWINNER EXPRESSLY DISCLAIMS ALL WARRANTIES OF ANY KIND,
+* WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING WITHOUT LIMITATION REGARDING
+* THE TITLE, NON-INFRINGEMENT, ACCURACY, CONDITION, COMPLETENESS, PERFORMANCE
+* OR MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+* IN NO EVENT SHALL ALLWINNER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+* SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+* NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+* LOSS OF USE, DATA, OR PROFITS, OR BUSINESS INTERRUPTION)
+* HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+* STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+* OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+#ifndef _ASM_RISCV_ASM_H
+#define _ASM_RISCV_ASM_H
+
+#ifdef __ASSEMBLY__
+#define __ASM_STR(x)    x
+#else
+#define __ASM_STR(x)    #x
+#endif
+
+#if __riscv_xlen == 64
+#define __REG_SEL(a, b) __ASM_STR(a)
+#elif __riscv_xlen == 32
+#define __REG_SEL(a, b) __ASM_STR(b)
+#else
+#error "Unexpected __riscv_xlen"
+#endif
+
+#define REG_L       __REG_SEL(ld, lw)
+#define REG_S       __REG_SEL(sd, sw)
+#define REG_SC      __REG_SEL(sc.d, sc.w)
+#define SZREG       __REG_SEL(8, 4)
+#define LGREG       __REG_SEL(3, 2)
+
+#if __SIZEOF_POINTER__ == 8
+#ifdef __ASSEMBLY__
+#define RISCV_PTR       .dword
+#define RISCV_SZPTR     8
+#define RISCV_LGPTR     3
+#else
+#define RISCV_PTR       ".dword"
+#define RISCV_SZPTR     "8"
+#define RISCV_LGPTR     "3"
+#endif
+#elif __SIZEOF_POINTER__ == 4
+#ifdef __ASSEMBLY__
+#define RISCV_PTR       .word
+#define RISCV_SZPTR     4
+#define RISCV_LGPTR     2
+#else
+#define RISCV_PTR       ".word"
+#define RISCV_SZPTR     "4"
+#define RISCV_LGPTR     "2"
+#endif
+#else
+#error "Unexpected __SIZEOF_POINTER__"
+#endif
+
+#if (__SIZEOF_INT__ == 4)
+#define RISCV_INT       __ASM_STR(.word)
+#define RISCV_SZINT     __ASM_STR(4)
+#define RISCV_LGINT     __ASM_STR(2)
+#else
+#error "Unexpected __SIZEOF_INT__"
+#endif
+
+#if (__SIZEOF_SHORT__ == 2)
+#define RISCV_SHORT     __ASM_STR(.half)
+#define RISCV_SZSHORT       __ASM_STR(2)
+#define RISCV_LGSHORT       __ASM_STR(1)
+#else
+#error "Unexpected __SIZEOF_SHORT__"
+#endif
+
+#endif /* _ASM_RISCV_ASM_H */

@@ -1,0 +1,170 @@
+menu "Platform Setup"
+
+choice
+	prompt "Chip select"
+
+	config SOC_SUN3IW2P2
+		bool "F1C800 AW V1.0 Platform"
+		select SOC_SUN3IW2
+		help
+			Based on F1C800.
+
+	config SOC_SUN3IW2P1
+		bool "F1D100 AW V1.0 Platform"
+		select SOC_SUN3IW2
+		help
+			Based on F1D100.
+
+	config SOC_SUN3IW1P1
+		bool "F1C200S AW V1.0 Platform"
+		select SOC_SUN3IW1
+		help
+			Based on F1C200S.
+
+	config SOC_SUN8IW18P1
+		bool "r328 SOC Platform"
+		select SOC_SUN8IW18
+		help
+			Based on r328 Platform.
+
+	config SOC_SUN8IW19P1
+		bool "v833/v831 SOC Platform"
+		select SOC_SUN8IW19
+		select ARCH_SUN8IW19
+		help
+			Based on v833/v831 Platform.
+
+	config SOC_SUN20IW1P1
+		bool "F133 SOC Platform"
+		select SOC_SUN20IW1
+		help
+			Based on F133 Platform.
+
+	config SOC_SUN20IW3P1
+		bool "V853 SOC Platform"
+		select SOC_SUN20IW3
+		help
+			Based on F133 Platform.
+
+endchoice
+
+config SOC_SUN3I
+	bool
+	default n
+	help
+		Based on Arm926-ejs SOC familiy.
+
+config SOC_SUN8I
+	bool
+	default n
+	help
+		Based on Cortex-A7 SOC familiy.
+
+config SOC_SUN20I
+	bool
+	default n
+	help
+		Based on RISCV SOC familiy.
+
+config SOC_SUN3IW1
+	bool
+	select SOC_SUN3I
+	help
+		Based on SUN3IW2 SOC familiy.
+
+config SOC_SUN3IW2
+    	bool
+	select SOC_SUN3I
+    	help
+    		Based on SUN3IW2 SOC familiy.
+
+config SOC_SUN8IW18
+    	bool
+	select SOC_SUN8I
+    	help
+    		Based on SUN8IW18 SOC familiy.
+
+config ARCH_SUN8IW19
+	bool "soc sun8iw19"
+	select SOC_SUN8I
+	help
+		Soc sun8iw19
+config SOC_SUN8IW19
+	bool
+	select SOC_SUN8I
+	select ARCH_SUN8IW19
+	help
+		Based on SUN8IW19 SOC familiy.
+
+config SOC_SUN20IW1
+	bool
+	select SOC_SUN20I
+	select ARCH_SUN20IW1
+	help
+		Based on SUN20IW1 SOC familiy.
+
+config SOC_SUN20IW3
+	bool
+	select SOC_SUN20I
+	select ARCH_SUN20IW3
+	help
+		Based on SUN20I SOC familiy.
+
+config ARCH_SUN8IW19
+	bool
+	help
+		Based on SUN8IW19 SOC familiy.
+
+config ARCH_SUN20IW1
+	bool
+	help
+		Based on SUN20I SOC familiy.
+
+config ARCH_SUN20IW3
+	bool
+	help
+		Based on SUN20I SOC familiy.
+
+config DRAM_PHYBASE
+	hex  "Physical base address of Dram"
+	default 0x80000000 if SOC_SUN3I
+	default 0x40000000 if SOC_SUN8I
+	default 0x40000000 if SOC_SUN20I
+
+config DRAM_VIRTBASE
+	hex  "Virtual base address of Dram"
+	default 0x40000000 if SOC_SUN20IW1
+	default 0xc2000000 
+
+config DRAM_SIZE
+	hex  "Capacity of Dram"
+	default 0x04000000
+	help
+		DDR physical memroy size.
+
+config COHERENT_SIZE
+	hex  "Capacity of NoCache Dram Zone"
+	default 0x00c00000
+	help
+		Set Size Of NoCache Dram Zone for DMA etc
+
+config COHERENT_START_ADDR
+	hex  "Address of NoCache Dram Zone"
+	default 0xa0000000
+	help
+		Set Start address of NoCache Dram Zone for DMA etc
+
+config KERNEL_USE_SBI
+	bool  "define whether using sbi (RV)"
+	depends on SOC_SUN20IW1
+	default y
+	help
+		if use sbi, the syscall number defined in kapi.h need to change for being different with function number in SBI module.
+
+config LOAD_DATA_TO_MEM_FROM_STORAGE
+	bool  "load data to memory from storage"
+	default y
+	help
+		the function used for more quickly reading when checking on fpg-board.
+
+endmenu

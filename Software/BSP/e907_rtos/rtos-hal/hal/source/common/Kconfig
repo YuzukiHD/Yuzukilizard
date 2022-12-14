@@ -1,0 +1,23 @@
+menu "Common Option"
+
+config DRIVER_SYSCONFIG
+    bool "enable sysconfig"
+	default y
+
+config DMA_VMAREA_START_ADDRESS
+    hex "non cacheable virtual memory start address"
+	default 0x80000000
+
+config DMA_COHERENT_HEAP
+    bool "non cacheable heap support"
+	default n
+
+if DMA_COHERENT_HEAP
+
+config DMA_COHERENT_HEAP_SIZE
+    hex "non cacheable heap size(bytes)"
+	default 0x100000
+
+endif
+
+endmenu

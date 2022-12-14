@@ -1,0 +1,84 @@
+menu "Kernel Setup"
+
+source "ekernel/arch/Kconfig"
+source "ekernel/core/Kconfig"
+source "ekernel/drivers/drv/Kconfig"
+source "ekernel/drivers/osal/Kconfig"
+source "ekernel/drivers/test/Kconfig"
+source "ekernel/subsys/Kconfig"
+
+config ARMCPU_HIGH_VECTOR_ADDRESS
+	bool  "USE HIGH Exception Vector Address"
+	default y
+	help
+	if y, the exception vector would be located 0xffff0000
+	else would be 0.
+
+config IOREGS_VBASE
+	hex  "Virtual base address of IO Register"
+	default 0xf0000000
+
+config SRAM_VBASE
+	hex  "Virtual base address of Sram"
+	default 0xf0000000
+
+config CLK_TUNING_VBASE
+	hex  "clk tunning code and data running address."
+	default 0xffff2000
+
+choice
+	prompt "Rootfs Filesystem Type"
+	default ROOTFS_LITTLEFS
+
+    config ROOTFS_LITTLEFS
+		bool "ARM Littlefs Filesystem"
+		depends on RT_USING_DFS
+
+	config ROOTFS_MINFS
+	depends on MINFS
+		bool "Allwinner Minfs Filesystem"
+
+	config ROOTFS_FATFS
+		bool "Fat Filesystem"
+
+endchoice
+
+config  CHANGE_COMPRESS_METHOD
+	bool "change compress method of epos"
+	default n
+
+if CHANGE_COMPRESS_METHOD
+	choice
+		prompt "method of compress"
+		help
+			The higher the compression rate, the higher the decompression time.
+			Compression rate sorting: LZMA > GZ > LZ4 > without compress.
+			Decompression time sorting  at startup: LZMA > GZ > LZ4 > without compress.
+
+		config EPOS_COMPRESS_LZMA
+			bool "Epos compress with LZMA(default)"
+			help
+				If you want smaller firmware, LZMA compression is recommended.
+
+		config EPOS_COMPRESS_GZ
+			bool "Epos compress with GZ(recommend)"
+			help
+				GZ is the best compression algorithm considering both time and size
+
+		config EPOS_COMPRESS_LZ4
+			bool "Epos compress with LZ4(Fastest)"
+			help
+				If you want the Fastest boot speed, lz4 compression is recommended.
+
+		config EPOS_COMPRESS_NONE
+			bool "Epos without compress(The worst)"
+			help
+				Although there is no compression, we do not need to decompress the data, but we need more time to load the data.
+	endchoice
+endif
+
+config DOUBLE_FREE_CHECK
+	bool  "Doule Free Check"
+	default n
+
+endmenu

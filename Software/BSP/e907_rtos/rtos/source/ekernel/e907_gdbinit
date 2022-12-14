@@ -1,0 +1,5 @@
+set architecture riscv:rv32
+target remote 192.168.204.20:1025
+file ekernel/melis30.elf
+restore ekernel/melis30.bin binary 0x48000000
+set $pc=0x48000000

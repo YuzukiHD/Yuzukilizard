@@ -1,0 +1,13 @@
+include $(MELIS_BASE)/scripts/Makefile.common
+
+quiet_cmd_renameelf = RENAME  $< ----> $(<:.o=.elf)
+cmd_renameelf = mv $< $(<:.o=.elf)
+
+quiet_cmd_renamelib = RENAME  $(notdir $<) ----> $(notdir $(TARGET))
+cmd_renamelib = mv $< $(TARGET)
+
+always := rellib
+
+PHONY += rellib clean
+$(obj)/rellib: $(obj)/lib.a FORCE
+	$(call if_changed,renamelib)

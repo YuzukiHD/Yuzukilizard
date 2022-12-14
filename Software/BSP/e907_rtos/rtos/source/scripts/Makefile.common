@@ -1,0 +1,32 @@
+#=====================================================================================
+#
+#      Filename:  Makefile.common
+#
+#   Description:  Top makefile  for compiler each sigle module.
+#
+#       Version:  2.0 
+#        Create:  2017-11-08 13:48:49
+#      Revision:  none
+#      Compiler:  gcc version 6.3.0 (crosstool-NG crosstool-ng-1.23.0)
+#
+#        Author:  caozilong@allwinnertech.com
+#  Organization:  BU1-PSW
+# Last Modified:  2017-11-08 13:48:49
+#
+#=====================================================================================
+
+jobs=`grep ^processor /proc/cpuinfo|wc -l`
+
+ifeq ($(MELIS_BASE),)
+    $(warning Please do 'source melis-env.sh first on Top dir.')
+endif
+
+mod_all:
+ifeq ($(jobs),)
+	make -C $(MELIS_BASE) M=$(shell pwd) modules
+else
+	make -C $(MELIS_BASE) M=$(shell pwd) modules -j$(jobs)
+endif
+
+mod_clean:
+	make -C $(MELIS_BASE) M=$(shell pwd) clean

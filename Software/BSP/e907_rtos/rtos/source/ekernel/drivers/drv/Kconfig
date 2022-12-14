@@ -1,0 +1,68 @@
+# Kconfig - general configuration options
+
+#
+# Copyright (c) 2014-2015 Wind River Systems, Inc.
+# Copyright (c) 2016 Intel Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+menu "Drivers Setup"
+	config  UART_BAUD_RATE
+		int "uart baud rate"
+		default 115200
+		range 9600 115200
+
+if DRIVER_SDMMC
+	config SUPPORT_SDMMC_CACHE
+		bool "support sdmmc cache"
+		default n
+		help
+			"Add Sdmmc Cache Layer For Write Small Files"
+
+	config SDMMC_CACHE_SIZE
+		int "sdmmc cache size (KB)"
+		default 1024
+		depends on SUPPORT_SDMMC_CACHE
+		help
+			"Configure Sdmmc Cache Heap Size"
+
+	config SDMMC_CACHE_WRITEBACK_THREAD_PRIO
+		int "sdmmc cache writeback thread priority"
+		default 14
+		depends on SUPPORT_SDMMC_CACHE
+		help
+			"Configure Sdmmc Cache Writeback Thread Priority"
+
+	config SDMMC_CACHE_INFO_CMD
+		bool "support sdmmc cache information command"
+		default n
+		depends on SUPPORT_SDMMC_CACHE
+		help
+			"Add Sdmmc Cache Information Command"
+endif
+
+	source "ekernel/drivers/drv/source/Kconfig"
+
+	menu "SoC HAL Drivers"
+	source "ekernel/drivers/hal/source/common/Kconfig"
+	source "ekernel/drivers/hal/source/ccmu/Kconfig"
+	source "ekernel/drivers/hal/source/uart/Kconfig"
+	source "ekernel/drivers/hal/source/gpio/Kconfig"
+	source "ekernel/drivers/hal/source/dma/Kconfig"
+	source "ekernel/drivers/hal/source/twi/Kconfig"
+	source "ekernel/drivers/hal/source/pwm/Kconfig"
+	source "ekernel/drivers/hal/source/msgbox/Kconfig"
+	endmenu
+
+endmenu

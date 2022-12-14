@@ -1,0 +1,31 @@
+menu "FileSystem Tests"
+
+config RAMFS_FAT_TEST
+    bool "Set fat filesystem as ramfs"
+    default n
+    depends on SAMPLE_FILESYSTEM_TEST
+    depends on FAT
+    depends on MELIS_LAYERFS
+    help
+       mount ramfs at /mnt/E with fat filesystem.
+
+if RAMFS_FAT_TEST
+config RAMFS_FAT_TEST_SIZE
+    hex "Ramfs fat filesystem size"
+    default 0x800000
+    help
+        "set ramfs filesystem size, it will allocate an equal amount of memory"
+endif
+
+config FTRUNCATE_TEST
+    bool "ftruncate test"
+    default n
+    help
+       "ftruncate test"
+
+config LSEEK_TEST
+    bool "lseek test"
+    default n
+    help
+       "lseek test"
+endmenu
