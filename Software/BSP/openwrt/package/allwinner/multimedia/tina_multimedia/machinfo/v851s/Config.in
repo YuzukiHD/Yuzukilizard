@@ -1,0 +1,431 @@
+menu "Select cedarx configuration options"
+depends on PACKAGE_libcedarx
+
+comment "Only need to play audio/video ---"
+config ONLY_ENABLE_AUDIO
+	default n
+	bool "Only enable audio player"
+
+config ONLY_DISABLE_AUDIO
+	default n
+	bool "Only disable audio player while playing a video"
+
+comment "Middleware ---"
+config TPLAYER
+	select CEDAR_PARSER_ALL
+	select CEDAR_STREAM_ALL
+	default y
+	bool "Select tplayer middleware"
+
+config TRECORDER
+	depends on (!ONLY_ENABLE_AUDIO)
+	select CEDAR_VIDEO_ENCODER_ALL
+	select CEDAR_AENCODER_ALL
+	select CEDAR_MUXER_ALL
+	default y
+	bool "Select trecorder middleware"
+
+	source "../../trecorder/Config.in"
+
+config TMETADATARETRIVER
+	depends on (!ONLY_ENABLE_AUDIO)
+	default y
+	bool "Select tmetadataretriver middleware"
+
+config JPEGDECODER
+	depends on (!ONLY_ENABLE_AUDIO) && CEDAR_VDECODER_MJPEG
+	default y
+	bool "Select JPEGDECODER middleware"
+
+comment "Video Encoders ---"
+config CEDAR_VIDEO_ENCODER_ALL
+	depends on TRECORDER
+	bool "Enable all cedarc video encoders"
+
+comment "Muxers ---"
+
+config CEDAR_MUXER_ALL
+	depends on TRECORDER
+	bool "Select muxers"
+
+config CEDAR_AAC_MUXER
+	depends on TRECORDER
+	default y
+	bool "Support aac muxer"
+
+config CEDAR_TS_MUXER
+	depends on TRECORDER
+	default y
+	bool "Support ts muxer"
+
+config CEDAR_MP4_MUXER
+	depends on TRECORDER
+	default y
+	bool "Support mp4 muxer"
+
+comment "Audio Encoders ---"
+
+config CEDAR_AENCODER_ALL
+	depends on TRECORDER
+	bool "Select all audio encoders"
+
+comment "Video Decoders ---"
+
+config CEDAR_VDECODER_H264
+	depends on (!ONLY_ENABLE_AUDIO)
+	default y
+	bool "AVC(h.264) video decoder"
+
+config CEDAR_VDECODER_AVS
+	depends on (!ONLY_ENABLE_AUDIO)
+	default y
+	bool "AVS video decoder"
+
+config CEDAR_VDECODER_H265
+	depends on (!ONLY_ENABLE_AUDIO)
+	default y
+	bool "H265 video decoder"
+
+config CEDAR_VDECODER_MJPEG
+	depends on (!ONLY_ENABLE_AUDIO)
+	default y
+	bool "MJPEG(motion jpeg) video decoder"
+
+config CEDAR_VDECODER_MPEG2
+	depends on (!ONLY_ENABLE_AUDIO)
+	default y
+	bool "MPEG2 video decoder"
+
+config CEDAR_VDECODER_MPEG4BASE
+	depends on (!ONLY_ENABLE_AUDIO)
+	default y
+	bool "MPEG4 base profile video decoder"
+
+config CEDAR_VDECODER_MPEG4DX
+	depends on (!ONLY_ENABLE_AUDIO) && CEDAR_VDECODER_MPEG4BASE
+	default y
+	bool "mpeg4 DIVX video decoder"
+
+config CEDAR_VDECODER_MPEG4H263
+	depends on (!ONLY_ENABLE_AUDIO) && CEDAR_VDECODER_MPEG4BASE
+	default y
+	bool "H263 video decoder"
+
+config CEDAR_VDECODER_MPEG4NORMAL
+	depends on (!ONLY_ENABLE_AUDIO) && CEDAR_VDECODER_MPEG4BASE
+	default y
+	bool "MPEG4 normal video decoder"
+
+config CEDAR_VDECODER_MPEG4VP6
+	depends on (!ONLY_ENABLE_AUDIO) && CEDAR_VDECODER_MPEG4BASE
+	default n
+	bool "VP6 video decoder"
+
+config CEDAR_VDECODER_VP8
+	depends on (!ONLY_ENABLE_AUDIO)
+	default y
+	bool "VP8 video decoder"
+
+config CEDAR_VDECODER_VP9
+	depends on (!ONLY_ENABLE_AUDIO)
+	default n
+	bool "VP9 video decoder"
+
+config CEDAR_VDECODER_WMV3
+	depends on (!ONLY_ENABLE_AUDIO)
+	default y
+	bool "VC1(WMV3) video decoder"
+
+comment "Audio Decoders ---"
+
+config CEDAR_ADECODER_AAC
+	default y
+	bool "AAC audio decoder"
+
+config CEDAR_ADECODER_ALAC
+	default y
+	bool "ALAC audio decoder"
+
+config CEDAR_ADECODER_AMR
+	default y
+	bool "AMR audio decoder"
+
+config CEDAR_ADECODER_APE
+	default y
+	bool "APE audio decoder"
+
+config CEDAR_ADECODER_ATRC
+	default y
+	bool "ATRC audio decoder"
+
+config CEDAR_ADECODER_FLAC
+	depends on TPLAYER
+	default y
+	bool "FLAC audio decoder"
+
+config CEDAR_ADECODER_MP3
+	default y
+	bool "MP3 audio decoder"
+
+config CEDAR_ADECODER_OGG
+	default y
+	bool "OGG audio decoder"
+
+config CEDAR_ADECODER_SIPR
+	default y
+	bool "SIPR audio decoder"
+
+config CEDAR_ADECODER_WAV
+	default y
+	bool "WAV audio decoder"
+
+config CEDAR_ADECODER_RA
+	default y
+	bool "RA audio decoder"
+
+config CEDAR_ADECODER_DSD
+	default y
+	bool "DSD audio decoder"
+
+config CEDAR_ADECODER_G729
+	default y
+	bool "G729 audio decoder"
+
+config CEDAR_ADECODER_OPUS
+	default y
+	bool "OPUS audio decoder"
+
+comment "Subtitle Decoders ---"
+
+config CEDAR_SUBTITLE_SUPPORT
+	depends on (!ONLY_ENABLE_AUDIO)
+	default y
+	bool "Select all subtitle decoders"
+
+comment "Parsers ---"
+config CEDAR_PARSER_ALL
+	depends on TPLAYER
+	bool "Select  parsers"
+
+config CEDAR_PARSER_AAC
+	depends on TPLAYER
+	default y
+	bool "Select aac parser"
+
+config CEDAR_PARSER_MP3
+	depends on TPLAYER
+	default y
+	bool "Select mp3 parser"
+
+config CEDAR_PARSER_WAV
+	depends on TPLAYER
+	depends on CEDAR_PARSER_MP3
+	default y
+	bool "Select wav parser"
+
+config CEDAR_PARSER_ID3V2
+	depends on TPLAYER
+	default y
+	bool "Select id3v2 parser"
+
+config CEDAR_PARSER_FLAC
+	depends on TPLAYER
+	default y
+	bool "Select flac parser"
+
+config CEDAR_PARSER_APE
+	depends on TPLAYER
+	default y
+	bool "Select ape parser"
+
+config CEDAR_PARSER_AMR
+	depends on TPLAYER
+	default y
+	bool "Select amr parser"
+
+config CEDAR_PARSER_ATRAC
+	depends on TPLAYER
+	default y
+	bool "Select atrac parser"
+
+config CEDAR_PARSER_OGG
+	depends on TPLAYER
+	default y
+	bool "Select ogg parser"
+
+config CEDAR_PARSER_TS
+	depends on TPLAYER
+	default y
+	bool "Select ts parser"
+
+config CEDAR_PARSER_MKV
+	depends on TPLAYER && (!ONLY_ENABLE_AUDIO)
+	default y
+	bool "Select mkv parser"
+
+config CEDAR_PARSER_MOV
+	depends on TPLAYER
+	default y
+	bool "Select mov parser"
+
+config CEDAR_PARSER_AVI
+	depends on TPLAYER && (!ONLY_ENABLE_AUDIO)
+	default y
+	bool "Select avi parser"
+
+config CEDAR_PARSER_FLV
+	depends on TPLAYER && (!ONLY_ENABLE_AUDIO)
+	default y
+	bool "Select flv parser"
+
+config CEDAR_PARSER_ASF
+	depends on TPLAYER && (!ONLY_ENABLE_AUDIO)
+	default y
+	bool "Select asf parser"
+
+config CEDAR_PARSER_HLS
+	depends on TPLAYER
+	default y
+	bool "Select hls parser"
+
+config CEDAR_PARSER_MPG
+	depends on TPLAYER && (!ONLY_ENABLE_AUDIO)
+	default y
+	bool "Select mpg parser"
+
+config CEDAR_PARSER_PLS
+	depends on TPLAYER && (!ONLY_ENABLE_AUDIO)
+	default y
+	bool "Select pls parser"
+
+comment "Streams ---"
+
+config CEDAR_STREAM_ALL
+	depends on TPLAYER
+	bool "Select  streams"
+
+config CEDAR_FILE_STREAM
+	depends on TPLAYER
+	default y
+	bool "Support file stream"
+
+config CEDAR_HTTP_STREAM
+	depends on TPLAYER
+	default y
+	bool "Support http stream"
+
+config CEDAR_HTTPS_STREAM
+	depends on TPLAYER
+	depends on CEDAR_HTTP_STREAM
+	default y
+	bool "Support https stream"
+
+config CEDAR_RTSP_STREAM
+	depends on TPLAYER
+	default n
+	bool "Support rtsp stream"
+
+comment "OMX interface support ---"
+config OMX
+	depends on TPLAYER && TRECORDER
+	select PACKAGE_libstdcpp
+	default y if CONFIG_PACKAGE_gst-omx=y
+	bool "Add for openmax support"
+endmenu
+
+menu "Select Cedarx memory options"
+depends on PACKAGE_libcedarx
+config CUSTOM_VBV_ENABLE
+	depends on TPLAYER
+	default n
+	bool "Set VBV size by customer"
+
+config VBVBUFSIZE
+	depends on CUSTOM_VBV_ENABLE
+	default 1
+	int "Set VBV buffer size for tplayer in MB"
+
+config SCALE_DOWN_ENABLE
+	depends on TPLAYER
+	default n
+	bool "Set Custom scaledown enable"
+
+config SCALE_DOWN_WIDTH_LIMIT
+	depends on SCALE_DOWN_ENABLE
+	default 1920
+	int "Do scaledown when width is equal or beyond this value"
+
+config SCALE_DOWN_RATIO
+	depends on SCALE_DOWN_ENABLE
+	default 1
+	int "Scale down ratio which can be 1,2 or 3"
+
+config CUSTOM_FBM_NUM_ENABLE
+	depends on TPLAYER
+	default n
+	bool "Set FBM number by customer"
+
+config FBM_DISPLAY_HOLDING
+	depends on CUSTOM_FBM_NUM_ENABLE
+	default 3
+	int "FBM number which display holds"
+
+config FBM_DEINTERLEACED_USED
+	depends on CUSTOM_FBM_NUM_ENABLE
+	default 2
+	int "FBM number deinterleace use"
+
+config FBM_ROTATE_USED
+	depends on CUSTOM_FBM_NUM_ENABLE
+	default 0
+	int "FBM numer rotate used"
+
+config FBM_SMOOTHLY_USED
+	depends on CUSTOM_FBM_NUM_ENABLE
+	default 3
+	int "FBM number which used to play smoothly"
+
+config USE_ION_BUF_ENABLE
+	depends on TPLAYER
+	default n
+	bool "Set ion enable"
+
+config CUSTOM_CACHE_ENABLE
+	depends on TPLAYER
+	default n
+	bool "Set cache size by customer"
+
+config CACHE_BUFFER_SIZE
+	depends on CUSTOM_CACHE_ENABLE
+	default 20480
+	int "Set cache buffer size for tplayer in KB"
+
+config LIVE_CACHE_BUFFER_SIZE
+	depends on CUSTOM_CACHE_ENABLE
+	default 20480
+	int "Set live cache buffer size for tplayer in KB"
+
+config HTTP_STREAM_CACHE_SIZE
+	depends on CUSTOM_CACHE_ENABLE
+	default 5120
+	int "Set http cache size for tplayer in KB"
+
+config START_PLAY_CACHE_TIME
+	depends on CUSTOM_CACHE_ENABLE
+	default 5
+	int "Set start play cache time for tplayer in SECOND"
+
+endmenu
+
+choice
+prompt "Choose whether to use VIN ISP"
+	depends on PACKAGE_libcedarx
+	default TR_NO_USE_VIN_ISP
+	help
+		Choose whether to compile VIN ISP.
+config TR_YES_USE_VIN_ISP
+	select PACKAGE_libAWIspApi
+	bool "YES"
+config TR_NO_USE_VIN_ISP
+	bool "NO"
+endchoice
