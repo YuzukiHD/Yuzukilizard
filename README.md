@@ -47,7 +47,7 @@ Yuzukilizard Running Tina Linux
 To facilitate development, we have prepared a Docker image for use. Docker has built a basic environment and SDK, which can be developed directly
 
 ```
-docker pull gloomyghost/yuzukilizard:latest
+docker pull gloomyghost/yuzukilizard
 ```
 
 ## License
