@@ -50,6 +50,11 @@ To facilitate development, we have prepared a Docker image for use. Docker has b
 docker pull gloomyghost/yuzukilizard
 ```
 
+Aliyun Mirror:
+```
+docker pull registry.cn-hangzhou.aliyuncs.com/gloomyghost/yuzukilizard
+```
+
 ![image](https://user-images.githubusercontent.com/12003087/211245519-998b95d5-412c-4585-98cf-8011ed57ac47.png)
 
 
