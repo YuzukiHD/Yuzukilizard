@@ -6903,7 +6903,7 @@ CONFIG_PACKAGE_mtd-utils-mkfs.jffs2=y
 # CONFIG_PACKAGE_ssdeep is not set
 # CONFIG_PACKAGE_sshpass is not set
 # CONFIG_PACKAGE_strace is not set
-CONFIG_STRACE_NONE=y
+CONFIG_STRACE_NONE=y 
 # CONFIG_STRACE_LIBDW is not set
 # CONFIG_STRACE_LIBUNWIND is not set
 # CONFIG_PACKAGE_stress is not set
