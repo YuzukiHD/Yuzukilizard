@@ -55,8 +55,7 @@ Aliyun Mirror:
 docker pull registry.cn-hangzhou.aliyuncs.com/gloomyghost/yuzukilizard
 ```
 
-![image](https://user-images.githubusercontent.com/12003087/211245519-998b95d5-412c-4585-98cf-8011ed57ac47.png)
-
+![image](https://user-images.githubusercontent.com/12003087/212666847-f9ad11c1-a01b-4fc7-b756-e6b692b9191a.png)
 
 ## License
 Hardware design files of these projects under the CERN Open Hardware Licence Version 2 - Strongly Reciprocal License
