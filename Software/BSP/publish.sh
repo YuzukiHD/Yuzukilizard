@@ -14,3 +14,8 @@ cp -rf ../../../openwrt/target/v851s/ openwrt/target/
 rm -rf openwrt/package/lizard/
 mkdir openwrt/package/lizard
 cp -rf ../../../openwrt/package/lizard/* openwrt/package/lizard/
+
+# package/allwinner/eyesee-mpp
+rm -rf openwrt/package/allwinner/eyesee-mpp/
+mkdir openwrt/package/allwinner/eyesee-mpp/
+cp -rf ../../../openwrt/package/allwinner/eyesee-mpp/* openwrt/package/allwinner/eyesee-mpp/

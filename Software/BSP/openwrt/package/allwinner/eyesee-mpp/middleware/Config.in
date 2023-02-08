@@ -1,46 +1,42 @@
 if PACKAGE_eyesee-mpp-middleware
 
-choice
-	prompt "select sensor"
-	default imx386
+config mpp_support_fastboot
+	bool "support fastboot"
+	default n
+	help
+	  mpp middleware support fastboot.
+
+config select_sensor
+	bool "select sensor"
+	default y
 	help
 	  tell eyesee-mpp-middleware the used sensor type.
-
-config imx317
-	bool "use sensor imx317"
-
-config imx278
-	bool "use sensor imx278"
-
-config imx258
-	bool "use sensor imx258"
+	  multiple sensors can be selected in multiple mipi scenarios.
 
 config imx386
 	bool "use sensor imx386"
+	depends on select_sensor
 	help
 	  imx386 is used commonly in sdv product.
 
-config sc2232
-	bool "use sensor sc2232"
-	help
-	  sc2232 is for ipc.
-
-config imx335
-	bool "use sensor imx335"
-	help
-	  imx335 is for test.
-
 config gc4663
 	bool "use sensor gc4663"
+	depends on select_sensor
 	help
 	  gc4663 is for ipc.
 
 config gc2053
 	bool "use sensor gc2053"
+	depends on select_sensor
+	default y
 	help
 	  gc2053 is for ipc.
-
-endchoice
+config sc4336
+	bool "use sensor sc4336"
+	depends on select_sensor
+	default y
+	help
+	  sc4336 is for ipc.
 
 choice
 	prompt "select fwrite method"
@@ -249,12 +245,6 @@ config mpp_eveface
 	depends on PLATFORM_v5
 	help
 	  eveface is Face Detection basing on eve.
-
-config mpp_body_detect
-	bool "enable body detect"
-	default n
-	help
-	  BodyDetect is based on v833 nna.
 
 config mpp_aec
 	bool "enable aec"
@@ -570,6 +560,14 @@ config mpp_sample_multi_vi2venc2muxer
 	help
 	  mpp sample multi_vi2venc2muxer.
 
+config mpp_sample_odet_demo
+	bool "mpp sample_odet_demo"
+	depends on mpp_sample
+	depends on mpp_hw_display
+	depends on mpp_vo
+	help
+	  mpp sample object detection demo.
+
 config mpp_sample_OnlineVenc
 	bool "mpp sample OnlineVenc"
 	depends on mpp_sample
@@ -580,7 +578,6 @@ config mpp_sample_OnlineVenc
 config mpp_sample_PersonDetect
 	bool "mpp sample PersonDetect"
 	depends on mpp_sample
-	depends on mpp_body_detect
 	help
 	  mpp sample_PersonDetect to test BodyDetect libs.
 
@@ -607,9 +604,10 @@ config mpp_sample_region
 	help
 	  mpp sample region.
 
-config mpp_sample_region_detect
-	bool "mpp sample region detect"
+config mpp_sample_RegionDetect
+	bool "mpp sample RegionDetect"
 	depends on mpp_sample
+	depends on PACKAGE_viplite-driver
 	help
 	  mpp sample region detect.
 
@@ -620,6 +618,28 @@ config mpp_sample_rtsp
 
 	help
 	  mpp sample rtsp.
+
+config mpp_sample_smartIPC_demo
+	bool "mpp sample smartIPC_demo"
+	depends on mpp_sample
+	depends on PACKAGE_eyesee-mpp-private-rtsp
+	depends on mpp_vi
+	depends on mpp_venc
+	depends on PACKAGE_viplite-driver
+
+	help
+	  mpp sample smartIPC_demo.
+
+config mpp_sample_smartPreview_demo
+	bool "mpp sample smartPreview_demo"
+	depends on mpp_sample
+	depends on mpp_vi
+	depends on mpp_hw_display
+	depends on mpp_vo
+	depends on PACKAGE_viplite-driver
+
+	help
+	  mpp sample smartPreview_demo.
 
 config mpp_sample_select
 	bool "mpp sample select"
@@ -859,22 +879,6 @@ config mpp_sample_vo
 	depends on mpp_vo
 	help
 	  mpp sample vo.
-
-config mpp_sample_odet_demo
-	bool "mpp sample object detection demo"
-	depends on mpp_sample
-	depends on mpp_hw_display
-	depends on mpp_vo
-	help
-	  mpp sample object detection demo.
-
-config mpp_sample_airoi
-	bool "mpp sample roi based on object detection demo"
-	depends on mpp_sample
-	depends on mpp_hw_display
-	depends on mpp_vo
-	help
-	  mpp sample object detection demo.
 
 endif
 
