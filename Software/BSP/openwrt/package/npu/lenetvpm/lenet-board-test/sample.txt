@@ -1,0 +1,34 @@
+
+vpm_run is a framework for testing VIPLite driver. 
+
+#You may put comment by starting with a '#'.
+#####################################################A separator makes the list clear.
+[network]
+/etc/lenet-vpm-run-demo/lenet.nb
+[input]
+/etc/lenet-vpm-run-demo/input_0.dat
+[golden]
+/etc/lenet-vpm-run-demo/output0_10_1.dat
+#[output]   comment out [output] field to stop dumping output into a file.
+#./NN/test_out_alex.dat
+######
+[network]
+/etc/lenet-vpm-run-demo/lenet.nb
+[input]
+/etc/lenet-vpm-run-demo/input_0.dat
+[golden]
+/etc/lenet-vpm-run-demo/output0_10_1.dat
+[output]
+/etc/lenet-vpm-run-demo/actual_output_tensor.dat
+[network]
+/etc/lenet-vpm-run-demo/lenet.nb
+[input]
+/etc/lenet-vpm-run-demo/input_0.dat
+[golden]
+/etc/lenet-vpm-run-demo/output0_10_1.dat
+[network]
+/etc/lenet-vpm-run-demo/lenet.nb
+[input]
+/etc/lenet-vpm-run-demo/input_0.dat
+[golden]
+/etc/lenet-vpm-run-demo/output0_10_1.dat

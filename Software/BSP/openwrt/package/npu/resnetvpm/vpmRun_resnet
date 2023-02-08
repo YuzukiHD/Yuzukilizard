@@ -1,0 +1,35 @@
+#!/bin/bash
+
+if [ ! -d /etc/resnet-vpm-run-demo ]; then
+	echo =================error============================================================
+	echo     no such dirctory[/etc/resnet-vpm-run-demo] Please Select in menuconfig!!!
+	echo =================error============================================================
+	exit
+fi
+
+if [ ! -f /etc/resnet-vpm-run-demo/resnet50.nb ]; then
+	echo =================error====================
+	echo no such file[resnet50.nb]!!!
+	echo =================error====================
+	exit
+fi
+
+if [ ! -f /etc/resnet-vpm-run-demo/input_0.dat ]; then
+	echo =================error====================
+	echo no such file[input_0.dat]!!!
+	echo =================error====================
+	exit
+fi
+
+if [ ! -f /etc/resnet-vpm-run-demo/sample.txt ]; then
+	echo =================error====================
+	echo no such file[sample.txt]!!!
+	echo =================error====================
+	exit
+fi
+
+echo =================info====================
+echo start vpm testcase
+echo =================info====================
+sleep 3
+vpm_run /etc/resnet-vpm-run-demo/sample.txt -1

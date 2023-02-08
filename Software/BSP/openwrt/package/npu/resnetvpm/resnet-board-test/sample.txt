@@ -1,0 +1,9 @@
+
+vpm_run is a framework for testing VIPLite driver. 
+
+#You may put comment by starting with a '#'.
+#####################################################A separator makes the list clear.
+[network]
+/mnt/extsd/resnet50_vpm_run/resnet50.nb
+[input]
+/mnt/extsd/resnet50_vpm_run/input_0.dat

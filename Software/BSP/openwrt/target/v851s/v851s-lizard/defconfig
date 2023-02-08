@@ -2509,8 +2509,12 @@ CONFIG_SUNXI_DISPLAY_DE=y
 # NPU
 #
 # CONFIG_PACKAGE_lenet is not set
+CONFIG_PACKAGE_lenetvpm=y
+CONFIG_PACKAGE_lenetvpm-model=y
+CONFIG_PACKAGE_resnetvpm=y
+CONFIG_PACKAGE_resnetvpm-model=y
 CONFIG_PACKAGE_viplite-driver=y
-# CONFIG_PACKAGE_vpm_run is not set
+CONFIG_PACKAGE_vpm_run=y
 # CONFIG_PACKAGE_yolov3 is not set
 # end of NPU
 

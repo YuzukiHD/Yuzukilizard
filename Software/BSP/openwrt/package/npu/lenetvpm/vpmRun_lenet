@@ -1,0 +1,35 @@
+#!/bin/bash
+
+if [ ! -d /etc/lenet-vpm-run-demo/ ]; then
+	echo =================error============================================================
+	echo     no such dirctory[/etc/lenet-vpm-run-demo/] Please Select in menuconfig!!!
+	echo =================error============================================================
+	exit
+fi
+
+if [ ! -f /etc/lenet-vpm-run-demo/lenet.nb ]; then
+	echo =================error====================
+	echo no such file[lenet.nb]!!!
+	echo =================error====================
+	exit
+fi
+
+if [ ! -f /etc/lenet-vpm-run-demo/input_0.dat ]; then
+	echo =================error====================
+	echo no such file[input_0.dat]!!!
+	echo =================error====================
+	exit
+fi
+
+if [ ! -f /etc/lenet-vpm-run-demo/sample.txt ]; then
+	echo =================error====================
+	echo no such file[sample.txt]!!!
+	echo =================error====================
+	exit
+fi
+
+echo =================info====================
+echo start vpm testcase
+echo =================info====================
+sleep 3
+vpm_run /etc/lenet-vpm-run-demo/sample.txt -1
