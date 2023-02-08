@@ -20,7 +20,7 @@ rm -rf openwrt/package/allwinner/eyesee-mpp/
 mkdir openwrt/package/allwinner/eyesee-mpp/
 cp -rf ../../../openwrt/package/allwinner/eyesee-mpp/* openwrt/package/allwinner/eyesee-mpp/
 
-# platform/allwinner/eyesee-mpp
-rm -rf platform/allwinner/eyesee-mpp/
-mkdir platform/allwinner/eyesee-mpp/
-cp -rf ../../../platform/allwinner/eyesee-mpp/* platform/allwinner/eyesee-mpp/
+# package/npu
+rm -rf openwrt/package/npu/
+mkdir openwrt/package/npu
+cp -rf ../../../openwrt/package/npu/* openwrt/package/npu/

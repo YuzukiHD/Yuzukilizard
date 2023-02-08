@@ -2617,11 +2617,9 @@ CONFIG_mpp_demuxer=y
 # CONFIG_mpp_adas_detect_v2 is not set
 CONFIG_mpp_aec=y
 CONFIG_mpp_softdrc=y
-CONFIG_mpp_agc=y
+# CONFIG_mpp_agc is not set
 CONFIG_mpp_ai_agc=y
-CONFIG_mpp_ans=y
-CONFIG_mpp_ans_libwebrtc=y
-# CONFIG_mpp_ans_liblstm is not set
+# CONFIG_mpp_ans is not set
 # CONFIG_mpp_uvc is not set
 CONFIG_mpp_compile_static_lib=y
 # CONFIG_mpp_compile_dynamic_lib is not set
@@ -2659,7 +2657,7 @@ CONFIG_mpp_sample=y
 # CONFIG_mpp_sample_pthread_cancel is not set
 # CONFIG_mpp_sample_region is not set
 # CONFIG_mpp_sample_RegionDetect is not set
-# CONFIG_mpp_sample_smartPreview_demo is not set
+CONFIG_mpp_sample_smartPreview_demo=y
 # CONFIG_mpp_sample_select is not set
 # CONFIG_mpp_sample_takePicture is not set
 # CONFIG_mpp_sample_twinchn_virvi2venc2ce is not set

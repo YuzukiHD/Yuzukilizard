@@ -45,24 +45,26 @@ include $(INCLUDE_DIR)/package.mk
 
 export TARGET_BOARD_PLATFORM
 export LICHEE_PLATFORM_OS:=tina
-ifeq ($(CONFIG_imx386),y)
-    SENSOR_NAME:=imx386
-else ifeq ($(CONFIG_imx317),y)
-    SENSOR_NAME:=imx317
-else ifeq ($(CONFIG_imx335),y)
-    SENSOR_NAME:=imx335
-else ifeq ($(CONFIG_imx258),y)
-    SENSOR_NAME:=imx258
-else ifeq ($(CONFIG_imx278),y)
-    SENSOR_NAME:=imx278
-else ifeq ($(CONFIG_sc2232),y)
-    SENSOR_NAME:=sc2232
-else ifeq ($(CONFIG_gc4663),y)
-    SENSOR_NAME:=gc4663
-else ifeq ($(CONFIG_gc2053),y)
-    SENSOR_NAME:=gc2053
+
+ifeq ($(CONFIG_mpp_support_fastboot),y)
+    MPPCFG_SUPPORT_FASTBOOT := Y
 else
-    SENSOR_NAME:=
+    MPPCFG_SUPPORT_FASTBOOT := N
+endif
+export MPPCFG_SUPPORT_FASTBOOT
+
+SENSOR_NAME:=
+ifeq ($(CONFIG_imx386),y)
+    SENSOR_NAME+=imx386
+endif
+ifeq ($(CONFIG_gc4663),y)
+    SENSOR_NAME+=gc4663
+endif
+ifeq ($(CONFIG_gc2053),y)
+    SENSOR_NAME+=gc2053
+endif
+ifeq ($(CONFIG_sc4336),y)
+    SENSOR_NAME+=sc4336
 endif
 export SENSOR_NAME
 
@@ -312,12 +314,6 @@ else
     MPPCFG_EVEFACE := N
 endif
 export MPPCFG_EVEFACE
-ifeq ($(CONFIG_mpp_body_detect),y)
-    MPPCFG_BODY_DETECT := Y
-else
-    MPPCFG_BODY_DETECT := N
-endif
-export MPPCFG_BODY_DETECT
 #config if enable mpp_aec
 ifeq ($(CONFIG_mpp_aec),y)
     MPPCFG_AEC := Y
@@ -651,19 +647,12 @@ else
 endif
 export MPPCFG_SAMPLE_REGION
 
-ifeq ($(CONFIG_mpp_sample_region_detect),y)
+ifeq ($(CONFIG_mpp_sample_RegionDetect),y)
     MPPCFG_SAMPLE_REGION_DETECT := Y
 else
     MPPCFG_SAMPLE_REGION_DETECT := N
 endif
 export MPPCFG_SAMPLE_REGION_DETECT
-
-ifeq ($(CONFIG_mpp_sample_airoi),y)
-    MPPCFG_SAMPLE_AIROI := Y
-else
-    MPPCFG_SAMPLE_AIROI := N
-endif
-export MPPCFG_SAMPLE_AIROI
 
 ifeq ($(CONFIG_mpp_sample_rtsp),y)
     MPPCFG_SAMPLE_RTSP := Y
@@ -671,6 +660,18 @@ else
     MPPCFG_SAMPLE_RTSP := N
 endif
 export MPPCFG_SAMPLE_RTSP
+ifeq ($(CONFIG_mpp_sample_smartIPC_demo),y)
+    MPPCFG_SAMPLE_SMARTIPC_DEMO := Y
+else
+    MPPCFG_SAMPLE_SMARTIPC_DEMO := N
+endif
+export MPPCFG_SAMPLE_SMARTIPC_DEMO
+ifeq ($(CONFIG_mpp_sample_smartPreview_demo),y)
+    MPPCFG_SAMPLE_SMARTPREVIEW_DEMO := Y
+else
+    MPPCFG_SAMPLE_SMARTPREVIEW_DEMO := N
+endif
+export MPPCFG_SAMPLE_SMARTPREVIEW_DEMO
 ifeq ($(CONFIG_mpp_sample_select),y)
     MPPCFG_SAMPLE_SELECT := Y
 else
@@ -888,7 +889,7 @@ define Build/Prepare
 	if [ -d $(SRC_COMPILE_DIR) ]; then \
 		rm -rf $(SRC_COMPILE_DIR); \
 	fi
-	cp -rf $(SRC_CODE_DIR) $(SRC_COMPILE_DIR)
+	ln -s $(SRC_CODE_DIR) $(SRC_COMPILE_DIR)
 endef
 
 define Build/Configure
@@ -1122,6 +1123,9 @@ define Build/InstallDev
 	fi
 	if [ -f $(SRC_COMPILE_DIR)/media/LIBRARY/libcedarx/libcore/parser/ts/libcdx_ts_parser.a ]; then \
 		$(CP) $(SRC_COMPILE_DIR)/media/LIBRARY/libcedarx/libcore/parser/ts/libcdx_ts_parser.a $(1)/usr/lib/eyesee-mpp; \
+	fi
+	if [ -f $(SRC_COMPILE_DIR)/media/LIBRARY/libcedarx/libcore/parser/wav/libcdx_wav_parser.a ]; then \
+		$(CP) $(SRC_COMPILE_DIR)/media/LIBRARY/libcedarx/libcore/parser/wav/libcdx_wav_parser.a $(1)/usr/lib/eyesee-mpp; \
 	fi
 	find $(SRC_COMPILE_DIR)/media/LIBRARY/libcedarx/libcore/parser/base \( -name "libcdx_parser.a" -o -name "libcdx_parser.so" \) -exec $(CP) {} $(1)/usr/lib/eyesee-mpp \;
 	if [ -f $(SRC_COMPILE_DIR)/media/LIBRARY/libdemux/libcedarxdemuxer.a ]; then \

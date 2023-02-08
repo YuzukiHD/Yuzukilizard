@@ -20,6 +20,7 @@ define Build/Prepare
 	$(CP) -fr ./lib/* $(PKG_BUILD_DIR)/lib
 	mkdir -p $(PKG_BUILD_DIR)/include
 	$(CP) -fr ./include/* $(PKG_BUILD_DIR)/include
+	$(CP) -fr ./algo_aw $(PKG_BUILD_DIR)/
 endef
 
 define Build/Compile
@@ -31,6 +32,9 @@ define Build/InstallDev
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/lib/libVIPlite.so $(1)/usr/lib/
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/lib/libVIPuser.so $(1)/usr/lib/
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/include/*.h $(1)/usr/include
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/algo_aw/awnn_det.h $(1)/usr/include/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/algo_aw/cross_utils.h $(1)/usr/include/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/algo_aw/libawnn_det.a $(1)/usr/lib/
 endef
 
 define Package/$(PKG_NAME)/install
