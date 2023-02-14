@@ -13,24 +13,24 @@
 
 	reserved-memory {
 		e907_dram: riscv_memserve {
-			reg = <0x0 0x43c00000 0x0 0x400000>;
+			reg = <0x0 0x43c00000 0x0 0x00400000>;
 			no-map;
 		};
 
-		vdev0buffer: vdev0buffer@42c00000 {
+		vdev0buffer: vdev0buffer@0x43000000 {
 			/* 256k reserved for shared mem pool */
 			compatible = "shared-dma-pool";
-			reg = <0x0 0x42c00000 0x0 0x40000>;
+			reg = <0x0 0x43000000 0x0 0x40000>;
 			no-map;
 		};
 
-		vdev0vring0: vdev0vring0@42c40000 {
-			reg = <0x0 0x42c40000 0x0 0x20000>;
+		vdev0vring0: vdev0vring0@0x43040000 {
+			reg = <0x0 0x43040000 0x0 0x20000>;
 			no-map;
 		};
 
-		vdev0vring1: vdev0vring1@42c60000 {
-			reg = <0x0 0x42c60000 0x0 0x20000>;
+		vdev0vring1: vdev0vring1@0x43060000 {
+			reg = <0x0 0x43060000 0x0 0x20000>;
 			no-map;
 		};
 	};
@@ -39,7 +39,7 @@
 		compatible = "allwinner,sun8iw21p1-e907-rproc";
 		clock-frequency = <600000000>;
 		memory-region = <&e907_dram>, <&vdev0buffer>,
-						<&vdev0vring0>, <&vdev0vring1>;
+				<&vdev0vring0>, <&vdev0vring1>;
 
 		mboxes = <&msgbox 0>;
 		mbox-names = "mbox-chan";
@@ -472,7 +472,7 @@
 	uart3_pins_active: uart3@0 {
 		allwinner,pins = "PE12", "PE13";
 		allwinner,function = "uart3";
-		allwinner,muxsel = <5>;
+		allwinner,muxsel = <7>;
 		allwinner,drive = <1>;
 		allwinner,pull = <1>;
 	};
