@@ -141,6 +141,7 @@ $(obj)/$(MOD_NAME).bin :%.bin :%.o FORCE
 	$(Q)cp -f $@  $(prjtree)/$(TARGET_BOARD)/epos.img
 	$(Q)$(OBJDUMP) -d $(<:.o=.elf) > $(obj)/$(MOD_NAME).dis
 	$(Q)mksysmap $(<:.o=.elf) $(obj)/System.map
+	$(Q)$(STRIP) $(<:.o=.elf)
 	$(Q)echo -e '\033[0;31;1m'
 	$(Q)$(SIZE)  $(<:.o=.elf)
 	$(Q)echo -e '\033[0m'
