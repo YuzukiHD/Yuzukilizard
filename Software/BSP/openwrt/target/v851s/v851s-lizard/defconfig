@@ -2697,6 +2697,8 @@ CONFIG_wifi_disable=y
 # CONFIG_mpp_system_rgb_ctrl is not set
 # CONFIG_mpp_system_ntpclient is not set
 # end of eyesee-mpp
+
+CONFIG_PACKAGE_amp_shell=y
 # end of Allwinner
 
 #
