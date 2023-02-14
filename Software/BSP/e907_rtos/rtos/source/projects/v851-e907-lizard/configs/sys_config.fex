@@ -10,9 +10,9 @@
 ;twi0_scl         = port:PA16<4><1><default><default>
 ;twi0_sda         = port:PA17<4><1><default><default>
 
-[twi1]
-twi1_scl         = port:PA06<4><1><default><default>
-twi1_sda         = port:PA07<4><1><default><default>
+;[twi1]
+;twi1_scl         = port:PA06<4><1><default><default>
+;twi1_sda         = port:PA07<4><1><default><default>
 
 ;[twi2]
 ;twi2_scl         = port:PH05<4><1><default><default>
@@ -42,6 +42,6 @@ twi1_sda         = port:PA07<4><1><default><default>
 ;uart_rx         = port:PH06<5><1><default><default>
 
 [uart3]
-uart_tx         = port:PE00<7><1><default><default>
-uart_rx         = port:PE01<7><1><default><default>
+uart_tx         = port:PE12<7><1><default><default>
+uart_rx         = port:PE13<7><1><default><default>
 
