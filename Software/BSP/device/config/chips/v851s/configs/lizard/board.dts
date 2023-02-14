@@ -13,24 +13,24 @@
 
 	reserved-memory {
 		e907_dram: riscv_memserve {
-			reg = <0x0 0x48000000 0x0 0x00400000>;
+			reg = <0x0 0x43c00000 0x0 0x400000>;
 			no-map;
 		};
 
-		vdev0buffer: vdev0buffer@47000000 {
+		vdev0buffer: vdev0buffer@42c00000 {
 			/* 256k reserved for shared mem pool */
 			compatible = "shared-dma-pool";
-			reg = <0x0 0x47000000 0x0 0x40000>;
+			reg = <0x0 0x42c00000 0x0 0x40000>;
 			no-map;
 		};
 
-		vdev0vring0: vdev0vring0@47040000 {
-			reg = <0x0 0x47040000 0x0 0x20000>;
+		vdev0vring0: vdev0vring0@42c40000 {
+			reg = <0x0 0x42c40000 0x0 0x20000>;
 			no-map;
 		};
 
-		vdev0vring1: vdev0vring1@47060000 {
-			reg = <0x0 0x47060000 0x0 0x20000>;
+		vdev0vring1: vdev0vring1@42c60000 {
+			reg = <0x0 0x42c60000 0x0 0x20000>;
 			no-map;
 		};
 	};
@@ -48,7 +48,7 @@
 		memory-mappings =
 			/* DA 	         len         PA */
 			/* DDR for e907  */
-			< 0x48000000 0x00400000 0x48000000 >;
+			< 0x43c00000 0x00400000 0x43c00000 >;
 		core-name = "sun8iw21p1-e907";
 		firmware-name = "melis-elf";
 		status = "okay";
@@ -470,7 +470,7 @@
 	};
 
 	uart3_pins_active: uart3@0 {
-		allwinner,pins = "PH0", "PH1";
+		allwinner,pins = "PE12", "PE13";
 		allwinner,function = "uart3";
 		allwinner,muxsel = <5>;
 		allwinner,drive = <1>;
@@ -478,7 +478,7 @@
 	};
 
 	uart3_pins_sleep: uart3@1 {
-		allwinner,pins = "PH0", "PH1";
+		allwinner,pins = "PE12", "PE13";
 		allwinner,function = "gpio_in";
 		allwinner,muxsel = <0>;
 	};
@@ -908,6 +908,14 @@
 		spi-tx-bus-width = <0x4>;
 		status = "disabled";
 	};
+};
+
+&msgbox {
+	status = "okay";
+};
+
+&e907_standby {
+	status = "okay";
 };
 
 &twi0 {
