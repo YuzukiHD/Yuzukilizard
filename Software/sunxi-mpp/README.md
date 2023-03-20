@@ -10,7 +10,12 @@ set(CMAKE_CXX_COMPILER ${CMAKE_CURRENT_SOURCE_DIR}toolchain/toolchain-sunxi-musl
 set(CMAKE_SYSROOT ${CMAKE_CURRENT_SOURCE_DIR}toolchain/toolchain-sunxi-musl-gcc-830/toolchain)
 ```
 
-2. build
+2. run environment command
+```
+source STAGING_DIR.sh
+```
+
+3. build
 
 ```
 mkdir build
