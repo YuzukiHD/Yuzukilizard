@@ -186,7 +186,7 @@ int main(int argc, char **argv) {
   }
 
   /* Initialize  vip lite */
-  status = vip_init(80 * 1024 * 1024);
+  status = vip_init(7 * 1024 * 1024);
   _CHECK_STATUS(status, final);
 
   /* Initialize network items */
