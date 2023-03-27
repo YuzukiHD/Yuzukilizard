@@ -8,9 +8,8 @@ PKG_RELEASE:=1
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
 define Package/$(PKG_NAME)
-  SUBMENU:=NPU
-  SECTION:=utils
-  CATEGORY:=Allwinner
+  SUBMENU:=opencv-sample
+  CATEGORY:=lizard
   TITLE:=yolov5 post process with opencv
   DEPENDS:=+viplite-driver +opencv +libstdcpp
 endef
