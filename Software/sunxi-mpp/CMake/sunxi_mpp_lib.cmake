@@ -7,5 +7,6 @@ set(SUNXIMPP_LIB
         libisp_base.a libisp_gtm.a libisp_iso.a libisp_math.a libisp_md.a libisp_pltm.a libisp_rolloff.a
         libcedarxrender.a libhwdisplay.a libvencoder.a libvenc_codec.a libvenc_base.a libvdecoder.a libvideoengine.a
         libawh264.a libawh265.a libawmjpeg.a libcedarx_aencoder.a libaacenc.a libmp3enc.a libadecoder.a libaac.a
-        libmp3.a libwav.a libaw_g726dec.a libAec.a libDrc.a libAgc.a libawnn_det.a
+        libmp3.a libwav.a libaw_g726dec.a libAec.a libDrc.a libAgc.a libawnn_det.a libaac_muxer.a libffavutil.a 
+        libFsWriter.a libmp3_muxer.a libmp4_muxer.a libmpeg2ts_muxer.a libmuxers.a libraw_muxer.a
 )
