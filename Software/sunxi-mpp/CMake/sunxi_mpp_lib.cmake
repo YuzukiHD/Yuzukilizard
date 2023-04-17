@@ -8,5 +8,13 @@ set(SUNXIMPP_LIB
         libcedarxrender.a libhwdisplay.a libvencoder.a libvenc_codec.a libvenc_base.a libvdecoder.a libvideoengine.a
         libawh264.a libawh265.a libawmjpeg.a libcedarx_aencoder.a libaacenc.a libmp3enc.a libadecoder.a libaac.a
         libmp3.a libwav.a libaw_g726dec.a libAec.a libDrc.a libAgc.a libawnn_det.a libaac_muxer.a libffavutil.a 
-        libFsWriter.a libmp3_muxer.a libmp4_muxer.a libmpeg2ts_muxer.a libmuxers.a libraw_muxer.a
+        libFsWriter.a libmp3_muxer.a libmp4_muxer.a libmpeg2ts_muxer.a libmuxers.a libraw_muxer.a 
+)
+
+set(SUNXI_RTSP_LIB
+        libTinyServer.a
+)
+
+set(SUNXI_NPU_LIB
+        libVIPuser.so libVIPlite.so
 )
