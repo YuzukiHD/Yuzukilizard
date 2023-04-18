@@ -1,6 +1,6 @@
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include/algo_aw/
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/rstp/
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/rtsp/
     ${CMAKE_CURRENT_SOURCE_DIR}/include/mpp/middleware/
     ${CMAKE_CURRENT_SOURCE_DIR}/include/mpp/system/
     ${CMAKE_CURRENT_SOURCE_DIR}/include/mpp/middleware/
