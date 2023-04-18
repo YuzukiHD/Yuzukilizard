@@ -13,11 +13,16 @@ else()
 endif()
 
 set(CMAKE_C_COMPILER ${CMAKE_CURRENT_SOURCE_DIR}/toolchain/toolchain-sunxi-musl-gcc-830/toolchain/bin/arm-openwrt-linux-gcc)
-set(CMAKE_CXX_COMPILER ${CMAKE_CURRENT_SOURCE_DIR}toolchain/toolchain-sunxi-musl-gcc-830/toolchain/bin/arm-openwrt-linux-g++)
+set(CMAKE_CXX_COMPILER ${CMAKE_CURRENT_SOURCE_DIR}/toolchain/toolchain-sunxi-musl-gcc-830/toolchain/bin/arm-openwrt-linux-g++)
 set(CMAKE_SYSROOT ${CMAKE_CURRENT_SOURCE_DIR}toolchain/toolchain-sunxi-musl-gcc-830/toolchain)
 
 include(CMake/sunxi_mpp_include.cmake)
 include(CMake/sunxi_mpp_lib.cmake)
+
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -s")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -s")
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 link_directories(lib)
 
