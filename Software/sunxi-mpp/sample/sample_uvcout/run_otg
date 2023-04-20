@@ -1,0 +1,68 @@
+#!/bin/sh
+
+MODULES_DIR="/lib/modules/`uname -r`"
+#insmod $MODULES_DIR/sunxi_usb_udc.ko
+#insmod $MODULES_DIR/sunxi_usbc.ko
+
+mount -t configfs none /sys/kernel/config
+mkdir /sys/kernel/config/usb_gadget/g1
+echo "0x1f3a" > /sys/kernel/config/usb_gadget/g1/idVendor
+echo "0x100f" > /sys/kernel/config/usb_gadget/g1/idProduct
+mkdir /sys/kernel/config/usb_gadget/g1/strings/0x409
+echo "20080411" > /sys/kernel/config/usb_gadget/g1/strings/0x409/serialnumber
+echo "Android" > /sys/kernel/config/usb_gadget/g1/strings/0x409/manufacturer
+
+mkdir /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0
+mkdir -p /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/mjpeg/m/720p
+echo 1280 > /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/mjpeg/m/720p/wWidth
+echo 720 > /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/mjpeg/m/720p/wHeight
+echo 333333 > /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/mjpeg/m/720p/dwFrameInterval
+echo 333333 > /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/mjpeg/m/720p/dwDefaultFrameInterval
+echo 442368000 > /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/mjpeg/m/720p/dwMinBitRate
+echo 442368000 > /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/mjpeg/m/720p/dwMaxBitRate
+echo 1843200 > /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/mjpeg/m/720p/dwMaxVideoFrameBufferSize
+mkdir /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/header/h
+ln -s /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/mjpeg/m/ /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/header/h/
+ln -s /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/header/h/ /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/class/fs
+ln -s /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/header/h/ /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/streaming/class/hs
+mkdir /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/control/header/h
+ln -s /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/control/header/h/ /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/control/class/fs/
+ln -s /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/control/header/h/ /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/control/class/ss/
+
+mkdir /sys/kernel/config/usb_gadget/g1/functions/ffs.adb
+mkdir /sys/kernel/config/usb_gadget/g1/configs/c.1
+echo 0xc0 > /sys/kernel/config/usb_gadget/g1/configs/c.1/bmAttributes
+echo 500 > /sys/kernel/config/usb_gadget/g1/configs/c.1/MaxPower
+mkdir /sys/kernel/config/usb_gadget/g1/configs/c.1/strings/0x409
+mkdir /sys/kernel/config/usb_gadget/g1/functions/mass_storage.usb0
+ln -s /sys/kernel/config/usb_gadget/g1/functions/mass_storage.usb0/ /sys/kernel/config/usb_gadget/g1/configs/c.1/mass_storage.usb0
+mkdir /dev/usb-ffs
+mkdir /dev/usb-ffs/adb
+mount -o uid=2000,gid=2000 -t functionfs adb /dev/usb-ffs/adb/
+udc=`ls /sys/class/udc`
+isudc=0
+start(){
+    while [ 1 ]
+    do
+        sleep 1
+        otg_role=`cat /sys/devices/platform/soc/usbc0/otg_role`
+        if [ "$otg_role" = "usb_device" ]
+        then
+            if [ $isudc == 0 ]
+            then
+                echo $udc > /sys/kernel/config/usb_gadget/g1/UDC
+                isudc=1
+            fi
+        else
+            isudc=0
+        fi
+    done
+}
+start &
+
+echo > /sys/kernel/config/usb_gadget/g1/UDC
+echo 0x100d > /sys/kernel/config/usb_gadget/g1/idProduct
+rm /sys/kernel/config/usb_gadget/g1/configs/c.1/mass_storage.usb0
+rm /sys/kernel/config/usb_gadget/g1/configs/c.1/uvc.usb0
+ln -s /sys/kernel/config/usb_gadget/g1/functions/uvc.usb0/ /sys/kernel/config/usb_gadget/g1/configs/c.1/uvc.usb0
+ls /sys/class/udc | xargs echo > /sys/kernel/config/usb_gadget/g1/UDC
