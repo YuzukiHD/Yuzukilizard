@@ -1,0 +1,186 @@
+menuconfig SUBSYS_SAMPLES
+    bool "Samples Test"
+    default n
+    help
+      compile components samples to test. 
+
+if SUBSYS_SAMPLES
+
+comment "Enable components samples that you want to run"
+
+config COROUTINE_TEST
+    bool "Coroutine Test"
+    default n
+    depends on KERNEL_SAMPLE_TEST
+    help
+       Run a coroutine test. 
+
+config HELLO_TEST
+    bool "hello Test to try"
+    default n
+    depends on SUBSYS_SAMPLES
+    help
+       It is used to test all situations.
+
+config SYSCALL_TEST
+    bool "system call test"
+    default n
+    depends on SUBSYS_SAMPLES
+    help
+       It is used to test systemcall interface.
+
+config ZEPHYROS_TEST
+    bool "zephyr os test case"
+    default n
+    depends on SUBSYS_SAMPLES
+    help
+       It is used to test zephyr os system api.
+
+config RTTOS_TEST
+    bool "rt-thread os test case"
+    default n
+    depends on SUBSYS_SAMPLES
+    help
+       It is used to test rt-thread os system api.
+
+config SAMPLE_WAITQUEUE
+    bool "Waitqueue Test"
+	default n
+
+config SAMPLE_TLBTEST
+    bool "Tlb Test"
+	default n
+
+config SAMPLE_VFP_TEST
+    bool "Vfp Test"
+	default n
+
+config SAMPLE_CPP_TEST
+    bool "Cpp Test"
+	default n
+
+config SAMPLE_PRINHERIT_TEST
+    bool "Prinherit Test"
+	default n
+
+config SAMPLE_GROUP_OBJS_TEST
+    bool "Group Objs Test"
+	default n
+
+config SAMPLE_LIBRARY_TEST
+    bool "Library Test"
+	default n
+
+config SAMPLE_YIELDIRQ_TEST
+    bool "YieldIRQ Test"
+	default n
+
+config SAMPLE_YIELDLOCK_TEST
+    bool "YieldLock Test"
+	default n
+
+config SAMPLE_SCANF_TEST
+    bool "Scanf Test"
+	default n
+
+config SAMPLE_THUMB_TEST
+    bool "Thumb Test"
+	default n
+
+config SAMPLE_COMPLETION_TEST
+    bool "Completion Test"
+	default n
+
+config SAMPLE_PIPE_TEST
+    bool "Pipe Test"
+	default n
+
+config SAMPLE_MKFIFO_TEST
+    bool "Mkfifo Test"
+	default n
+
+config SAMPLE_TIMEVAL_TEST
+    bool "Timeval Test"
+	default n
+
+config SAMPLE_KTIME_TEST
+    bool "Ktime Test"
+	default n
+
+config SAMPLE_PRODUCER_TEST
+    bool "Producer Test"
+	default n
+
+config SAMPLE_ARMEABI_TEST
+    bool "ArmEabi Test"
+	default n
+
+config SAMPLE_STRICTPROTO_TEST
+    bool "Strictproto Test"
+	default n
+
+config SAMPLE_NEON_TEST
+    bool "Neon Test"
+	default n
+
+config SAMPLE_LDREX_TEST
+    bool "Ldrex Test"
+	default n
+
+config SAMPLE_DMA_COHERENT_TEST
+    bool "Dma Coherent Test"
+	default n
+
+config SAMPLE_ENUM_TEST
+    bool "Enum Test"
+	default n
+
+config SAMPLE_ALLOCA_TEST
+    bool "Alloca Test"
+	default n
+
+config SAMPLE_FILESYSTEM_TEST
+    bool "Filesystem Test"
+	default n
+
+if SAMPLE_FILESYSTEM_TEST
+source "ekernel/components/aw/samples/filesystem/Kconfig"
+endif
+
+config SAMPLE_LED_TEST
+    bool "LED Test"
+	default n
+
+config SAMPLE_OSAL_TEST
+	bool "OSAL Test"
+	default n
+
+config SAMPLE_CPU_CLK_TEST
+    bool "Get Cpu and Ddr ClocK Test"
+	default n
+
+config SAMPLE_MMTEST
+    bool "Sample Test"
+	default n
+
+config SAMPLE_MMUPROTECT
+    bool "Sample MMU Protect Test"
+	default n
+
+config SAMPLE_MODS
+    bool "Mod Test"
+	default n
+
+config SAMPLE_PTHREAD
+    bool "Pthread Test"
+	default n
+
+config SAMPLE_CACHE_TEST
+    bool "Cache Test"
+	default n
+
+config SAMPLE_EXCEPTION_TEST
+    bool "Exception Test"
+	default n
+
+endif #SUBSYS_SAMPLES

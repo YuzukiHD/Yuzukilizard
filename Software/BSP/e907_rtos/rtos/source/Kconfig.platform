@@ -55,6 +55,13 @@ config COHERENT_START_ADDR
 	help
 		Set Start address of NoCache Dram Zone for DMA etc
 
+config KERNEL_USE_SBI
+	bool  "define whether using sbi (RV)"
+	depends on SOC_SUN20IW1
+	default y
+	help
+		if use sbi, the syscall number defined in kapi.h need to change for being different with function number in SBI module.
+
 config LOAD_DATA_TO_MEM_FROM_STORAGE
 	bool  "load data to memory from storage"
 	default y

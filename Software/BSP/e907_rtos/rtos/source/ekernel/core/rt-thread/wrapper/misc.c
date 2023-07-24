@@ -2,10 +2,17 @@
 #include <rthw.h>
 
 #include <stdio.h>
+#include <string.h>
+#include <inttypes.h>
 #include <epos.h>
 #include <log.h>
+#include <ktimer.h>
 
 #include <backtrace.h>
+
+#include <hal_mem.h>
+#include <hal_time.h>
+#include <hal_interrupt.h>
 
 #ifdef CONFIG_DYNAMIC_LOG_LEVEL_SUPPORT
 
@@ -62,26 +69,26 @@ static int get_log_level_from_stroage(void)
 int get_log_level(void)
 {
     int level;
-    register rt_base_t temp;
+    register unsigned long temp;
 
-    temp = rt_hw_interrupt_disable();
+    temp = hal_interrupt_save();
 
     level = get_log_level_from_stroage();
 
-    rt_hw_interrupt_enable(temp);
+    hal_interrupt_restore(temp);
     return level;
 }
 
 void set_log_level(int level)
 {
-    register rt_base_t temp;
+	register unsigned long temp;
 
-    temp = rt_hw_interrupt_disable();
+    temp = hal_interrupt_save();
 
     save_log_level_to_stroage(level);
     g_log_level = level;
 
-    rt_hw_interrupt_enable(temp);
+    hal_interrupt_restore(temp);
 }
 #endif
 
@@ -98,97 +105,101 @@ static melis_malloc_context_t g_mem_leak_list =
 
 void epos_memleak_detect_enable(int type)
 {
-    register rt_base_t  temp;
+	register unsigned long temp;
 
-    temp = rt_hw_interrupt_disable();
+    temp = hal_interrupt_save();
     if (g_mem_leak_list.open_flag)
     {
-        rt_hw_interrupt_enable(temp);
+        hal_interrupt_restore(temp);
         return;
     }
     INIT_LIST_HEAD(&g_mem_leak_list.list);
     g_mem_leak_list.ref_cnt     = 1;
     g_mem_leak_list.open_flag   = 1;
     g_mem_leak_list.double_free_check = type;
-    rt_hw_interrupt_enable(temp);
+    hal_interrupt_restore(temp);
 
     return;
 }
 
 void epos_memleak_detect_disable(void)
 {
-    register rt_base_t      cpu_sr;
+	register unsigned long temp;
     struct list_head        *pos;
     struct list_head        *q;
     uint32_t                count = 0;
     uint32_t                i = 0;
 
-    cpu_sr = rt_hw_interrupt_disable();
+    temp = hal_interrupt_save();
 
-    __log("memory leak nodes:");
+    printf("memory leak nodes:");
     list_for_each_safe(pos, q, &g_mem_leak_list.list)
     {
         melis_heap_buffer_node_t *tmp;
         tmp = list_entry(pos, melis_heap_buffer_node_t, i_list);
-        rt_kprintf("\t %03d: ptr = 0x%08x, size = 0x%08x, entry = 0x%08x, thread = %s, tick = %d.\n", \
-                   count ++, (unsigned long)tmp->vir, (uint32_t)tmp->size, (uint32_t)tmp->entry, tmp->name, tmp->tick);
+        printf("\t %03" PRId32 ": ptr = 0x%08lx, size = 0x%08" PRIx32 \
+               ", entry = 0x%08" PRIx32 ", thread = %s, tick = %ld.\n", \
+               count++, (unsigned long)tmp->vir, (uint32_t)tmp->size, \
+               (uint32_t)tmp->entry, tmp->name, tmp->tick);
         for (i = 0; i < CONFIG_MEMORY_LEAK_BACKTRACE_LEVEL; i++)
         {
             if (tmp->caller[i] != NULL)
             {
-                rt_kprintf("            backtrace : 0x%p\n", tmp->caller[i]);
+                printf("            backtrace : 0x%p\n", tmp->caller[i]);
             }
         }
         list_del(pos);
-        rt_free(tmp);
+        free(tmp);
     }
     g_mem_leak_list.ref_cnt   = 0;
     g_mem_leak_list.open_flag = 0;
     g_mem_leak_list.double_free_check = 0;
 
-    rt_hw_interrupt_enable(cpu_sr);
+    hal_interrupt_restore(temp);
     return;
 }
 
 void epos_memleak_detect_show(void)
 {
-    register rt_base_t      cpu_sr;
+	register unsigned long temp;
     struct list_head        *pos;
     struct list_head        *q;
     uint32_t                count = 0;
     uint32_t                i = 0;
 
-    cpu_sr = rt_hw_interrupt_disable();
+    temp = hal_interrupt_save();
 
-    __log("memory leak nodes:");
+    printf("memory leak nodes:");
     list_for_each_safe(pos, q, &g_mem_leak_list.list)
     {
         melis_heap_buffer_node_t *tmp;
         tmp = list_entry(pos, melis_heap_buffer_node_t, i_list);
-        rt_kprintf("\t %03d: ptr = 0x%08x, size = 0x%08x, entry = 0x%08x, thread = %s, tick = %d.\n", \
-                   count ++, (unsigned long)tmp->vir, (uint32_t)tmp->size, (uint32_t)tmp->entry, tmp->name, tmp->tick);
+        printf("\t %03" PRId32 ": ptr = 0x%08lx, size = 0x%08" PRIx32 \
+               ", entry = 0x%08" PRIx32 ", thread = %s, tick = %ld.\n", \
+               count++, (unsigned long)tmp->vir, (uint32_t)tmp->size, \
+               (uint32_t)tmp->entry, tmp->name, tmp->tick);
         for (i = 0; i < CONFIG_MEMORY_LEAK_BACKTRACE_LEVEL; i++)
         {
             if (tmp->caller[i] != NULL)
             {
-                rt_kprintf("           backtrace : 0x%p\n", tmp->caller[i]);
+                printf("           backtrace : 0x%p\n", tmp->caller[i]);
             }
         }
     }
 
-    rt_hw_interrupt_enable(cpu_sr);
+    hal_interrupt_restore(temp);
     return;
 }
 
 void epos_memleak_detect_search(unsigned long addr)
 {
-    register rt_base_t      cpu_sr;
+	register unsigned long temp;
     struct list_head        *pos;
     struct list_head        *q;
     uint32_t                count = 0;
     uint32_t                i = 0;
 
-    cpu_sr = rt_hw_interrupt_disable();
+    temp = hal_interrupt_save();
 
     list_for_each_safe(pos, q, &g_mem_leak_list.list)
     {
@@ -197,35 +208,40 @@ void epos_memleak_detect_search(unsigned long addr)
         if ((addr < ((unsigned long)tmp->vir + tmp->size))
 		&& (addr >= (unsigned long)tmp->vir))
         {
-            rt_kprintf("\t %03d: ptr = 0x%08x, size = 0x%08x, entry = 0x%08x, thread = %s, tick = %d.\n", \
-                   count ++, (unsigned long)tmp->vir, (uint32_t)tmp->size, (uint32_t)tmp->entry, tmp->name, tmp->tick);
+            printf("\t %03" PRId32 ": ptr = 0x%08lx, size = 0x%08" PRIx32 \
+                   ", entry = 0x%08" PRIx32 ", thread = %s, tick = %ld.\n", \
+                   count++, (unsigned long)tmp->vir, (uint32_t)tmp->size, \
+                   (uint32_t)tmp->entry, tmp->name, tmp->tick);
             for (i = 0; i < CONFIG_MEMORY_LEAK_BACKTRACE_LEVEL; i++)
             {
                 if (tmp->caller[i] != NULL)
                 {
-                    rt_kprintf("           backtrace : 0x%p\n", tmp->caller[i]);
+                    printf("           backtrace : 0x%p\n", tmp->caller[i]);
                 }
             }
         }
     }
 
-    rt_hw_interrupt_enable(cpu_sr);
+    hal_interrupt_restore(temp);
     return;
 }
-
 
 void *rt_malloc(rt_size_t size)
 {
     void *ptr;
     unsigned long sp;
+	register unsigned long temp;
 
     melis_heap_buffer_node_t *new = NULL;
 
-    if (rt_interrupt_get_nest() != 0)
+#if 0
+    /* the usb driver need to malloc memory in ISR handler */
+    if (hal_interrupt_get_nest() != 0)
     {
         __err("fatal error.");
-        software_break();
+        hal_sys_abort();
     }
+#endif
 
     ptr = __internal_malloc(size);
     if (ptr == RT_NULL)
@@ -236,45 +252,33 @@ void *rt_malloc(rt_size_t size)
     if (g_mem_leak_list.open_flag)
     {
         sp = (unsigned long)&sp;
-        rt_enter_critical();
         new = __internal_malloc(sizeof(melis_heap_buffer_node_t));
         if (new == RT_NULL)
         {
-            rt_exit_critical();
             goto RTN;
         }
 
-        rt_memset(new, 0x00, sizeof(melis_heap_buffer_node_t));
+        memset(new, 0x00, sizeof(melis_heap_buffer_node_t));
 
         INIT_LIST_HEAD(&new->i_list);
 
         new->size = size;
         new->vir = ptr;
-        if (rt_thread_self() == NULL)
-        {
-            new->entry = 0;
-            new->name = "unknown";
-        }
-        else
-        {
-            new->entry = (unsigned long)rt_thread_self()->entry;
-            new->name = (__s8 *)rt_thread_self()->name;
-        }
-        new->tick = rt_tick_get();
+        new->entry = 0;
+        new->name = "thread";
+        new->tick = hal_tick_get();
         new->stk = (void *)sp;
 
 #ifdef CONFIG_DEBUG_BACKTRACE
         backtrace(NULL, new->caller, CONFIG_MEMORY_LEAK_BACKTRACE_LEVEL, 3, NULL);
 #endif
-
+        temp = hal_interrupt_save();
         list_add(&new->i_list, &g_mem_leak_list.list);
-
-        rt_exit_critical();
+        hal_interrupt_restore(temp);
     }
 RTN:
     return ptr;
 }
-
 
 void rt_free(void *ptr)
 {
@@ -291,16 +295,18 @@ void rt_free(void *ptr)
 
 #if 0
     /* the usb driver need to free memory in ISR handler */
-    if (rt_interrupt_get_nest() != 0)
+    if (hal_interrupt_get_nest() != 0)
     {
         __err("fatal error.");
-        software_break();
+        hal_sys_abort();
     }
 #endif
 
     if (g_mem_leak_list.open_flag)
     {
-        rt_enter_critical();
+	    register unsigned long temp;
+
+        temp = hal_interrupt_save();
 
         list_for_each_safe(pos, q, &g_mem_leak_list.list)
         {
@@ -313,7 +319,7 @@ void rt_free(void *ptr)
             }
         }
 
-        rt_exit_critical();
+        hal_interrupt_restore(temp);
     }
 
     if (node)
@@ -340,6 +346,9 @@ int printk(const char *fmt, ...)
     va_list args;
     rt_size_t length;
     static char printk_log_buf[RT_CONSOLEBUF_SIZE];
+#ifdef CONFIG_PRINT_TIMESTAMP
+    static char printk_time_buf[16];
+#endif
     char *p;
     int log_level;
     register rt_base_t level;
@@ -348,29 +357,75 @@ int printk(const char *fmt, ...)
     level = rt_hw_interrupt_disable();
     rt_enter_critical();
 
+#ifdef CONFIG_PRINT_TIMESTAMP
+    rt_snprintf(printk_time_buf, sizeof(printk_time_buf) - 1, "[%d.%3d]",
+                  (int)(ktime_get() / 1000000), (int)((ktime_get() %1000000) / 1000));
+#endif
     length = rt_vsnprintf(printk_log_buf, sizeof(printk_log_buf) - 1, fmt, args);
     if (length > RT_CONSOLEBUF_SIZE - 1)
     {
         length = RT_CONSOLEBUF_SIZE - 1;
     }
+
 #ifdef CONFIG_DYNAMIC_LOG_LEVEL_SUPPORT
     log_level = get_log_level();
     p = (char *)&printk_log_buf;
     if (p[0] != '<' || p[1] < '0' || p[1] > '7' || p[2] != '>')
     {
+#ifdef CONFIG_VIRT_LOG
+        extern void virt_log_put_buf(char *buf);
+#ifdef CONFIG_PRINT_TIMESTAMP
+        virt_log_put_buf(printk_time_buf);
+#endif
+        virt_log_put_buf(printk_log_buf);
+#endif
+
+#ifdef CONFIG_AMP_TRACE_SUPPORT
+        extern void amp_log_put_str(char *buf);
+#ifdef CONFIG_PRINT_TIMESTAMP
+        amp_log_put_str(printk_time_buf);
+#endif
+        amp_log_put_str(printk_log_buf);
+#endif
+
         if (log_level > (OPTION_LOG_LEVEL_CLOSE))
         {
+#ifdef CONFIG_PRINT_TIMESTAMP
+            rt_kprintf("%s", printk_time_buf);
+#endif
             rt_kprintf("%s", (char *)&printk_log_buf);
         }
     }
     else
     {
+#ifdef CONFIG_VIRT_LOG
+        extern void virt_log_put_buf(char *buf);
+#ifdef CONFIG_PRINT_TIMESTAMP
+        virt_log_put_buf(printk_time_buf);
+#endif
+        virt_log_put_buf(&printk_log_buf[3]);
+#endif
+
+#ifdef CONFIG_AMP_TRACE_SUPPORT
+        extern void amp_log_put_str(char *buf);
+#ifdef CONFIG_PRINT_TIMESTAMP
+        amp_log_put_str(printk_time_buf);
+#endif
+        amp_log_put_str(&printk_log_buf[3]);
+#endif
+
         if (log_level >= (p[1] - '0'))
         {
+#ifdef CONFIG_PRINT_TIMESTAMP
+            rt_kprintf("%s", printk_time_buf);
+#endif
             rt_kprintf("%s", (char *)&printk_log_buf[3]);
         }
     }
 #else
+#ifdef CONFIG_PRINT_TIMESTAMP
+    rt_kprintf("%s", printk_time_buf);
+#endif
     rt_kprintf("%s", (char *)&printk_log_buf);
 #endif
     rt_exit_critical();
@@ -379,6 +434,165 @@ int printk(const char *fmt, ...)
 
     return length;
 }
+
+void dump_system_information(void)
+{
+    struct rt_object_information *information;
+    struct rt_object *object;
+    struct rt_list_node *node;
+    rt_thread_t temp;
+    rt_tick_t  duration;
+    rt_uint32_t total, used, max_used;
+    rt_uint8_t *ptr;
+    char *stat;
+    rt_ubase_t stk_free;
+
+    rt_enter_critical();
+    printk("\r\n");
+    printk("    -----------------------------------------------TSK Usage Report----------------------------------------------------------\r\n");
+    printk("        name     errno    entry       stat   prio     tcb     slice stacksize      stkfree  lt    si   so       stack_range  \r\n");
+
+    information = rt_object_get_information(RT_Object_Class_Thread);
+    RT_ASSERT(information != RT_NULL);
+    for (node = information->object_list.next; node != &(information->object_list); node = node->next)
+    {
+        rt_uint8_t status;
+        rt_uint32_t pc = 0xdeadbeef;
+
+        object = rt_list_entry(node, struct rt_object, list);
+        temp = (rt_thread_t)object;
+
+
+        status = (temp->stat & RT_THREAD_STAT_MASK);
+
+        if (status == RT_THREAD_READY)
+        {
+            stat = "running";
+        }
+        else if (status == RT_THREAD_SUSPEND)
+        {
+            stat = "suspend";
+        }
+        else if (status == RT_THREAD_INIT)
+        {
+            stat = "initing";
+        }
+        else if (status == RT_THREAD_CLOSE)
+        {
+            stat = "closing";
+        }
+        else
+        {
+            stat = "unknown";
+        }
+
+        ptr = (rt_uint8_t *)temp->stack_addr;
+        while (*ptr == '#')
+        {
+            ptr ++;
+        }
+
+        stk_free = (rt_ubase_t) ptr - (rt_ubase_t) temp->stack_addr;
+        printk("%15s%5ld   0x%lx  %9s %4d   0x%lx  %3ld %8d    %8ld    %02ld  %04d %04d  [0x%lx-0x%lx]\r\n", \
+                   temp->name,
+                   temp->error,
+                   (rt_ubase_t)temp->entry,
+                   stat,
+                   temp->current_priority,
+                   (rt_ubase_t)temp,
+                   temp->init_tick,
+                   temp->stack_size,
+                   stk_free,
+                   temp->remaining_tick, temp->sched_i, temp->sched_o, (rt_ubase_t)temp->stack_addr, (rt_ubase_t)temp->stack_addr + temp->stack_size);
+    }
+
+    printk("    -------------------------------------------------------------------------------------------------------------------------\r\n");
+    rt_memory_info(&total, &used, &max_used);
+    printk("\n\r    memory info:\n\r");
+    printk("\tTotal  0x%08x\n\r" \
+               "\tUsed   0x%08x\n\r" \
+               "\tMax    0x%08x\n\r", \
+               total, used, max_used);
+    printk("    ------------------------------------------------memory information-------------------------------------------------------\r\n");
+
+    rt_exit_critical();
+
+    return;
+}
+
+void show_thread_info(void *thread)
+{
+    rt_thread_t th = (rt_thread_t) thread;
+    printk("thread: %s, entry: 0x%p, stack_base: 0x%p,stack_size: 0x%08x.\r\n", \
+               th->name, \
+               th->entry, \
+               th->stack_addr, \
+               th->stack_size);
+}
+
+#ifdef CONFIG_DMA_COHERENT_HEAP
+
+static struct rt_memheap coherent;
+
+int dma_coherent_heap_init(void)
+{
+    int ret = -1;
+    void *heap_start;
+
+    heap_start = dma_alloc_coherent_non_cacheable(CONFIG_DMA_COHERENT_HEAP_SIZE);
+    if (!heap_start)
+    {
+        printf("alloc non cacheable buffer failed!\n");
+        return -1;
+    }
+    return rt_memheap_init(&coherent, "dma-coherent", heap_start, CONFIG_DMA_COHERENT_HEAP_SIZE);
+}
+
+void *dma_coherent_heap_alloc(size_t size)
+{
+    return rt_memheap_alloc(&coherent, size);
+}
+
+void dma_coherent_heap_free(void *ptr)
+{
+    rt_memheap_free(ptr);
+}
+
+void *dma_coherent_heap_alloc_align(size_t size,int align)
+{
+    void *fake_ptr = NULL;
+    void *malloc_ptr = NULL;
+
+    malloc_ptr = dma_coherent_heap_alloc(size + align);
+    if ((unsigned long)malloc_ptr & (sizeof(long) - 1))
+    {
+        printf("error: mm_alloc not align. \r\n");
+        return NULL;
+    }
+
+    if (!malloc_ptr)
+    {
+        return NULL;
+    }
+
+    fake_ptr = (void *)((unsigned long)(malloc_ptr + align) & (~(align - 1)));
+    *(unsigned long *)((unsigned long *)fake_ptr - 1) = (unsigned long)malloc_ptr;
+
+    return fake_ptr;
+}
+
+void dma_coherent_heap_free_align(void *ptr)
+{
+    void *malloc_ptr = NULL;
+    if (!ptr)
+    {
+        return;
+    }
+    malloc_ptr = (void *) * (unsigned long *)((unsigned long *)ptr - 1);
+    rt_memheap_free(malloc_ptr);
+}
+
+#endif
 
 void *k_malloc(rt_size_t sz) __attribute__((alias("rt_malloc")));
 void k_free(void *ptr) __attribute__((alias("rt_free")));

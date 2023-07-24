@@ -1,0 +1,29 @@
+menuconfig STANDBY
+	def_bool n
+	prompt "standby support"
+
+menuconfig STANDBY_MSGBOX
+	bool "standby-msgbox support"
+	default n
+	depends on DRIVERS_MSGBOX_AMP && ARCH_SUN20IW3
+	select STANDBY
+	help
+		The function depend on msgbox-driver.
+		Currently,only support e907.
+
+if STANDBY_MSGBOX
+
+comment "standby config"
+
+config STANDBY_MSGBOX_CHANNEL
+	int "msgbox channel"
+	range 0 3
+	default 1
+	help
+		selete which msbox channel used by standby.
+
+config STANDBY_MSGBOX_IRQ
+	int "msgbox irq number"
+	default 144
+
+endif

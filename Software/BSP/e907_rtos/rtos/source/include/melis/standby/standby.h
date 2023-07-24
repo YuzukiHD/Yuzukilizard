@@ -28,7 +28,7 @@ extern void (*arch_enter_standby)(int);
 extern void (*arch_core_suspend)(void);
 extern void (*arch_core_resume)(void);
 
-#elif CONFIG_STANDBY_MSGBOX
+#elif defined(CONFIG_STANDBY_MSGBOX)
 struct dev_pm *register_pm_dev_notify(int (*suspend)(void *),
 				      int (*resume)(void *), void *d);
 void unregister_pm_dev_notify(struct dev_pm *pm);

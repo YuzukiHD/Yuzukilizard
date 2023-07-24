@@ -53,15 +53,15 @@ struct rpmsg_ept_client {
 
 typedef int (*rpmsg_func_cb)(struct rpmsg_ept_client *client);
 
-
 void rpmsg_ctrldev_init_thread(void *arg);
+int rpmsg_ctrldev_create(void);
 void rpmsg_ctrldev_release(void);
-
 
 int rpmsg_client_bind(const char *name, rpmsg_ept_cb cb, rpmsg_func_cb bind,
 				rpmsg_func_cb unbind, uint32_t cnt, void *priv);
-
 void rpmsg_client_unbind(const char *name);
+void rpmsg_client_clear(const char *name);
+void rpmsg_client_reset(void);
 
 void rpmsg_eptldev_close(struct rpmsg_ept_client *client);
 

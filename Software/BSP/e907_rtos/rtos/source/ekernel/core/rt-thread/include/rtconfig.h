@@ -27,11 +27,6 @@
 #endif
 //#define SCHEDULER_DEBUG
 /* #define RT_THREAD_DEBUG */
-#ifdef CONFIG_RT_DEBUG_COLOR
-#define RT_DEBUG_COLOR 1
-#else
-#define RT_DEBUG_COLOR 0
-#endif
 #ifdef CONFIG_RT_DEBUG_INIT_CONFIG
 #define RT_DEBUG_INIT 1
 #else

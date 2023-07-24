@@ -120,9 +120,9 @@ static rt_uint8_t *heap_ptr;
 static struct heap_mem *heap_end;
 
 #ifdef ARCH_CPU_64BIT
-#define MIN_SIZE 24
+#define MIN_SIZE 16
 #else
-#define MIN_SIZE 12
+#define MIN_SIZE 8
 #endif
 
 #define MIN_SIZE_ALIGNED     RT_ALIGN(MIN_SIZE, RT_ALIGN_SIZE)

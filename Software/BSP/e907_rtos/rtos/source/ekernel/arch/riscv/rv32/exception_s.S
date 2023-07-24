@@ -82,7 +82,7 @@ handle_exception:
     sw    a0, 2 * 4(sp)
 
     csrr  a0, mstatus
-#    call  fpu_save_inirq
+    call  fpu_save_inirq
 
  #re-backup the sstatus in chance clean the fpustatus.
    csrr s1, mstatus
@@ -94,14 +94,14 @@ handle_exception:
 
 .interrupt:
     # handle interrupts.
-    call  rt_interrupt_enter
+    call  hal_interrupt_enter
     csrr  a0, mcause
     csrr  a1, mepc
     csrr  a2, mtval
     move  a3, s0
     call  riscv_cpu_handle_interrupt
 
-    call  rt_interrupt_leave
+    call  hal_interrupt_leave
     j     .restore_all
 
 .exception:

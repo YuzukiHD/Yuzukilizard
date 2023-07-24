@@ -30,63 +30,47 @@
 * OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include <stdlib.h>
-#include <rtthread.h>
-#include <port.h>
-#include <excep.h>
-#include <typedef.h>
-#include <rtdef.h>
-#include <compiler.h>
 #include <hal_interrupt.h>
+#include <hal_thread.h>
+#include <hal_mem.h>
 
-__hdle awos_task_create(const char *name, void (*entry)(void *parameter), \
+void *awos_task_create(const char *name, void (*entry)(void *parameter), \
                         void *parameter, uint32_t stack_size, uint8_t priority, \
                         uint32_t tick)
 {
-    rt_thread_t thr;
+    void *thr;
 
-    thr = rt_thread_create(name, entry, parameter, stack_size, priority, tick);
+    thr = kthread_create(entry, parameter, name, stack_size, priority);
 
-    RT_ASSERT(thr != RT_NULL);
-    rt_thread_startup(thr);
+    kthread_start(thr);
 
-    return (__hdle)thr;
+    return thr;
 }
 
-int32_t awos_task_delete(__hdle thread)
+int awos_task_delete(void *thread)
 {
-    RT_ASSERT(thread != RT_NULL);
-    if (thread == rt_thread_self())
-    {
-        void rt_thread_exit(void);
-        rt_thread_exit();
-        CODE_UNREACHABLE;
-    }
-    else
-    {
-        rt_thread_delete((rt_thread_t)thread);
-    }
-
+    kthread_stop(thread);
     return 0;
 }
 
-__hdle awos_task_self(void)
+void *awos_task_self(void)
 {
-    return (__hdle)rt_thread_self();
+    return (void *)kthread_self();
 }
 
 void awos_arch_irq_trap_enter(void)
 {
-    rt_interrupt_enter();
+    hal_interrupt_enter();
 }
 
 void awos_arch_irq_trap_leave(void)
 {
-    rt_interrupt_leave();
+    hal_interrupt_leave();
 }
 
 void awos_arch_tick_increase(void)
 {
-    rt_tick_increase();
+    kthread_tick_increase();
 }
 
 uint8_t awos_arch_isin_irq(void)
@@ -96,10 +80,10 @@ uint8_t awos_arch_isin_irq(void)
 
 void *k_malloc_align(uint32_t size, uint32_t align)
 {
-    return rt_malloc_align(size, align);
+    return hal_malloc_align(size, align);
 }
 
 void k_free_align(void *ptr, uint32_t size)
 {
-    return rt_free_align(ptr);
+    hal_free_align(ptr);
 }

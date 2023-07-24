@@ -40,6 +40,16 @@ void *hal_malloc(uint32_t size)
     return rt_malloc(size);
 }
 
+void *hal_calloc(uint32_t count, uint32_t size)
+{
+    return rt_calloc(count, size);
+}
+
+void *hal_realloc(void *ptr, uint32_t size)
+{
+	return rt_realloc(ptr, size);
+}
+
 void hal_free(void *p)
 {
     rt_free(p);

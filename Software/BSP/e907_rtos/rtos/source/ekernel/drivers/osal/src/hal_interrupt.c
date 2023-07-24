@@ -91,3 +91,13 @@ void hal_interrupt_restore(unsigned long flag)
 {
     return rt_hw_interrupt_enable(flag);
 }
+
+void hal_interrupt_enter(void)
+{
+    rt_interrupt_enter();
+}
+
+void hal_interrupt_leave(void)
+{
+    rt_interrupt_leave();
+}

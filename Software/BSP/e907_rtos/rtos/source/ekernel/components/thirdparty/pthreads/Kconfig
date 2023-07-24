@@ -1,0 +1,6 @@
+menuconfig PTHREAD
+    bool "Posix Thread Support"
+    default n
+    help
+        Allow pthread_xxx interface to develop application.
+

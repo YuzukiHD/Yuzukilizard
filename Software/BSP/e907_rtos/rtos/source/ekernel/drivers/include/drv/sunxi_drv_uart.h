@@ -69,10 +69,10 @@ typedef struct sunxi_hal_driver_uart
     int32_t (*power_control)(int32_t dev, sunxi_hal_power_state_e state);
 
     ///< Pointer to \ref SUNXI_HAL_UART_Send : Start sending data to UART transmitter.
-    int32_t (*send)(int32_t dev, const char *data, uint32_t num);
+    int32_t (*send)(int32_t dev, const uint8_t *data, uint32_t num);
 
     ///< Pointer to \ref SUNXI_HAL_UART_Receive : Start receiving data from UART receiver.
-    int32_t (*receive)(int32_t dev, int *data, uint32_t num);
+    int32_t (*receive)(int32_t dev, uint8_t *data, uint32_t num);
 
     ///< Pointer to \ref SUNXI_HAL_UART_Transfer : Start sending/receiving data to/from UART.
     int32_t (*transfer)(int32_t dev, const void *data_out, void *data_in, uint32_t    num);
@@ -94,7 +94,7 @@ typedef struct sunxi_hal_driver_uart
     ///< Pointer to \ref SUNXI_HAL_UART_GetModemStatus : Get UART Modem Status lines state.
     sunxi_hal_uart_modem_status_t (*get_modem_status)(int32_t dev);
 
-    int32_t (*receive_polling)(int32_t dev, int *data, uint32_t num);
+    int32_t (*receive_polling)(int32_t dev, uint8_t *data, uint32_t num);
     sunxi_hal_poll_ops *poll_ops;
 } const sunxi_hal_driver_uart_t;
 

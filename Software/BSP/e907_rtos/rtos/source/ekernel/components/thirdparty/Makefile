@@ -1,0 +1,12 @@
+obj-${CONFIG_RT_USING_DFS} += dfs/
+obj-${CONFIG_BENCHMARK} += benchmark/
+obj-${CONFIG_RT_USING_FINSH} += finsh_cli/
+obj-${CONFIG_PTHREAD} += pthreads/
+obj-${CONFIG_CXX} += cplusplus/
+obj-${CONFIG_OF} += devicetree/
+obj-${CONFIG_SUBSYS_ARCHIVAL} += archival/
+obj-${CONFIG_KERNEL_COMPRESS} += decompress/
+obj-${CONFIG_RBTREE} += rbtree/
+obj-${CONFIG_LIBC_MMAP} += mmap/
+obj-y += hexdump/
+obj-y += openamp/

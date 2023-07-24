@@ -1,0 +1,103 @@
+menu "OpenAMP Support"
+
+config SUPPORT_LIBMETAL
+	bool "Libmetal Support"
+	default n
+
+config SUPPORT_AMP
+	bool "OpenAMP Framework Support"
+	depends on SUPPORT_LIBMETAL && DRIVERS_MSGBOX
+	default n
+
+if SUPPORT_AMP
+	config AMP_SLAVE_MODE
+		bool "salve mode(current only support slave mode)"
+		default y
+
+	config MBOX_CHANNEL
+		int "Using msgbox channel"
+		range 0 7
+		default 0
+
+	config MBOX_QUEUE_LENGTH
+		int "Config msgbox recv queue len"
+		range 1 1024
+		default 16
+
+	config RPMSG_DEMO
+		bool "rpmsg simple demo"
+		default n
+
+	config RPMSG_NOTIFY
+		bool "rpmsg notify driver"
+		default n
+
+	config RPMSG_SPEEDTEST
+		bool "rpmsg speedtest demo"
+		default n
+
+	config AMP_SHARE_IRQ
+		bool "openamp share interrupts support"
+		depends on SUPPORT_AMP
+		default y
+		help
+		  Openamp share interrupts support
+
+	menuconfig RPMSG_CLIENT
+		bool "rpmsg client driver"
+		default n
+	if RPMSG_CLIENT
+		config RPMSG_CLIENT_TEST
+			bool "Export client test cmd"
+			default n
+		config RPMSG_CLIENT_QUEUE_SIZE
+			int "rpmsg rx queue size"
+			range 0 128
+			default 16
+		config RPMSG_CLIENT_DEBUG
+			bool "printf debug info"
+			default n
+	endif
+
+	menuconfig RPMSG_HEARBEAT
+		bool "rpmsg hearbeat driver"
+		default n
+	if RPMSG_HEARBEAT
+		config RPMSG_REMOTE_NAME
+		string "remoteproc master name."
+		default "e907_rproc"
+		help
+			remoteproc master name.
+			it will be defined in device tree in major core.
+			e.g e907_rproc@0 { ... }; is defined in dts.
+			e907_rproc is the master name.
+	endif
+
+	config SLAVE_EARLY_BOOT
+		bool "system will early boot before master rproc ready"
+		default y
+
+	config RPBUF_DEMO
+		bool "RPBuf demo"
+		default n
+		select COMPONENTS_RPBUF
+		help
+		  This is a demo thar introduces how to use RPBuf to exchange large data
+		  with remote processor.
+
+	menuconfig AMP_TRACE_SUPPORT
+		bool "openamp trace Support"
+		default n
+		select COMPONENTS_RPBUF
+		help
+		  This is a demo thar introduces how to use RPBuf to exchange large data
+		  with remote processor.
+	if AMP_TRACE_SUPPORT
+	config AMP_TRACE_BUF_SIZE
+		hex "config trace buffer size"
+		default 0x1000
+	endif
+endif
+
+endmenu
+

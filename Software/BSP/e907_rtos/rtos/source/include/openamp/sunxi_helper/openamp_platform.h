@@ -2,6 +2,7 @@
 #define __OPENAMP_SUNXI_PLARFORM_H_
 
 #include <openamp/open_amp.h>
+#include <openamp/sunxi_helper/rsc_table.h>
 
 #ifdef __cplusplus
 extern "C" {

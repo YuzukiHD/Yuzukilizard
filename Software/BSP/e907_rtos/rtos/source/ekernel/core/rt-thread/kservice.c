@@ -858,7 +858,7 @@ rt_int32_t rt_vsnprintf(char       *buf,
 #ifdef RT_PRINTF_LONGLONG
     unsigned long long num;
 #else
-    rt_uint32_t num;
+    unsigned long num;
 #endif
     int i, len;
     char *str, *end, c;
@@ -1145,7 +1145,7 @@ rt_int32_t rt_vsnprintf(char       *buf,
         if (qualifier == 'l')
 #endif
         {
-            num = va_arg(args, rt_uint32_t);
+            num = va_arg(args, unsigned long);
             if (flags & SIGN)
             {
                 num = (rt_int32_t)num;
@@ -1153,7 +1153,7 @@ rt_int32_t rt_vsnprintf(char       *buf,
         }
         else if (qualifier == 'h')
         {
-            num = (rt_uint16_t)va_arg(args, rt_int32_t);
+            num = (rt_uint16_t)va_arg(args, unsigned long);
             if (flags & SIGN)
             {
                 num = (rt_int16_t)num;
@@ -1161,7 +1161,7 @@ rt_int32_t rt_vsnprintf(char       *buf,
         }
         else
         {
-            num = va_arg(args, rt_uint32_t);
+            num = (uint32_t)va_arg(args, unsigned long);
             if (flags & SIGN)
             {
                 num = (rt_int32_t)num;
@@ -1360,6 +1360,7 @@ int rt_kprintf(const char *fmt, ...)
     {
         length = RT_CONSOLEBUF_SIZE - 1;
     }
+
 #ifdef RT_USING_DEVICE
     if (_console_device == RT_NULL)
     {

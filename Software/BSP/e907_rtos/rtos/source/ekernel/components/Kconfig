@@ -1,0 +1,6 @@
+menu "Components Support"
+
+source "ekernel/components/thirdparty/Kconfig"
+source "ekernel/components/aw/Kconfig"
+
+endmenu

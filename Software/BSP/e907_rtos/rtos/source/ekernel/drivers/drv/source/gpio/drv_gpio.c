@@ -582,7 +582,7 @@ gpio_status_t drv_gpio_irq_disable(uint32_t irq)
  * @param     none
  * @warning
  */
-gpio_status_t drv_gpio_suspend(void *data)
+int drv_gpio_suspend(void *data)
 {
     int ret = 0;
     ret = hal_gpio_suspend();
@@ -597,7 +597,7 @@ gpio_status_t drv_gpio_suspend(void *data)
  * @param     none
  * @warning
  */
-gpio_status_t drv_gpio_resume(void *data)
+int drv_gpio_resume(void *data)
 {
     int ret = 0;
     ret = hal_gpio_resume();

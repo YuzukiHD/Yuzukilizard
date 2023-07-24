@@ -5,7 +5,7 @@ source "ekernel/core/Kconfig"
 source "ekernel/drivers/drv/Kconfig"
 source "ekernel/drivers/osal/Kconfig"
 source "ekernel/drivers/test/Kconfig"
-source "ekernel/subsys/Kconfig"
+source "ekernel/components/Kconfig"
 
 config ARMCPU_HIGH_VECTOR_ADDRESS
 	bool  "USE HIGH Exception Vector Address"
@@ -80,5 +80,13 @@ endif
 config DOUBLE_FREE_CHECK
 	bool  "Doule Free Check"
 	default n
+
+config CMSIS
+    bool "ARM CMSIS interface support"
+    default n
+    help
+       CMSIS enables consistent device support and simple software interfaces to the processor and its peripherals, simplifying software reuse, reducing the learning curve for microcontroller developers, 
+       and reducing the time to market for new devices.
+
 
 endmenu

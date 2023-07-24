@@ -16,7 +16,7 @@
 #ifndef _RC_CORE_PRIV
 #define _RC_CORE_PRIV
 
-#include <list.h>
+#include <aw_list.h>
 #include <ringbuffer.h>
 #include "bitrev.h"
 #include "rc-core.h"

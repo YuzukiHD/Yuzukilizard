@@ -1,5 +1,5 @@
 subdir-ccflags-y += -I$(srctree)/ekernel/drivers/include/  \
-                    -I$(srctree)/ekernel/subsys/libc/mmap\
+                    -I$(srctree)/ekernel/components/aw/mmap\
 
 obj-$(CONFIG_SUNXI_PWM_TEST) += test_pwm.o
 obj-$(CONFIG_SUNXI_GPIO_TEST) += test_gpio.o

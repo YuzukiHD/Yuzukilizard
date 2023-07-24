@@ -55,14 +55,16 @@ endif
 	source "ekernel/drivers/drv/source/Kconfig"
 
 	menu "SoC HAL Drivers"
-	source "ekernel/drivers/hal/source/common/Kconfig"
-	source "ekernel/drivers/hal/source/ccmu/Kconfig"
-	source "ekernel/drivers/hal/source/uart/Kconfig"
-	source "ekernel/drivers/hal/source/gpio/Kconfig"
-	source "ekernel/drivers/hal/source/dma/Kconfig"
-	source "ekernel/drivers/hal/source/twi/Kconfig"
-	source "ekernel/drivers/hal/source/pwm/Kconfig"
-	source "ekernel/drivers/hal/source/msgbox/Kconfig"
+	source "ekernel/drivers/rtos-hal/hal/source/common/Kconfig"
+	source "ekernel/drivers/rtos-hal/hal/source/ccmu/Kconfig"
+	source "ekernel/drivers/rtos-hal/hal/source/uart/Kconfig"
+	source "ekernel/drivers/rtos-hal/hal/source/gpio/Kconfig"
+	source "ekernel/drivers/rtos-hal/hal/source/dma/Kconfig"
+	source "ekernel/drivers/rtos-hal/hal/source/twi/Kconfig"
+	source "ekernel/drivers/rtos-hal/hal/source/spi/Kconfig"
+	source "ekernel/drivers/rtos-hal/hal/source/pwm/Kconfig"
+	source "ekernel/drivers/rtos-hal/hal/source/gpadc/Kconfig"
+	source "ekernel/drivers/rtos-hal/hal/source/msgbox/Kconfig"
 	endmenu
 
 endmenu

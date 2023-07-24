@@ -1,0 +1,3 @@
+menuconfig LIBC_MMAP
+    bool "mmap"
+	default n

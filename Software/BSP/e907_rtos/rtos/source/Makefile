@@ -407,10 +407,10 @@ MELISINCLUDE    := \
                     -Iinclude/melis/of                                  \
                     -Iinclude/melis/sys                                 \
                     -Iinclude/melis/video                               \
-                    -Iekernel/subsys/finsh_cli                          \
+                    -Iekernel/components/thirdparty/finsh_cli           \
                     -Iekernel/core/rt-thread/include                    \
-                    -Iekernel/subsys/thirdparty/dfs/include             \
-                    -Iekernel/drivers/hal/source                        \
+                    -Iekernel/components/thirdparty/dfs/include         \
+                    -Iekernel/drivers/rtos-hal/hal/source               \
                     -Iekernel/drivers/include/osal                      \
                     $(USERINCLUDE)
 ifeq (${CONFIG_RISCV}, y)
@@ -1034,6 +1034,17 @@ endif
 ifdef CONFIG_GDB_SCRIPTS
 	$(Q)ln -fsn `cd $(srctree) && /bin/pwd`/scripts/gdb/melis-gdb.py
 endif
+ifeq ($(CONFIG_KERNEL_COMPRESS), y)
+ifeq ($(CONFIG_RV32), y)
+	$(Q)$(MAKE) $(build)=ekernel/arch/riscv/compressed Image
+endif
+else
+	@cp ekernel/melis30.elf ekernel/arch/boot/Image
+	@cp ekernel/arch/boot/Image ekernel/arch/boot/zImage
+	$(Q)$(STRIP) ekernel/arch/boot/zImage
+	$(Q)$(OBJCOPY) -O binary ekernel/arch/boot/zImage \
+			ekernel/arch/boot/zImage.bin
+endif
 	+$(call if_changed,link-melis)
 
 # The actual objects are generated when descending,
@@ -1347,7 +1358,7 @@ distclean: mrproper
 		-o -name '*.bak' -o -name '#*#' -o -name '.*.orig' \
 		-o -name '.*.rej' -o -name '*%'  -o -name 'core' \) \
 		-type f -print | xargs rm -f
-	@find ./ekernel/drivers/hal/ $(RCS_FIND_IGNORE) \
+	@find ./ekernel/drivers/rtos-hal/hal/ $(RCS_FIND_IGNORE) \
 		\( -name '*.orig' -o -name '*.rej' -o -name '*~' \
 		-o -name '*.bak' -o -name '#*#' -o -name '.*.orig' \
 		-o -name '.*.rej' -o -name '*%'  -o -name 'core' \) \
@@ -1571,7 +1582,7 @@ clean: $(clean-dirs)
 		-o -name modules.builtin -o -name '.tmp_*.o.*' \
 		-o -name '*.gcno' -o -name '*.elf' \
 		-o -name '*.map'  -o -name '*.dis' \) -type f -print | xargs rm -f
-	@find ./ekernel/drivers/hal/ $(RCS_FIND_IGNORE) \
+	@find ./ekernel/drivers/rtos-hal/hal/ $(RCS_FIND_IGNORE) \
 		\( -name '*.[o]' -o -name '*.ko' -o -name '.*.cmd' \
 		-o -name '*.ko.*' \
 		-o -name '*.dwo'  \

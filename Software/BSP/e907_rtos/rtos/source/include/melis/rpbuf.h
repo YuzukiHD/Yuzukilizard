@@ -2,6 +2,7 @@
 #define __RPBUF_H__
 
 #include <stdint.h>
+#include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -225,6 +226,14 @@ void rpbuf_buffer_set_pa(struct rpbuf_buffer *buffer, uintptr_t pa);
  * Set the device address of rpbuf buffer.
  */
 void rpbuf_buffer_set_da(struct rpbuf_buffer *buffer, uint64_t da);
+
+/*
+ * Set whether the buffer is sent synchronously.
+ * if sent sync, it will block until the remoteproc complete 'rx_cb'
+ * if send async, this function doesn't care about remoteproc
+ * default is async transmit.
+ */
+int rpbuf_buffer_set_sync(struct rpbuf_buffer *buffer, bool sync);
 
 #ifdef __cplusplus
 }

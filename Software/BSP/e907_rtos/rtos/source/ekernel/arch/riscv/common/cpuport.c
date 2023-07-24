@@ -66,10 +66,11 @@ void rt_hw_context_switch_to(rt_ubase_t to)
     return awos_arch_first_task_start(to);
 }
 
-void finish_task_switch(rt_thread_t ARG_UNUSED(last))
+void finish_task_switch(rt_thread_t last)
 {
     unsigned long sstatus;
 
+    (void)last;
     sstatus = arch_local_save_flags();
     RT_ASSERT((sstatus & SR_FS) == SR_FS_CLEAN);
 }

@@ -128,17 +128,18 @@ g_sleep_flag:
 	.globl cpu_suspend
 	.type  cpu_suspend, %function
 cpu_suspend:
-	# save t0 value to stack
-	addi	sp, sp, -4
-	sw		t0, 0(sp)
-	addi	sp, sp, 4
+	# save t0, t1 value to stack
+	sw		t0, -4(sp)
+	sw		t1, -8(sp)
+	# save t0
+	la		t0, g_sleep_context
+	lw		t1, -4(sp)
+	sw		t1, 5 * 4(t0)
+	# restore t1
+	lw		t1, -8(sp)
 
 	# save register excep t0
 	general_reg  sw g_sleep_context
-	# save t0
-	addi	sp, sp, -4
-	lw		t1, 0(sp)
-	sw		t1,  5*4(t0)
 
 	/* Save M-mode Exception Setting Register */
 	save_csr mstatus		0
@@ -265,8 +266,7 @@ cpu_suspend:
 	/* restore the scene */
 	general_reg  lw g_sleep_context
 	/* restore t0 value */
-	lw		t0, 0(sp)
-	addi	sp, sp, 4
+	lw		t0, -4(sp)
 
 	ret
 
@@ -400,12 +400,13 @@ cpu_resume:
 	/* Updata sleep flag */
 	la		t0, g_sleep_flag
 	sw		x0, 0(t0)
+
 	/* restore general register */
-	la		t0, g_sleep_context
 	general_reg  lw g_sleep_context
 	/* restore t0 register */
-	addi	sp, sp, -4
-	lw		t0, 0(sp)
-	addi	sp, sp, 4
+	sw		t1, -4(sp)
+	la		t1, g_sleep_context
+	lw		t0, 5 * 4(t1)
+	lw		t1, -4(sp)
 
 	ret

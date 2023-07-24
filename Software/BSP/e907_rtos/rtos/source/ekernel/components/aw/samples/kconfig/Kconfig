@@ -1,0 +1,49 @@
+choice
+	prompt "kconfig test select"
+	default KCONFIG_CHOICE_ITEM3
+
+	config KCONFIG_CHOICE_ITEM1
+		bool "kernel config choice item1"
+		help
+			kernel config choice item1
+
+	config KCONFIG_CHOICE_ITEM2
+		bool "kernel config choice item2"
+		help
+			kernel config choice item2
+
+	config KCONFIG_CHOICE_ITEM3
+		bool "kernel config choice item3"
+		help
+			kernel config choice item3
+
+	config KCONFIG_CHOICE_ITEM4
+		bool "kernel config choice item4"
+		help
+			kernel config choice item4
+
+	config KCONFIG_CHOICE_ITEM5
+		bool "kernel config choice item5"
+		help
+			kernel config choice item5
+endchoice
+
+config KCONFIG_COMMON_CONFIG1
+	#bool "kernel common config 1"
+	default n
+	help
+		kernel common config 1
+
+config KCONFIG_COMMON_CONFIG2
+	#bool "kernel common config 2"
+	default n
+	help
+		kernel common config 2
+
+config KCONFIG_COMMON_CONFIG3
+	#bool "kernel common config 3"
+	default n
+	help
+		kernel common config 3
+
+source "ekernel/components/samples/kconfig/internal/Kconfig"

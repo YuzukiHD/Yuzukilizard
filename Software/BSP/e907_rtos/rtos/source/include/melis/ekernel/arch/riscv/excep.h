@@ -47,7 +47,11 @@ typedef struct
 
 typedef struct
 {
+#ifdef CONFIG_FPU_DOUBLE
     riscv_d_ext_state_t fpustatus;
+#else
+    riscv_f_ext_state_t fpustatus;
+#endif
 } fpu_context_t;
 
 /* CPU-specific state of a task */
@@ -116,6 +120,7 @@ typedef struct
 
 #endif
 
+#ifdef CONFIG_FPU_DOUBLE
 #define FPU_CTX_F0_F0   0   /* offsetof(fpu_context_t, fpustatus.f[0])  - offsetof(fpu_context_t, fpustatus.f[0]) */
 #define FPU_CTX_F1_F0   8   /* offsetof(fpu_context_t, fpustatus.f[1])  - offsetof(fpu_context_t, fpustatus.f[0]) */
 #define FPU_CTX_F2_F0   16  /* offsetof(fpu_context_t, fpustatus.f[2])  - offsetof(fpu_context_t, fpustatus.f[0]) */
@@ -149,5 +154,40 @@ typedef struct
 #define FPU_CTX_F30_F0  240 /* offsetof(fpu_context_t, fpustatus.f[30]) - offsetof(fpu_context_t, fpustatus.f[0]) */
 #define FPU_CTX_F31_F0  248 /* offsetof(fpu_context_t, fpustatus.f[31]) - offsetof(fpu_context_t, fpustatus.f[0]) */
 #define FPU_CTX_FCSR_F0 256 /* offsetof(fpu_context_t, fpustatus.fcsr)  - offsetof(fpu_context_t, fpustatus.f[0]) */
+#else
+#define FPU_CTX_F0_F0   0
+#define FPU_CTX_F1_F0   4
+#define FPU_CTX_F2_F0   8
+#define FPU_CTX_F3_F0   12
+#define FPU_CTX_F4_F0   16
+#define FPU_CTX_F5_F0   20
+#define FPU_CTX_F6_F0   24
+#define FPU_CTX_F7_F0   28
+#define FPU_CTX_F8_F0   32
+#define FPU_CTX_F9_F0   36
+#define FPU_CTX_F10_F0  40
+#define FPU_CTX_F11_F0  44
+#define FPU_CTX_F12_F0  48
+#define FPU_CTX_F13_F0  52
+#define FPU_CTX_F14_F0  56
+#define FPU_CTX_F15_F0  60
+#define FPU_CTX_F16_F0  64
+#define FPU_CTX_F17_F0  68
+#define FPU_CTX_F18_F0  72
+#define FPU_CTX_F19_F0  76
+#define FPU_CTX_F20_F0  80
+#define FPU_CTX_F21_F0  84
+#define FPU_CTX_F22_F0  88
+#define FPU_CTX_F23_F0  92
+#define FPU_CTX_F24_F0  96
+#define FPU_CTX_F25_F0  100
+#define FPU_CTX_F26_F0  104
+#define FPU_CTX_F27_F0  108
+#define FPU_CTX_F28_F0  112
+#define FPU_CTX_F29_F0  116
+#define FPU_CTX_F30_F0  120
+#define FPU_CTX_F31_F0  124
+#define FPU_CTX_FCSR_F0 128
+#endif
 
 #endif

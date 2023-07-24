@@ -14,7 +14,7 @@
 
 #include "rc-core.h"
 #include "rc-core-priv.h"
-#include <list.h>
+#include <aw_list.h>
 #include <stdlib.h>
 #include <hal_atomic.h>
 #include <sunxi_input.h>

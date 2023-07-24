@@ -262,6 +262,7 @@ extern int32_t      esCFG_GetGPIOSecData(char *GPIOSecName, void *pGPIOCfg, int3
 extern int32_t      esCFG_GetGPIOSecData_Ex(intptr_t* parser, char *GPIOSecName, void *pGPIOCfg, int32_t GPIONum);
 extern int32_t      esCFG_GetGPIOSecKeyCount(char *GPIOSecName);
 extern int32_t      esCFG_GetGPIOSecKeyCount_Ex(intptr_t* parser, char *GPIOSecName);
+extern int32_t	    esCFG_GetSubKeyData(char *MainKeyName, char *SubKeyName, void *pConfigCfg, int32_t CfgType);
 extern int32_t      esCFG_GetKeyValue(char *SecName, char *KeyName, int32_t Value[], int32_t Count);
 extern int32_t      esCFG_GetKeyValue_Ex(intptr_t* parser, char *KeyName, int32_t Value[], int32_t Count);
 extern int32_t      esCFG_GetSecCount(void);

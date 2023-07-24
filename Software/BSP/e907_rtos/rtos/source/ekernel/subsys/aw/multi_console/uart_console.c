@@ -22,6 +22,7 @@ int uart_console_write(const void *buf, size_t len, void *privata_data)
 
         i++;
     }
+
     return i;
 }
 

@@ -1,0 +1,180 @@
+menu "RT-Thread DFS Support"
+
+config RT_USING_DFS
+    bool "rt-thread dfs virtual file system"
+    select RT_USING_MUTEX
+    default y
+    help
+        The device file system is a light weight virtual file system.
+
+if RT_USING_DFS
+    config DFS_USING_WORKDIR
+        bool "Using working directory"
+        default y
+
+    config DFS_FILESYSTEMS_MAX
+        int "The maximal number of mounted file system"
+        default 4 if RT_USING_DFS_NFS
+        default 2
+
+    config DFS_FILESYSTEM_TYPES_MAX
+        int "The maximal number of file system type"
+        default 4 if RT_USING_DFS_NFS
+        default 2
+
+    config DFS_FD_MAX
+        int "The maximal number of opened files"
+        default 16
+
+    config RT_USING_DFS_MNTTABLE
+        bool "Using mount table for file system"
+        default n
+        help
+            User can use mount table for automatically mount, for example:
+                const struct dfs_mount_tbl mount_table[] =
+                {
+                    {"flash0", "/", "elm", 0, 0},
+                    {0}
+                };
+            The mount_table must be terminated with NULL.
+
+    config RT_USING_DFS_ELMFAT
+        bool "Enable elm-chan fatfs"
+        default n
+        help
+            FatFs is a generic FAT/exFAT file system module for small embedded systems.
+
+    if RT_USING_DFS_ELMFAT
+        menu "elm-chan's FatFs, Generic FAT Filesystem Module"
+        config RT_DFS_ELM_CODE_PAGE
+            int "OEM code page"
+            default 437
+
+        config RT_DFS_ELM_WORD_ACCESS
+            bool "Using RT_DFS_ELM_WORD_ACCESS"
+            default y
+
+        choice
+            prompt "Support long file name"
+            default RT_DFS_ELM_USE_LFN_3
+
+            config RT_DFS_ELM_USE_LFN_0
+                bool "0: LFN disable"
+
+            config RT_DFS_ELM_USE_LFN_1
+                bool "1: LFN with static LFN working buffer"
+
+            config RT_DFS_ELM_USE_LFN_2
+                bool "2: LFN with dynamic LFN working buffer on the stack"
+
+            config RT_DFS_ELM_USE_LFN_3
+                bool "3: LFN with dynamic LFN working buffer on the heap"
+        endchoice
+
+        config RT_DFS_ELM_USE_LFN
+            int
+            default 0 if RT_DFS_ELM_USE_LFN_0
+            default 1 if RT_DFS_ELM_USE_LFN_1
+            default 2 if RT_DFS_ELM_USE_LFN_2
+            default 3 if RT_DFS_ELM_USE_LFN_3
+
+        config RT_DFS_ELM_MAX_LFN
+            int "Maximal size of file name length"
+            range 12 255
+            default 255
+
+        config RT_DFS_ELM_DRIVES
+            int "Number of volumes (logical drives) to be used."
+            default 2
+
+        config RT_DFS_ELM_MAX_SECTOR_SIZE
+            int "Maximum sector size to be handled."
+            default 512
+            help
+                if you use some spi nor flash for fatfs, please set this the erase sector size, for example 4096.
+
+        config RT_DFS_ELM_USE_ERASE
+            bool "Enable sector erase feature"
+            default n
+
+        config RT_DFS_ELM_REENTRANT
+            bool "Enable the reentrancy (thread safe) of the FatFs module"
+            default y
+        endmenu
+    endif
+
+    config RT_USING_DFS_DEVFS
+        bool "Using devfs for device objects"
+        default y
+
+    config RT_USING_DFS_LITTLEFS
+        bool "Enable Little file system"
+        default y
+
+    config RT_USING_DFS_ROMFS
+        bool "Enable ReadOnly file system on flash"
+        default n
+
+    config RT_USING_DFS_RAMFS
+        bool "Enable RAM file system"
+        select RT_USING_MEMHEAP
+        default n
+
+if RT_USING_DFS_RAMFS
+	config RT_USING_DFS_RAMFS_PATH
+        string "Ramfs mount path"
+        depends on RT_USING_DFS_RAMFS
+        default "/tmp"
+        help
+            "set ramfs mount path for system"
+
+    config RAMFS_SYSTEM_HEAP
+        bool "Use system heap"
+        default n
+        depends on RT_USING_DFS_RAMFS
+        help
+            "use system heap rather than independent heap to reduce memory usage"
+
+    config RT_USING_DFS_RAMFS_SIZE
+        hex "Ramfs filesystem size"
+        depends on RT_USING_DFS_RAMFS
+        default 0x800000
+        help
+            "set ramfs filesystem size for system, it will allocate an equal amount of memory"
+
+	config RT_USING_DFS_RAMFS_SUPPORT_DIRECTORY
+        bool "Ramfs support directory"
+        depends on RT_USING_DFS_RAMFS
+        default y
+        help
+            "support directory for ramfs filesystem by Allwinner"
+
+    config RT_USING_DFS_RAMFS_DATA_SLICE
+        bool "Ramfs data slice"
+        depends on RT_USING_DFS_RAMFS
+        default y
+        help
+            "support data slice for ramfs filesystem by Allwinner"
+
+endif
+
+    config MELIS_LAYERFS
+        bool "Mount Melis FS AS Dir in DFS"
+        depends on MELIS_VIRTUAL_FILESYSTEM
+        default y
+
+if MELIS_LAYERFS
+        source "ekernel/components/thirdparty/dfs/filesystems/layerfs/Kconfig"
+endif
+
+    config MELIS_LAYERFS_DIR_PATH
+        string "Melis Layerfs Dir Path in DFS"
+        default "/mnt/"
+        depends on MELIS_LAYERFS
+
+    config MELIS_ROOTFS
+        bool "Mount Melis rootfs file system for root directory"
+        default y
+
+endif
+endmenu

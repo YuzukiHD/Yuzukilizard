@@ -51,8 +51,15 @@ g_trap_sp:
     .long 0
     .size g_trap_sp, .-g_trap_sp
 
-irq_nested_level:
+    .globl  g_irq_stack_base
+    .global g_irq_stack_top
+g_irq_stack_base:
+    .space 16 * 1024
+g_irq_stack_top:
+    .type  irq_ori_sp, object
+irq_ori_sp:
 .long 0
+    .size irq_ori_sp, .-irq_ori_sp
 
 .text
 
@@ -67,49 +74,13 @@ Default_IRQHandler:
     csrc  mstatus, a0
 
 #ifdef CONFIG_ARCH_RISCV_FPU
-
-    csrr    t1, mstatus
-    srli    t1, t1, 13
-    andi    t1, t1, 0x3
-    li      t0, 0x3
-    bne     t1, t0,  .F_RegNotSave1
-
-    li    t0, 0x6000
-    csrs  mstatus, t0
-
-    addi    sp, sp, -(20 * FREGBYTES)
-    FSTORE  ft0,   0 * FREGBYTES(sp)
-    FSTORE  ft1,   1 * FREGBYTES(sp)
-    FSTORE  ft2,   2 * FREGBYTES(sp)
-    FSTORE  ft3,   3 * FREGBYTES(sp)
-    FSTORE  ft4,   4 * FREGBYTES(sp)
-    FSTORE  ft5,   5 * FREGBYTES(sp)
-    FSTORE  ft6,   6 * FREGBYTES(sp)
-    FSTORE  ft7,   7 * FREGBYTES(sp)
-    FSTORE  fa0,   8 * FREGBYTES(sp)
-    FSTORE  fa1,   9 * FREGBYTES(sp)
-    FSTORE  fa2,  10 * FREGBYTES(sp)
-    FSTORE  fa3,  11 * FREGBYTES(sp)
-    FSTORE  fa4,  12 * FREGBYTES(sp)
-    FSTORE  fa5,  13 * FREGBYTES(sp)
-    FSTORE  fa6,  14 * FREGBYTES(sp)
-    FSTORE  fa7,  15 * FREGBYTES(sp)
-    FSTORE  ft8,  16 * FREGBYTES(sp)
-    FSTORE  ft9,  17 * FREGBYTES(sp)
-    FSTORE  ft10, 18 * FREGBYTES(sp)
-    FSTORE  ft11, 19 * FREGBYTES(sp)
-   # clr FS domain
-    li    t0, 0x6000
-    csrc  mstatus, t0
-   # clean status would clr sr_sd;
-
-    li t0, 0x4000
-    csrs mstatus, t0
-
-.F_RegNotSave1:
-    addi    sp, sp, -(2 * 4)
-    sw      t1, 0(sp)
+    csrr  a0, mstatus
+    call  fpu_save_inirq
 #endif
+    /* switch to IRQ stack */
+    la      t1, irq_ori_sp
+    sw      sp, 0(t1)
+    la      sp, g_irq_stack_top
 
     csrr    t1, mcause
     andi    t1, t1, 0x3FF
@@ -125,54 +96,17 @@ Default_IRQHandler:
 #    li   a0, 0x1880
 #    csrw mstatus, a0
 
-    jal  schedule_preempt_inirq
+    /* switch to origin stack */
+    la      t1, irq_ori_sp
+    lw      sp, 0(t1)
 
 #ifdef CONFIG_ARCH_RISCV_FPU
-#    li  t0, 0x6000
-#    csrs mstatus, t0
-
-    lw      t1, 0(sp)
-    addi    sp, sp, (2 * 4)
-    li      t0, 0x3
-    bne     t1, t0,  .F_RegNotLoad
-
-    li  t0, 0x6000
-    csrs mstatus, t0
-
-    FLOAD   ft0,  0 * FREGBYTES(sp)
-    FLOAD   ft1,  1 * FREGBYTES(sp)
-    FLOAD   ft2,  2 * FREGBYTES(sp)
-    FLOAD   ft3,  3 * FREGBYTES(sp)
-    FLOAD   ft4,  4 * FREGBYTES(sp)
-    FLOAD   ft5,  5 * FREGBYTES(sp)
-    FLOAD   ft6,  6 * FREGBYTES(sp)
-    FLOAD   ft7,  7 * FREGBYTES(sp)
-    FLOAD   fa0,  8 * FREGBYTES(sp)
-    FLOAD   fa1,  9 * FREGBYTES(sp)
-    FLOAD   fa2, 10 * FREGBYTES(sp)
-    FLOAD   fa3, 11 * FREGBYTES(sp)
-    FLOAD   fa4, 12 * FREGBYTES(sp)
-    FLOAD   fa5, 13 * FREGBYTES(sp)
-    FLOAD   fa6, 14 * FREGBYTES(sp)
-    FLOAD   fa7, 15 * FREGBYTES(sp)
-    FLOAD   ft8, 16 * FREGBYTES(sp)
-    FLOAD   ft9, 17 * FREGBYTES(sp)
-    FLOAD   ft10,18 * FREGBYTES(sp)
-    FLOAD   ft11,19 * FREGBYTES(sp)
-
-    addi    sp, sp, (20 * FREGBYTES)
-
-
-    # clr FS domain
-    li  t0, 0x6000
-    csrc mstatus, t0
-
-    #clean status would clr sr_sd;
-    li  t0, 0x4000
-    csrs mstatus, t0
-
-.F_RegNotLoad:
+    csrr a0, mstatus
+    call fpu_restore_inirq
 #endif
+
+    jal  schedule_preempt_inirq
+
     li    a0, 0x8
     csrs  mstatus, a0
 

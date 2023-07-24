@@ -1,0 +1,45 @@
+menuconfig KERNEL_COMPRESS
+	bool "Compress Support"
+	default n
+
+if KERNEL_COMPRESS
+config KERNEL_COMPRESS_DEBUG
+	bool "Debug"
+	default n
+
+choice
+	prompt "Compress kernel format"
+	config KERNEL_COMPRESS_ELF
+	bool "elf"
+	config KERNEL_COMPRESS_BIN
+	bool "bin"
+endchoice
+
+if KERNEL_COMPRESS_ELF
+config KERNEL_COMPRESS_LOADADDR
+	hex "ELF decompress addr"
+	default 0
+	help
+		if =0,will auto select load addr
+endif
+
+choice
+	prompt "Compress methon"
+	config KERNEL_COMPRESS_GZIP
+		bool "GZIP"
+	config KERNEL_COMPRESS_LZO
+		bool "LZO"
+	config KERNEL_COMPRESS_LZMA
+		bool "LZMA"
+	config KERNEL_COMPRESS_XZ
+		bool "XZ"
+		select XZ_DEC_BCJ
+		select XZ_DEC_RISCV if RISCV
+		select XZ_DEC_ARM if ARM
+	config KERNEL_COMPRESS_LZ4
+		bool "LZ4"
+endchoice
+endif
+
+
+

@@ -7,14 +7,10 @@ choice
 config  RTTKERNEL
 	bool "Take RT-Thread as Melis Kernel"
 
-config  ZEPHYRKERNEL
-	bool "Take Zephyr as Melis Kernel"
-
 endchoice
 
 source "ekernel/core/rt-thread/Kconfig"
 #source "ekernel/core/rt-thread/wrapper/Kconfig"
-source "ekernel/core/zephyr/Kconfig"
 
 config HZ
 	int "Tick frequency, Hz"

@@ -177,6 +177,32 @@ int32_t Hal_Cfg_GetGPIOSecData(char *GPIOSecName, void *pGPIOCfg, int32_t GPIONu
     return  esCFG_GetGPIOSecData(GPIOSecName, pGPIOCfg, GPIONum);
 }
 
+/*
+*********************************************************************************************************
+*                                       根据主键名称、子键名称及数据类型获取对应数据
+*
+* Description:
+*
+* Arguments  : MainKeyName    主键名称
+*
+               SubKeyName   子键名称
+
+*              value     子键存放的数据
+*
+*              type   数据类型
+*
+*
+* Returns    : 如果成功，返回成功标志
+*              如果失败，返回负数
+*
+* Notes      :
+*********************************************************************************************************
+*/
+int32_t Hal_Cfg_GetSubKeyValue(char *MainKeyName, char *SubKeyName, void *value, int32_t type)
+{
+    return  esCFG_GetSubKeyData(MainKeyName, SubKeyName, value, type);
+}
+
 void Hal_Cfg_Dump(void)
 {
 	esCFG_Dump();

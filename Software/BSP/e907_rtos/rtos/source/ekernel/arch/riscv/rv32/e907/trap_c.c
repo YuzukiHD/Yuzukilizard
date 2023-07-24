@@ -33,7 +33,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <rtthread.h>
+#include <inttypes.h>
+#include <hal_thread.h>
+#include <hal_interrupt.h>
 
 #include "soc.h"
 #include <core_rv32.h>
@@ -44,8 +46,8 @@ void (*trap_c_callback)(void);
 void trap_c(uint32_t *regs)
 {
     printf("\n");
-    printf("mepc   : %08x\n", regs[31]);
-    printf("mstatus: %08x\n", regs[32]);
+    printf("mepc   : %08" PRIx32 "\n", regs[31]);
+    printf("mstatus: %08" PRIx32 "\n", regs[32]);
 
     if (trap_c_callback)
     {
@@ -57,12 +59,12 @@ void trap_c(uint32_t *regs)
 
 void SysTick_Handler(void)
 {
-    rt_interrupt_enter();
+    hal_interrupt_enter();
 
     csi_coret_config(drv_get_sys_freq() / CONFIG_HZ, CORET_IRQn);
 
-    rt_tick_increase();
+    kthread_tick_increase();
 
-    rt_interrupt_leave();
+    hal_interrupt_leave();
 }
 

@@ -1,0 +1,3 @@
+menuconfig DEBUG_BACKTRACE
+    bool "Enable Backtrace Support"
+    default y

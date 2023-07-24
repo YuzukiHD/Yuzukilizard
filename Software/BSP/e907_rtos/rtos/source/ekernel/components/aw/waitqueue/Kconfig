@@ -1,0 +1,5 @@
+config COMPONENTS_WAITQUEUE
+	bool "AW WaitQueue Support"
+	default n
+	help
+	  Support Allwinner WaitQueue.

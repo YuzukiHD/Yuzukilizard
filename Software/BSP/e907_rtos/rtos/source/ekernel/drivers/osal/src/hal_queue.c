@@ -105,7 +105,6 @@ int hal_mailbox_recv(hal_mailbox_t mailbox, unsigned int *value, int timeout)
     ret = rt_mb_recv(mailbox, (rt_ubase_t *)value, timeout);
     if (ret != RT_EOK)
     {
-        // timeout.
         return -2;
     }
 

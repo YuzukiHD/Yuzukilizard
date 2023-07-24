@@ -33,7 +33,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <list.h>
+#include <aw_list.h>
 #include <sunxi_input.h>
 #include <arch.h>
 

@@ -40,6 +40,8 @@
 #include <csr.h>
 #include <log.h>
 
+#include <hal_thread.h>
+
 #ifdef CONFIG_DEBUG_BACKTRACE
 #include <backtrace.h>
 #endif
@@ -49,6 +51,8 @@ void awos_arch_save_fpu_status(fpu_context_t *);
 void awos_arch_restore_fpu_status(fpu_context_t *);
 extern unsigned long esSYSCALL_function(irq_regs_t *regs, void *reserved);
 extern void handle_exception(void);
+
+void show_thread_info(void *);
 
 void panic_goto_cli(void);
 
@@ -188,65 +192,59 @@ void fpu_restore_inirq(unsigned long sstatus)
 
 static void show_register(irq_regs_t *regs, unsigned long stval, unsigned long scause)
 {
-#ifdef CONFIG_RTTKERNEL
-    printk("thread: %s, entry: 0x%p, stack_base: 0x%p,stack_size: 0x%08x.\r\n", \
-               rt_thread_self()->name, \
-               rt_thread_self()->entry, \
-               rt_thread_self()->stack_addr, \
-               rt_thread_self()->stack_size);
-#endif
+    show_thread_info(kthread_self());
 
 #ifdef CONFIG_RV64
-    printk("\r\ngprs:\r\n");
-    printk(" x0:0x%016x   ra:0x%016x   sp:0x%016x   gp:0x%016x\r\n",
-               0, regs->x1, regs->x2, regs->x3);
-    printk(" tp:0x%016x   t0:0x%016x   t1:0x%016x   t2:0x%016x\r\n",
-               regs->x4, regs->x5, regs->x6, regs->x7);
-    printk(" s0:0x%016x   s1:0x%016x   a0:0x%016x   a1:0x%016x\r\n",
-               regs->x8, regs->x9, regs->x10, regs->x11);
-    printk(" a2:0x%016x   a3:0x%016x   a4:0x%016x   a5:0x%016x\r\n",
+    printk(" x0:0x%016lx   ra:0x%016lx   sp:0x%016lx   gp:0x%016lx\r\n",
+               0        , regs->x1 , regs->x2 , regs->x3);
+    printk(" tp:0x%016lx   t0:0x%016lx   t1:0x%016lx   t2:0x%016lx\r\n",
+               regs->x4 , regs->x5 , regs->x6 , regs->x7);
+    printk(" s0:0x%016lx   s1:0x%016lx   a0:0x%016lx   a1:0x%016lx\r\n",
+               regs->x8 , regs->x9 , regs->x10, regs->x11);
+    printk(" a2:0x%016lx   a3:0x%016lx   a4:0x%016lx   a5:0x%016lx\r\n",
                regs->x12, regs->x13, regs->x14, regs->x15);
-    printk(" a6:0x%016x   a7:0x%016x   s2:0x%016x   s3:0x%016x\r\n",
+    printk(" a6:0x%016lx   a7:0x%016lx   s2:0x%016lx   s3:0x%016lx\r\n",
                regs->x16, regs->x17, regs->x18, regs->x19);
-    printk(" s4:0x%016x   s5:0x%016x   s6:0x%016x   s7:0x%016x\r\n",
+    printk(" s5:0x%016lx   s5:0x%016lx   s6:0x%016lx   s7:0x%016lx\r\n",
                regs->x20, regs->x21, regs->x22, regs->x23);
-    printk(" s8:0x%016x   s9:0x%016x  s10:0x%016x  s11:0x%016x\r\n",
+    printk(" s8:0x%016lx   s9:0x%016lx  s10:0x%016lx  s11:0x%016lx\r\n",
                regs->x24, regs->x25, regs->x26, regs->x27);
-    printk(" t3:0x%016x   t4:0x%016x   t5:0x%016x   t6:0x%016x\r\n",
+    printk(" t3:0x%016lx   t4:0x%016lx   t5:0x%016lx   t6:0x%016lx\r\n",
                regs->x28, regs->x29, regs->x30, regs->x31);
 
     printk("\r\nother:\r\n");
-    printk("sepc    :0x%016x\r\n" \
-               "sstatus :0x%016x\r\n" \
-               "sscratch:0x%016x\r\n" \
-               "stval   :0x%016x\r\n" \
-               "scause  :0x%016x\r\n" \
-               ,regs->epc, regs->status, regs->scratch, stval, scause);
+    printf("sepc    :0x%016lx\n" \
+           "scause  :0x%016lx\n" \
+           "stval   :0x%016lx\n" \
+           "sstatus :0x%016lx\n" \
+           "sscratch:0x%016lx\n" \
+           , regs->epc, scause, stval, regs->status, regs->scratch);
+
 #else
-    rt_kprintf("\r\ngprs:\r\n");
-    rt_kprintf(" x0:0x%08x   ra:0x%08x   sp:0x%08x   gp:0x%08x\r\n",
+    printk("\r\ngprs:\r\n");
+    printk(" x0:0x%08lx   ra:0x%08lx   sp:0x%08lx   gp:0x%08lx\r\n",
                0, regs->x1, regs->x2, regs->x3);
-    rt_kprintf(" tp:0x%08x   t0:0x%08x   t1:0x%08x   t2:0x%08x\r\n",
+    printk(" tp:0x%08lx   t0:0x%08lx   t1:0x%08lx   t2:0x%08lx\r\n",
                regs->x4, regs->x5, regs->x6, regs->x7);
-    rt_kprintf(" s0:0x%08x   s1:0x%08x   a0:0x%08x   a1:0x%08x\r\n",
+    printk(" s0:0x%08lx   s1:0x%08lx   a0:0x%08lx   a1:0x%08lx\r\n",
                regs->x8, regs->x9, regs->x10, regs->x11);
-    rt_kprintf(" a2:0x%08x   a3:0x%08x   a4:0x%08x   a5:0x%08x\r\n",
+    printk(" a2:0x%08lx   a3:0x%08lx   a4:0x%08lx   a5:0x%08lx\r\n",
                regs->x12, regs->x13, regs->x14, regs->x15);
-    rt_kprintf(" a6:0x%08x   a7:0x%08x   s2:0x%08x   s3:0x%08x\r\n",
+    printk(" a6:0x%08lx   a7:0x%08lx   s2:0x%08lx   s3:0x%08lx\r\n",
                regs->x16, regs->x17, regs->x18, regs->x19);
-    rt_kprintf(" s5:0x%08x   s5:0x%08x   s6:0x%08x   s7:0x%08x\r\n",
+    printk(" s5:0x%08lx   s5:0x%08lx   s6:0x%08lx   s7:0x%08lx\r\n",
                regs->x20, regs->x21, regs->x22, regs->x23);
-    rt_kprintf(" s8:0x%08x   s9:0x%08x  s10:0x%08x  s11:0x%08x\r\n",
+    printk(" s8:0x%08lx   s9:0x%08lx  s10:0x%08lx  s11:0x%08lx\r\n",
                regs->x24, regs->x25, regs->x26, regs->x27);
-    rt_kprintf(" t3:0x%08x   t4:0x%08x   t5:0x%08x   t6:0x%08x\r\n",
+    printk(" t3:0x%08lx   t4:0x%08lx   t5:0x%08lx   t6:0x%08lx\r\n",
                regs->x28, regs->x29, regs->x30, regs->x31);
 
-    rt_kprintf("\r\nother:\r\n");
-    rt_kprintf("mepc    :0x%08x\r\n" \
-               "mstatus :0x%08x\r\n" \
-               "mcratch:0x%08x\r\n" \
-               "mtval   :0x%08x\r\n" \
-               "mcause  :0x%08x\r\n" \
+    printk("\r\nother:\r\n");
+    printk("mepc    :0x%08lx\r\n" \
+               "mstatus :0x%08lx\r\n" \
+               "mcratch:0x%08lx\r\n" \
+               "mtval   :0x%08lx\r\n" \
+               "mcause  :0x%08lx\r\n" \
                ,regs->epc, regs->status, regs->scratch, stval, scause);
 #endif
 }

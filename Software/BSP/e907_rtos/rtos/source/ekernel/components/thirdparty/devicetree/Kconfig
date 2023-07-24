@@ -1,0 +1,5 @@
+config OF
+    bool "support devicetree runtime configuration or not"
+    default n
+
+

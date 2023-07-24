@@ -20,10 +20,14 @@
 #ifndef EPOS_H
 #define EPOS_H
 
-#include <rthw.h>
 #include <kapi.h>
 #include <aw_list.h>
-#include <debug.h>
+
+#include <hal_status.h>
+#include <hal_debug.h>
+#include <hal_queue.h>
+#include <hal_time.h>
+#include <hal_thread.h>
 
 #define  USE_MELIS_SHORT_THREAD_ID
 #define  MELIS_TASK_PREFIX                  "mlstsk_"
@@ -35,8 +39,8 @@
 
 typedef struct
 {
-    rt_mailbox_t        mb_in;
-    rt_mailbox_t        mb_out;
+    hal_mailbox_t        mb_in;
+    hal_mailbox_t        mb_out;
     uint32_t            depth;
     uint32_t            bufsize;
     uint32_t            msgsize;
@@ -57,7 +61,7 @@ typedef struct thread_id
 {
     uint8_t             running;
     uint16_t            task_pid;
-    rt_thread_t         rt_thread_id;
+    hal_thread_t        thread_id;
 } thread_id_t;
 
 typedef struct melis_thread_obj
@@ -76,7 +80,7 @@ typedef struct melis_malloc_context
 typedef struct melis_heap_buffer_node
 {
     struct list_head    i_list;
-    rt_tick_t           tick;
+    hal_tick_t           tick;
     void                *vir;
     uint32_t            size;
     unsigned long       entry;

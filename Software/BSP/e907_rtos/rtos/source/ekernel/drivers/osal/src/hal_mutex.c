@@ -35,6 +35,16 @@
 #define PEND_TICK_MAX (0x7FFFFFFF - 1)
 #define HAL_MUTEX_OK 0
 
+int hal_mutex_init(hal_mutex *mutex)
+{
+    return rt_mutex_init(mutex, "hal_mutex", RT_IPC_FLAG_FIFO);
+}
+
+int hal_mutex_detach(hal_mutex *mutex)
+{
+    return rt_mutex_detach(mutex);
+}
+
 hal_mutex_t hal_mutex_create(void)
 {
     return rt_mutex_create("hal_mutex", RT_IPC_FLAG_FIFO);

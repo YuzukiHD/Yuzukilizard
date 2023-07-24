@@ -353,6 +353,24 @@ _ssize_t _write_r(struct _reent *reent, int fd, const void *buf, size_t nbytes)
     if (fd < 3 || fd == libc_stdio_get_console())
     {
         _ssize_t ret = 0;
+#ifdef CONFIG_VIRT_LOG
+        extern void virt_log_put(char ch);
+        char *chs = (char *)buf;
+        int j;
+        ret = nbytes;
+        for (j = 0; j < nbytes; j++)
+        {
+            if (chs[j] == '\n')
+            {
+                virt_log_put('\r');
+            }
+            virt_log_put(chs[j]);
+        }
+#endif
+#ifdef CONFIG_AMP_TRACE_SUPPORT
+       extern void amp_log_put_buf(const char *buf, int len);
+       amp_log_put_buf(buf, nbytes);
+#endif
 #ifdef CONFIG_SUBSYS_MULTI_CONSOLE
         if (get_default_console()) {
             ret = cli_console_write(get_clitask_console(), (void *)buf, nbytes);

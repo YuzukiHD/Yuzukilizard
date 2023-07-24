@@ -41,10 +41,10 @@ struct addr_range {
 	unsigned long long start, end;
 };
 
-static unsigned long long _text;
+static unsigned long long _text = 0;
 static struct addr_range text_ranges[] = {
-	{ "_stext",     "_etext"     },
-	{ "_sinittext", "_einittext" },
+	{ "__code_start",     "__code_end"     },
+	{ "__readonly_area_start", "__readonly_area_end" },
 	{ "_stext_l1",  "_etext_l1"  },	/* Blackfin on-chip L1 inst SRAM */
 	{ "_stext_l2",  "_etext_l2"  },	/* Blackfin on-chip L2 SRAM */
 };
@@ -325,7 +325,10 @@ static int expand_symbol(unsigned char *data, int len, char *result)
 
 static int symbol_absolute(struct sym_entry *s)
 {
-	return toupper(s->sym[0]) == 'A';
+	if (_text > 0)
+		return toupper(s->sym[0]) == 'A';
+	else
+		return 1;
 }
 
 static void write_src(void)
@@ -335,14 +338,14 @@ static void write_src(void)
 	unsigned int *markers;
 	char buf[KSYM_NAME_LEN];
 
-	printf("#include <asm/types.h>\n");
-	printf("#if BITS_PER_LONG == 64\n");
-	printf("#define PTR .quad\n");
-	printf("#define ALGN .align 8\n");
-	printf("#else\n");
+	//printf("#include <asm/types.h>\n");
+	//printf("#if BITS_PER_LONG == 64\n");
+	//printf("#define PTR .quad\n");
+	//printf("#define ALGN .align 8\n");
+	//printf("#else\n");
 	printf("#define PTR .long\n");
 	printf("#define ALGN .align 4\n");
-	printf("#endif\n");
+	//printf("#endif\n");
 
 	printf("\t.section .rodata, \"a\"\n");
 

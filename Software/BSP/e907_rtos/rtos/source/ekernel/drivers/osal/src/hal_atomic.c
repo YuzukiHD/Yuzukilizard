@@ -37,6 +37,11 @@ int hal_spin_lock_init(hal_spinlock_t *lock)
     return 0;
 }
 
+int hal_spin_lock_deinit(hal_spinlock_t *lock)
+{
+    return 0;
+}
+
 /* TODO: handle lock */
 void hal_spin_lock(hal_spinlock_t *lock)
 {
@@ -52,7 +57,7 @@ void hal_spin_unlock(hal_spinlock_t *lock)
 }
 
 /* TODO: handle lock */
-uint32_t hal_spin_lock_irqsave(hal_spinlock_t *lock)
+unsigned long hal_spin_lock_irqsave(hal_spinlock_t *lock)
 {
     CPSR_ALLOC();
 
@@ -63,8 +68,18 @@ uint32_t hal_spin_lock_irqsave(hal_spinlock_t *lock)
 }
 
 /* TODO: handle lock */
-void hal_spin_unlock_irqrestore(hal_spinlock_t *lock, uint32_t __cpsr)
+void hal_spin_unlock_irqrestore(hal_spinlock_t *lock, unsigned long __cpsr)
 {
     rt_exit_critical();
     MELIS_CPU_CRITICAL_LEAVE();
+}
+
+void hal_enter_critical(void)
+{
+    rt_enter_critical();
+}
+
+void hal_exit_critical(void)
+{
+    rt_exit_critical();
 }

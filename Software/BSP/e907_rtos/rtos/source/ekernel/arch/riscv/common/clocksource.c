@@ -31,14 +31,17 @@
 */
 #include <stdint.h>
 #include <stddef.h>
-#include <rtthread.h>
-#include <kconfig.h>
-#include <ktimer.h>
-#include <debug.h>
 #include <stdio.h>
+
+#include <ktimer.h>
 #include <timex.h>
 #include <csr.h>
 #include <log.h>
+#include <inttypes.h>
+
+#include <hal_debug.h>
+#include <hal_time.h>
+#include <hal_thread.h>
 
 #define TIMER_FREQ    (24000000)
 
@@ -89,7 +92,7 @@ int do_gettimeofday(struct timespec64 *ts)
     if (ts == NULL)
     {
         __err("fatal error, not valide paramter.");
-        software_break();
+        hal_sys_abort();
     }
 
     int64_t nsecs = ktime_get();
@@ -120,7 +123,7 @@ int usleep(unsigned int usecs)
 
     if (ticks)
     {
-        rt_thread_delay(ticks);
+        kthread_sleep(ticks);
     }
     if (msecs)
     {
@@ -137,7 +140,7 @@ int msleep(unsigned int msecs)
 
 void sleep(int seconds)
 {
-    rt_thread_delay(seconds * CONFIG_HZ);
+    kthread_sleep(seconds * CONFIG_HZ);
 }
 
 void timekeeping_init(void)
@@ -160,6 +163,6 @@ void timestamp(char *tag)
     struct timespec64 ts;
     do_gettimeofday(&ts);
 
-    printf("[TSM]: %*.*s]:sec %ld, nsec %d.\n", 12, 12, tag, ts.tv_sec, ts.tv_nsec);
+    printf("[TSM]: %*.*s]:sec %" PRId64 ", nsec %" PRId32 ".\n", 12, 12, tag, ts.tv_sec, ts.tv_nsec);
 }
 

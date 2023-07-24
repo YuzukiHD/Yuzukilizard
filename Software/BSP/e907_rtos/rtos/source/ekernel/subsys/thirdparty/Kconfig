@@ -1,2 +1,0 @@
-source "ekernel/subsys/thirdparty/dfs/Kconfig"
-source "ekernel/subsys/thirdparty/openamp/Kconfig"

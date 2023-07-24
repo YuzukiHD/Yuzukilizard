@@ -102,6 +102,12 @@ config DISABLE_ALL_DEBUGLOG
 	help
 		Reduce all the log.
 
+config PRINT_TIMESTAMP
+	bool "printk prints timestamps"
+	default n
+	help
+		printk prints timestamps.
+
 config DYNAMIC_LOG_LEVEL_SUPPORT
 	bool "dynamic log level support"
 	help
@@ -155,6 +161,20 @@ config FRAME_WARN
 		Setting it to 0 disables the warning.
 		Requires gcc 4.4
 
+choice
+prompt "Io Lock"
+default UART_CLI_USE_NONE
+
+config UART_CLI_USE_NONE
+	bool "Lock None"
+
+config UART_CLI_USE_MUTEX
+	bool "Use Mutex"
+
+config UART_CLI_USE_SPINLOCK
+	bool "Use SpinLock"
+
+endchoice
 
 choice
 	prompt "Compiler optimization level"
@@ -197,11 +217,27 @@ config OS_MELIS
        bool "Melis OS"
        default y
 
+config KALLSYMS
+		bool "keep Melis kernel symbols"
+		default n
+
+if KALLSYMS
+	config KALLSYMS_ALL
+		bool "keep Melis kernel all symbols"
+		default n
+endif
+
 config SDK_THUMB_MODE
 	bool "Enable Thumb mode sdk compile flags"
 	depends on BOOTUP_TURBO
 	help
 		compile whole sdk with -mthumb flags.
+
+config MELIS_GENERATE_HEAD
+	bool "Generate melis head"
+	default y
+	help
+		general epos_hdr head.
 
 menu "Toolchain Setup"
 

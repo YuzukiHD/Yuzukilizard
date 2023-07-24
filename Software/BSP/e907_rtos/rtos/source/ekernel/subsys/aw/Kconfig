@@ -10,4 +10,6 @@ source "ekernel/subsys/aw/multi_console/Kconfig"
 
 source "ekernel/subsys/aw/rpbuf/Kconfig"
 
+source "ekernel/subsys/aw/virt_log/Kconfig"
+
 endmenu

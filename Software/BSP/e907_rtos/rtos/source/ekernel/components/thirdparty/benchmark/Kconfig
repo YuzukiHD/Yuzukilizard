@@ -1,0 +1,7 @@
+menuconfig BENCHMARK
+    bool "BenchMark Test Support"
+    default n
+    help
+        benchmark test for cpu evolution.
+
+

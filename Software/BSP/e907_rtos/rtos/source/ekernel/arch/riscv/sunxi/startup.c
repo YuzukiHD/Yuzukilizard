@@ -38,21 +38,22 @@
 
 #include <rtthread.h>
 #include <hal_mem.h>
+#include <hal_thread.h>
 
-static int rt_application_init(pfun_krnl_init_t app_init)
+extern void common_init(void);
+void system_time_init(void);
+
+static int aw_application_init(pfun_krnl_init_t app_init)
 {
-    static rt_thread_t app_init_thread;
+    void *app_init_thread;
 
     /* highest priority to system bringup. */
-    app_init_thread = rt_thread_create("kstartup", app_init, RT_NULL, 0x4000, 25, 10);
-    RT_ASSERT(app_init_thread != RT_NULL);
-
-    rt_thread_startup(app_init_thread);
-
+    app_init_thread = kthread_create(app_init, NULL, "kstartup", 0x4000, 25);
+    kthread_start(app_init_thread);
     return 0;
 }
 
-void awos_init_bootstrap(pfun_bsp_init_t rt_system_bsp_init, pfun_krnl_init_t app_init, uint64_t ticks)
+void awos_init_bootstrap(pfun_bsp_init_t aw_system_bsp_init, pfun_krnl_init_t app_init, uint64_t ticks)
 {
     void *heap_start, *heap_end;
 
@@ -61,40 +62,40 @@ void awos_init_bootstrap(pfun_bsp_init_t rt_system_bsp_init, pfun_krnl_init_t ap
     heap_end   = (void *)(CONFIG_DRAM_VIRTBASE + CONFIG_DRAM_SIZE);
 
     rt_system_heap_init(heap_start, heap_end);
+
+    common_init();
+
 #ifdef CONFIG_DOUBLE_FREE_CHECK
     void esKRNL_MemLeakChk(uint32_t en);
     esKRNL_MemLeakChk(3);
 #endif
 
     dma_alloc_coherent_init();
+
 #ifdef CONFIG_DMA_COHERENT_HEAP
     dma_coherent_heap_init();
 #endif
-
-    rt_system_timer_init();
-
-    rt_system_scheduler_init();
-    rt_system_timer_thread_init();
-
-    void system_time_init(void);
     system_time_init();
 
-    if (rt_system_bsp_init)
+    if (aw_system_bsp_init)
     {
-        rt_system_bsp_init();
+        aw_system_bsp_init();
     }
 
     setbuf(stdout, NULL);
     setbuf(stdin, 0);
     setvbuf(stdin, NULL, _IONBF, 0);
 
-	void show_melis_version(void);
-    show_melis_version();
+
+    rt_system_timer_init();
+
+    rt_system_scheduler_init();
+    rt_system_timer_thread_init();
 
     /* initialize idle thread */
     rt_thread_idle_init();
 
-    rt_application_init(app_init);
+    aw_application_init(app_init);
 
     rt_system_scheduler_start();
 

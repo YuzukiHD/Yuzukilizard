@@ -201,8 +201,18 @@ SECTIONS
         . = ALIGN(8);
     } > DRAM_SEG_KRN :data =0x9002
 
+    .resource_table ADDR(.dram_seg.data) + SIZEOF(.dram_seg.data) : AT(LOADADDR(.dram_seg.data) + SIZEOF(.dram_seg.data))
+    {
+        KEEP(*(.resource_table))
+    } > DRAM_SEG_KRN :data
+
+    .share_irq_table ADDR(.resource_table) + SIZEOF(.resource_table) : AT(LOADADDR(.resource_table) + SIZEOF(.resource_table))
+    {
+        KEEP(*(.share_irq_table))
+    } > DRAM_SEG_KRN :data
+
     /* stack for bringup process */
-    .dram_seg.stack ADDR(.dram_seg.data) + SIZEOF(.dram_seg.data) : AT(LOADADDR(.dram_seg.data) + SIZEOF(.dram_seg.data))
+    .dram_seg.stack ADDR(.share_irq_table) + SIZEOF(.share_irq_table) : AT(LOADADDR(.share_irq_table) + SIZEOF(.share_irq_table))
     {
         . = ALIGN(8);
         __init_process_stack_start__ = .;

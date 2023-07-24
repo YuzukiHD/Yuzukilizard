@@ -15,7 +15,7 @@
 #include <rtthread.h>
 #include <ringbuffer.h>
 #include "rc-core-priv.h"
-#include <list.h>
+#include <aw_list.h>
 
 static LIST_HEAD(ir_raw_handler_list);
 

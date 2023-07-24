@@ -1,0 +1,9 @@
+menuconfig VIRT_LOG
+	bool "virtual log"
+	default n
+
+if VIRT_LOG
+config VIRT_LOG_SIZE
+	int "virt log buffer size(unit:Kb)"
+	default 4
+endif

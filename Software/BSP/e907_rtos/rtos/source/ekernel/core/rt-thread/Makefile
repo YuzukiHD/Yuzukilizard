@@ -1,14 +1,10 @@
 subdir-ccflags-y += 	-I$(obj)/include \
                         -I$(obj)/libdl \
-            			-I$(srctree)/ekernel/subsys/aw/multi_console \
+            			-I$(srctree)/ekernel/components/aw/multi_console \
             			-I$(srctree)/ekernel/drivers/include/drv \
             			-I$(srctree)/ekernel/drivers
 
 CFLAGS_kservice.o := -Wno-date-time -Wno-implicit-fallthrough
-
-#extra-y += clock.lst
-#extra-y += idle.lst
-#extra-y += ipc.lst
 
 obj-y += clock.o
 obj-y += idle.o

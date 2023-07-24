@@ -8,7 +8,7 @@
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  */
-#include <list.h>
+#include <aw_list.h>
 #include <sunxi_input.h>
 
 /**

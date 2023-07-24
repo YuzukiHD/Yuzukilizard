@@ -57,12 +57,20 @@ extern unsigned char blob_sysconfig_start[];
 extern unsigned char blob_sysconfig_end[];
 #endif
 
+#ifdef CONFIG_AMP_SHARE_IRQ
+extern int openamp_share_irq_early_init(void);
+#endif
+
 #ifdef CONFIG_CXX
 int cplusplus_system_init(void);
 #endif
 
 int32_t awos_bsp_init(void)
 {
+#ifdef CONFIG_AMP_SHARE_IRQ
+	openamp_share_irq_early_init();
+#endif
+
 #ifdef CONFIG_SYSCONF_BUILDIN
     Hal_Cfg_Init(blob_sysconfig_start, (int)blob_sysconfig_end - (int)blob_sysconfig_start + 1);
 #endif
@@ -123,10 +131,6 @@ static void awos_init_thread(void *para)
 
     finsh_system_init();
 
-#ifdef CONFIG_MULTI_CONSOLE_RPMSG
-    int rpmsg_multi_console_init_async(void);
-    rpmsg_multi_console_init_async();
-#endif
     app_entry(NULL);
 }
 

@@ -86,6 +86,8 @@ void* script_parser_init(char *script_buf, unsigned long size);
 int32_t script_parser_exit(void *hparser);
 int32_t script_parser_fetch(void *hparser, char *main_name, char *sub_name, int value[], int count);
 int32_t script_parser_mainkey_count(void *hparser);
+int32_t script_parser_subkey_get_gpio_cfg(void *hparser, char *main_name, char *sub_name, void *data_cfg, int cfg_type);
+int32_t script_parser_subkey_get_gpio_cfg(void *hparser, char *main_name, char *sub_name, void *data_cfg, int cfg_type);
 int32_t script_parser_mainkey_get_gpio_cfg(void *hparser, char *main_name, void *gpio_cfg, int gpio_count);
 int32_t script_parser_mainkey_get_gpio_count(void *hparser, char *main_name);
 int32_t script_parser_subkey_count(void *hparser, char *main_name);

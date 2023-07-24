@@ -313,12 +313,13 @@ const void *free_irq(int32_t irq)
 unsigned long riscv_cpu_handle_interrupt(unsigned long scause, unsigned long sepc, unsigned long stval, irq_regs_t *regs)
 {
     printf("E907 will not support the interrupt mode!\n");
-	printf("cause:0x%08x mepc:0x%08x mtval:0x%08x\r\n");
+	printf("cause:0x%08lx mepc:0x%08lx mtval:0x%08lx\r\n", scause, sepc, stval);
 	return 0;
 }
 
 void clic_common_handler(void)
 {
+    hal_interrupt_enter();
     int id = (__get_MCAUSE() & 0xfff) - CLIC_PERIPH_IRQ_OFFSET;
     if (arch_irqs_desc[id].handle_irq &&
         arch_irqs_desc[id].handle_irq != (void *)clic_null_handler)
@@ -329,6 +330,7 @@ void clic_common_handler(void)
     {
         printf("no handler for irq %d\n", id);
     }
+    hal_interrupt_leave();
 }
 
 void irq_vectors_init(void)

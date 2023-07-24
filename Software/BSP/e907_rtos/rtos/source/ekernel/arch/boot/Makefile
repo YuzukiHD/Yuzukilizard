@@ -11,3 +11,16 @@ dtbs: prepare scripts
 
 fexs: prepare scripts
 	$(Q)$(MAKE) $(build)=$(boot)/fex
+
+ifeq ($(CONFIG_KERNEL_COMPRESS), y)
+Image: prepare scripts
+ifeq ($(CONFIG_RV32), y)
+	$(Q)$(MAKE) $(build)=$(boot)/../riscv/compressed $@
+endif
+else
+Image: prepare scripts
+	@cp $(boot)/../../melis30.elf $(boot)/Image
+	@cp $(boot)/Image $(boot)/zImage
+	$(Q)$(STRIP) $(boot)/zImage
+	$(Q)$(OBJCOPY) -O binary $(boot)/zImage $(boot)/zImage.bin
+endif

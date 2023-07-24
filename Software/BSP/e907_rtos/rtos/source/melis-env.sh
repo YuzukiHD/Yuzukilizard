@@ -149,7 +149,7 @@ function cnetdrv()
 
 function csdmmc()
 {
-    workspace_path=${MELIS_BASE}/ekernel/drivers/hal/source/sdmmc
+    workspace_path=${MELIS_BASE}/ekernel/drivers/rtos-hal/hal/source/sdmmc
     if [ "$workspace_path"  ]; then
         \cd $workspace_path
     else
@@ -248,24 +248,13 @@ function cvideolib()
 
 function crtt()
 {
-    rtt_path=${MELIS_BASE}/ekernel/subsys/net/rt-thread
+    rtt_path=${MELIS_BASE}/ekernel/components/thirdparty/net/rt-thread
     if [ "$rtt_path"  ]; then
         \cd $rtt_path
     else
         echo "Couldn't locate the rtt kernel."
 fi
     unset rtt_path
-}
-
-function czephyr()
-{
-    zephyr_path=${MELIS_BASE}/ekernel/subsys/net/zephyr
-    if [ "$zephyr_path"  ]; then
-        \cd $zephyr_path
-    else
-        echo "Couldn't locate the zephyr kernel."
-    fi
-    unset zephyr_path
 }
 
 function cboot1()

@@ -1,0 +1,8 @@
+menu "archival support"
+
+config SUBSYS_ARCHIVAL
+    bool "Enable Archival Support"
+    default y
+
+endmenu
+

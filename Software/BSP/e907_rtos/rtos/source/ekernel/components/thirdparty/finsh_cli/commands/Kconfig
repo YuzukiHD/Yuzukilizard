@@ -1,0 +1,127 @@
+
+menu "Commands"
+
+    config  COMMAND_FORK
+        bool "Fork Command"
+        default y
+
+    config  COMMAND_MEM_LAYOUT
+        bool "Mem Layout Command"
+        default n
+
+    config  COMMAND_DATE
+        bool "Date Command"
+        default y
+
+    config  COMMAND_EXIT
+        bool "Exit Command"
+        default y
+
+    config  COMMAND_ADBD
+		depends on COMPONENT_ADBD
+        bool "Adbd Command"
+        default y
+	
+    config  COMMAND_UPDATE
+        bool "Update Command"
+        default y
+
+    config  COMMAND_MTPD
+        bool "MTP Comand"
+        depends on COMPONENT_MTP
+        default y
+	
+    config  COMMAND_MTOP
+        bool "Memory Bandwidth Comand"
+        depends on DRIVERS_MBUS
+        default n
+
+    config  COMMAND_INSMOD
+        bool "Insmod Comand"
+        default y
+
+    config  COMMAND_MEMTESTER
+        bool "memtester"
+        default n
+
+    config  COMMAND_THERMAL
+        bool "thermal"
+        depends on DRIVER_THERMAL
+        default y
+
+	config  COMMAND_PQD
+		bool "enable pq when power on"
+		default n
+
+    config  COMMAND_PQD_TEST
+		depends on COMPONENT_ADBD && NETWORK && COMPONENTS_ADBD_SOCKETS && COMMAND_PQD
+		bool "Pqd debug param"
+		default n
+
+    config  COMMAND_MMLK
+        bool "mmlk"
+        default y
+
+    config  COMMAND_HELLOWORLD
+        bool "helloworld Command"
+        default n
+
+    config  COMMAND_RTT_VERSION
+        bool "version Command"
+        default n
+
+    config  COMMAND_WATCHDOG
+        bool "watchdog Command"
+        default n
+
+    config  COMMAND_MMC_READ
+        bool "mmc_read Command"
+        default n
+
+    config  COMMAND_MMC_WRITE
+        bool "mmc_write Command"
+        default n
+
+    config  COMMAND_PRODUCT
+        bool "getprop Command"
+        default n
+
+    config  COMMAND_BACKTRACE
+        bool "backtrace Command"
+        default y
+
+    config  COMMAND_REBOOT
+        bool "reboot Command"
+        default y
+
+    config  COMMAND_PANIC
+        bool "panic Command"
+        default y
+
+    config  COMMAND_PRINT_MEM
+        bool "p Command"
+        default y
+
+    config  COMMAND_WRITE_MEM
+        bool "m Command"
+        default y
+
+    config  COMMAND_LISTIRQ
+        bool "listirq Command"
+        default n
+
+    config  COMMAND_SLABINFO
+        bool "slabinfo Command"
+        default n
+
+    config  COMMAND_UNAME
+        bool "uname Command"
+        default n
+
+    config  COMMAND_CPUFREQ
+        bool "cpufreq command"
+        default n
+
+source "ekernel/components/thirdparty/finsh_cli/commands/iobox/Kconfig"
+
+endmenu

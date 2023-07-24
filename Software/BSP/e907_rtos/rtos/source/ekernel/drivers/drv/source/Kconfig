@@ -8,6 +8,10 @@ config  DRIVER_TWIBUS
         bool "Support i2c bus Driver"
         default y
 
+config  DRIVER_SPIBUS
+        bool "Support spi bus Driver"
+        default y
+
 config  DRIVER_PWM
         bool "Support pwm Driver"
         default y

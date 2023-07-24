@@ -14,6 +14,6 @@
 
 #include <hal_thread.h>
 
-#define metal_cpu_yield()	kthread_mdelay(10);
+#define metal_cpu_yield()	kthread_msleep(10);
 
 #endif /* __METAL_RISCV_CPU__H__ */

@@ -8,4 +8,5 @@ obj-y += hal_sem.o
 obj-y += hal_queue.o
 obj-y += hal_mem.o
 obj-y += hal_mutex.o
+obj-y += hal_event.o
 obj-$(CONFIG_DRIVER_OSAL_CFG) += hal_cfg.o

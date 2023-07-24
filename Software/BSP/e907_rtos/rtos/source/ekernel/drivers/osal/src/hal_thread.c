@@ -30,10 +30,12 @@
 * OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include <stdint.h>
+
 #include <hal_thread.h>
-#include <kconfig.h>
-#include <log.h>
-#include <init.h>
+#include <hal_interrupt.h>
+
+#include <compiler.h>
+
 #include <rtthread.h>
 
 void *kthread_create(void (*threadfn)(void *data), void *data, const char *namefmt, int stacksize, int priority)
@@ -64,20 +66,30 @@ int kthread_start(void *thread)
     return ret;
 }
 
-int kthread_mdelay(int ms)
+int kthread_msleep(int ms)
 {
 	return rt_thread_mdelay(ms);
+}
+
+int kthread_sleep(int tick)
+{
+	return rt_thread_delay(tick);
 }
 
 int kthread_stop(void *thread)
 {
     rt_thread_t thr;
 
-    RT_ASSERT(thread != RT_NULL);
-
-    thr = (rt_thread_t)thread;
-
-    rt_thread_delete(thr);
+    if (thread == rt_thread_self() || thread == NULL)
+    {
+        void rt_thread_exit(void);
+        rt_thread_exit();
+        CODE_UNREACHABLE;
+    }
+    else
+    {
+        rt_thread_delete((rt_thread_t)thread);
+    }
 
     return 0;
 }
@@ -116,4 +128,28 @@ int kthread_suspend(void *thread)
     }
 
     return 0;
+}
+
+void *kthread_self(void)
+{
+    return (void *)rt_thread_self();
+}
+
+int kthread_scheduler_is_running(void)
+{
+    return (rt_critical_level() == 0);
+}
+
+int kthread_in_critical_context(void)
+{
+    if (hal_interrupt_get_nest() == 0 && kthread_scheduler_is_running())
+    {
+        return 0;
+    }
+    return 1;
+}
+
+void kthread_tick_increase(void)
+{
+	rt_tick_increase();
 }

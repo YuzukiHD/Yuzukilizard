@@ -1,0 +1,14 @@
+menu "Libc library"
+
+    choice
+    prompt "C library"
+    default LIBCNEWLIB
+
+    config  LIBCNEWLIB
+	    bool "newlib "
+
+    config  LIBCNONE
+	    bool "none"
+    endchoice
+
+endmenu
