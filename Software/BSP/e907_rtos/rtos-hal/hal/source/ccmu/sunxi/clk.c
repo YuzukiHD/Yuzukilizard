@@ -523,10 +523,11 @@ hal_clk_status_t sunxi_clk_get_rate(hal_clk_id_t clk, u32 *rate)
 
 hal_clk_status_t sunxi_clk_set_rate(hal_clk_id_t clk, u32 rate)
 {
-    u32 i, parent_rate;
+    u32 i;
     clk_core_pt pclk = NULL;
     clk_periph_pt periph_clk = NULL;
     clk_factor_pt factor_clk = NULL;
+    clk_core_pt parent_clk_core = NULL;
     hal_clk_status_t ret = HAL_CLK_STATUS_ERROR_CLK_NOT_FOUND;
 
     CCMU_TRACE();
@@ -550,8 +551,10 @@ hal_clk_status_t sunxi_clk_set_rate(hal_clk_id_t clk, u32 rate)
             {
                 return HAL_CLK_STATUS_OK;
             }
-            parent_rate = periph_clk->clk_core.parent_rate;
-            ret =  sunxi_clk_periph_set_rate(periph_clk, rate);
+            parent_clk_core = clk_get_core(periph_clk->clk_core.current_parent);
+            periph_clk->clk_core.parent_rate = parent_clk_core->clk_rate;
+
+            ret = sunxi_clk_periph_set_rate(periph_clk, rate);
             if (ret == HAL_CLK_STATUS_OK)
             {
                 periph_clk->clk_core.clk_rate = rate;

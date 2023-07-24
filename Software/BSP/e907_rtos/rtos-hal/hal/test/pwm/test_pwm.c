@@ -45,22 +45,25 @@ static int cmd_test_pwm(int argc, char **argv)
     struct pwm_config *config;
     uint8_t port;
     uint8_t ns;
+    ulong period, duty;
 
-    if (argc < 2)
+    if (argc < 4)
     {
-        hal_log_info("Usage: pwm port");
+        hal_log_info("Usage: pwm port | duty | period\n");
         return -1;
     }
 
-    hal_log_info("Run pwm hal layer test case ");
+    hal_log_info("Run pwm hal layer test case\n");
 
     port = strtol(argv[1], NULL, 0);
     hal_log_info("port = %d", port);
+    duty = strtoul(argv[2], NULL, 0);
+    period = strtoul(argv[3], NULL, 0);
 
     config = (struct pwm_config *)malloc(sizeof(struct pwm_config));
 
-    config->duty_ns   = 7000000;
-    config->period_ns = 10000000;
+    config->duty_ns   = duty;
+    config->period_ns = period;
     config->polarity  = PWM_POLARITY_NORMAL;
     hal_log_info("duty_ns = %d \n", config->duty_ns);
     hal_log_info("period_ns = %d \n", config->period_ns);
@@ -70,9 +73,37 @@ static int cmd_test_pwm(int argc, char **argv)
 
     hal_pwm_control(port, config);
 
-    hal_log_info("Pwm test finish");
+    hal_log_info("control pwm test finish\n");
 
     return 0;
 }
 
 FINSH_FUNCTION_EXPORT_CMD(cmd_test_pwm, hal_pwm, pwm hal APIs tests)
+
+static int cmd_release_pwm_channel(int argc, char **argv)
+{
+
+    struct pwm_config *config;
+    uint8_t port;
+    uint8_t ns;
+    ulong period, duty;
+
+    if (argc < 2)
+    {
+        hal_log_info("Usage: pwm port\n");
+        return -1;
+    }
+
+    hal_log_info("Run close pwm channel test case\n");
+
+    port = strtol(argv[1], NULL, 0);
+    hal_log_info("port = %d", port);
+
+    hal_pwm_release(port);
+
+    hal_log_info("release pwm channel finish\n");
+
+    return 0;
+}
+
+FINSH_FUNCTION_EXPORT_CMD(cmd_release_pwm_channel, hal_pwm_close, release pwm channel hal APIs tests)

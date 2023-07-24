@@ -17,6 +17,7 @@ extern "C"
 
 #ifdef CONFIG_KERNEL_FREERTOS
 #include <FreeRTOS.h>
+#include <task.h>
 #include <portmacro.h>
 
 #undef HAL_WAIT_FOREVER

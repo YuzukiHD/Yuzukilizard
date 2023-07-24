@@ -46,7 +46,7 @@
 #define SUNXI_CLK_FACTOR_PERIPH0800M_MAX_FREQ      (1200000000U)
 #define SUNXI_CLK_FACTOR_PERIPH0480M_MAX_FREQ      (1200000000U)
 #define SUNXI_CLK_FACTOR_VIDEO0X4_MAX_FREQ         (1188000000U)
-#define SUNXI_CLK_FACTOR_CSIX4_MAX_FREQ            (1188000000U)
+#define SUNXI_CLK_FACTOR_CSIX4_MAX_FREQ            (2376000000U)
 #define SUNXI_CLK_FACTOR_AUDIO_MAX_FREQ            (288000000U)
 #define SUNXI_CLK_FACTOR_NPUX4_MAX_FREQ            (1188000000U)
 
@@ -162,6 +162,7 @@
 #define CLK_E907_CFG            (volatile uint32_t *)(CCU_REG_BASE + 0x0D00)
 #define CLK_RISCV_GATE          (volatile uint32_t *)(CCU_REG_BASE + 0x0D0C)
 #define CLK_PLL_PRE_CFG         (volatile uint32_t *)(CCU_REG_BASE + 0x0E00)
+#define CLK_GPADC_SEL           (volatile uint32_t *)(CCU_REG_BASE + 0x0F04)
 #define CLK_FANOUT_GATE         (volatile uint32_t *)(CCU_REG_BASE + 0x0F30)
 #define CLK_FANOUT27M_CFG       (volatile uint32_t *)(CCU_REG_BASE + 0x0F34)
 #define CLK_FANOUTPCLK_CFG      (volatile uint32_t *)(CCU_REG_BASE + 0x0F38)

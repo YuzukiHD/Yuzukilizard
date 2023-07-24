@@ -33,6 +33,8 @@ void hal_spin_unlock_irqrestore(hal_spinlock_t *lock, uint32_t __cpsr);
 
 int hal_spin_lock_init(hal_spinlock_t *lock);
 int hal_spin_lock_deinit(hal_spinlock_t *lock);
+void hal_enter_critical(void);
+void hal_exit_critical(void);
 
 #ifdef __cplusplus
 }

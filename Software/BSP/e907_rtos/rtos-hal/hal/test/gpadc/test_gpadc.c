@@ -37,86 +37,55 @@
 
 #include <hal_log.h>
 #include <hal_cmd.h>
-#include <sunxi_hal_twi.h>
+#include <sunxi_hal_gpadc.h>
 
-#define TEST_READ 0
-#define TEST_WRITE 1
+int channel = -1;
 
-static int cmd_test_twi(int argc, const char **argv)
+int sunxigpadc_irq_callback(uint32_t dada_type, uint32_t data)
 {
-    twi_msg_t msg;
-    twi_port_t port;
-    uint16_t addr;
-    char reg_addr, reg_val = 0, rw = TEST_READ;
-    int c;
-
-    if (argc < 5)
-	{
-        hal_log_info("Usage:");
-        hal_log_info("\ttwi [port] [slave_addr] [reg] -r");
-        hal_log_info("\t                              -w [val]");
-        return -1;
-    }
-
-	hal_log_info("Run twi test");
-
-    port = strtol(argv[1], NULL, 0);
-    addr = strtol(argv[2], NULL, 0);
-    reg_addr = strtol(argv[3], NULL, 0);
-    if (argv[5])
-    {
-        reg_val = strtol(argv[5], NULL, 0);
-    }
-
-    while ((c = getopt(argc, (char *const *)argv, "rw")) != -1)
-	{
-        switch (c)
-        {
-            case 'r':
-				hal_log_info("twi read test");
-                rw = TEST_READ;
-                break;
-            case 'w':
-				hal_log_info("twi write test");
-                rw = TEST_WRITE;
-                //reg_val = strtol(argv[5], NULL, 0);
-                break;
-	default:
-				hal_log_err("invalid param!");
-        }
-    }
-
-    hal_twi_init(port);
-    hal_twi_control(port, I2C_SLAVE, &addr);
-
-    if (rw == TEST_READ)
-    {
-        hal_twi_read(port, reg_addr, &reg_val, 1);
-        hal_log_info("reg_val: 0x%x", reg_val);
-    }
-    else if (rw == TEST_WRITE)
-    {
-        /*
-         * hal_twi_write bug workaround
-         */
-        uint8_t buf[2];
-
-        buf[0] = reg_addr;
-        buf[1] = reg_val;
-        msg.flags = 0;
-        msg.addr =  addr;
-        msg.len = 2;
-        msg.buf = buf;
-
-        hal_twi_control(port, I2C_RDWR, &msg);
-    }
-
-	hal_log_info("Twi test finish");
-
-	//hal_twi_uninit(port);
-
-	hal_log_info("Twi test1 finish");
+    int vol_data;
+    data = ((VOL_RANGE / 4096) * data);
+    vol_data = data / 1000;
+    printf("channel %d vol data: %d\n", channel, vol_data);
+    //hal_gpadc_channel_exit(channel);
+    //hal_gpadc_deinit();
     return 0;
 }
 
-FINSH_FUNCTION_EXPORT_CMD(cmd_test_twi, hal_twi, twi hal APIs tests)
+int cmd_test_gpadc(int argc, char **argv)
+{
+    int ret = -1;
+    uint32_t vol_data;
+
+    printf("Run gpadc test\n");
+
+    if (argc < 2)
+    {
+	    hal_log_err("usage: hal_gpadc channel\n");
+	    return -1;
+    }
+
+    ret = hal_gpadc_init();
+    if (ret) {
+        hal_log_err("gpadc init failed!\n");
+        return -1;
+    }
+
+    channel = strtol(argv[1], NULL, 0);
+
+    if (channel < 0 || channel > CHANNEL_NUM)
+    {
+	hal_log_err("channel %d is wrong, must between 0 and %d\n", CHANNEL_NUM);
+	return -1;
+    }
+
+    hal_gpadc_channel_init(channel);
+    //hal_gpadc_register_callback(channel, sunxigpadc_irq_callback);
+
+    vol_data = gpadc_read_channel_data(channel);
+    printf("channel %d vol data is %u\n", channel, vol_data);
+
+    return 0;
+}
+
+FINSH_FUNCTION_EXPORT_CMD(cmd_test_gpadc, hal_gpadc, gpadc hal APIs tests)

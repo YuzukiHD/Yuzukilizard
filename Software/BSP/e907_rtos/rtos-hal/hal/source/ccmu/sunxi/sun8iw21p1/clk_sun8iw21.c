@@ -547,6 +547,7 @@ PLLVIDEO0(98,     1,     1188000000U),
 /* PLL_CSI(n, d1, freq)	F_N8X8_D1V1X1 */
 struct sunxi_clk_factor_freq factor_pllcsix4_tbl[] = {
 PLLCSI(98,     1,     1188000000U),
+PLLCSI(98,     0,     2376000000U),
 };
 
 /* PLLAUDIO(n, p, d1, d2, freq)	F_N8X8_P16X6_D1V1X1_D2V0X1 */
@@ -591,11 +592,17 @@ SUNXI_CLK_FIXED_FACTOR(pll_npu, HAL_CLK_PLL_NPU, HAL_CLK_PLL_NPUX4, HAL_CLK_FACT
 SUNXI_CLK_FIXED_FACTOR(hoscd2, HAL_CLK_HOSCD2, HAL_CLK_SRC_HOSC, HAL_CLK_FACTOR, 1, 2);
 SUNXI_CLK_FIXED_FACTOR(osc48md4, HAL_CLK_OSC48MD4, HAL_CLK_SRC_OSC48M, HAL_CLK_FACTOR, 1, 4);
 SUNXI_CLK_FIXED_FACTOR(sdramd4, HAL_CLK_SDRAMD4, HAL_CLK_PERIPH_SDRAM, HAL_CLK_FACTOR, 1, 4);
+SUNXI_CLK_FIXED_FACTOR(hosc_div32, HAL_HOSC_DIV32, HAL_CLK_SRC_HOSC, HAL_CLK_FACTOR, 1, 32);
+SUNXI_CLK_FIXED_FACTOR(hosc_div16, HAL_HOSC_DIV16, HAL_CLK_SRC_HOSC, HAL_CLK_FACTOR, 1, 16);
+SUNXI_CLK_FIXED_FACTOR(hosc_div8, HAL_HOSC_DIV8, HAL_CLK_SRC_HOSC, HAL_CLK_FACTOR, 1, 8);
+SUNXI_CLK_FIXED_FACTOR(hosc_div4, HAL_HOSC_DIV4, HAL_CLK_SRC_HOSC, HAL_CLK_FACTOR, 1, 4);
+SUNXI_CLK_FIXED_FACTOR(hosc_div2, HAL_HOSC_DIV2, HAL_CLK_SRC_HOSC, HAL_CLK_FACTOR, 1, 2);
+
 
 /*                       name,           ns  nw  ks  kw  ms  mw  ps  pw  d1s d1w d2s d2w {frac   out mode}   en-s    sdmss   sdmsw   sdmpat             sdmval  mux_in-s out_en-s*/
 SUNXI_CLK_FACTORS_CONFIG(pll_cpu,		8,  8,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,    0,    0,  0,      31,     0,      0,      0,              0,                   23,  27);
 SUNXI_CLK_FACTORS_CONFIG(pll_ddr0,		8,  8,  0,  0,  0,  0,  0,  0,  1,  1,  0,  1,    0,    0,  0,      31,     24,     1,      CLK_PLL_DDRPAT,    0xd1303333,       23,  27);
-SUNXI_CLK_FACTORS_CONFIG(pll_periph0x2,	8,  8,  0,  0,  1,  1,  0,  0,  16, 3,  0,  0,    0,    0,  0,      31,     24,     1,      CLK_PLL_PERI0PAT0,  0xd1303333,      23,  27);
+SUNXI_CLK_FACTORS_CONFIG(pll_periph0x2,	8,  8,  0,  0,  1,  1,  0,  0,  16, 3,  0,  0,    0,    0,  0,      31,     24,     0,      CLK_PLL_PERI0PAT0,  0xd1303333,      23,  27);
 SUNXI_CLK_FACTORS_CONFIG(pll_periph0800m,	8,  8,  0,  0,  1,  1,  0,  0,  20, 3,  0,  0,    0,    0,  0,      31,     24,     1,      CLK_PLL_PERI0PAT0,  0xd1303333,  23,  27);
 SUNXI_CLK_FACTORS_CONFIG(pll_periph0480m,	8,  8,  0,  0,  1,  1,  0,  0,  2,  3,  0,  0,    0,    0,  0,      31,     24,     1,      CLK_PLL_PERI0PAT0,  0xd1303333,  23,  27);
 SUNXI_CLK_FACTORS_CONFIG(pll_video0x4,		8,  8,  0,  0,  0,  0,  0,  0,  1,  1,  0,  0,    0,    0,  0,      31,     24,     1,      CLK_PLL_VIDEO0PAT0, 0xd1303333,  23,  27);
@@ -662,6 +669,7 @@ hal_clk_id_t fanout12m_parents[] = {HAL_CLK_HOSCD2};
 hal_clk_id_t fanout24m_parents[] = {HAL_CLK_SRC_HOSC};
 hal_clk_id_t fanout27m_parents[] = {HAL_CLK_PLL_AUDIO, HAL_CLK_PLL_CSI, HAL_CLK_PLL_PERI0300M};
 hal_clk_id_t fanout_pclk_parents[] = {HAL_CLK_BUS_APB0};
+hal_clk_id_t gpadc_parents[] = {HAL_HOSC_DIV32, HAL_HOSC_DIV16, HAL_HOSC_DIV8, HAL_HOSC_DIV4, HAL_HOSC_DIV2, HAL_CLK_SRC_HOSC};
 hal_clk_id_t fanout012_parents[] = {HAL_CLK_SRC_LOSC_OUT, HAL_CLK_PERIPH_FANOUT_12M, HAL_CLK_PERIPH_FANOUT_16M, HAL_CLK_PERIPH_FANOUT_24M, HAL_CLK_PERIPH_FANOUT_25M, HAL_CLK_PERIPH_FANOUT_27M, HAL_CLK_PERIPH_FANOUT_PCLK};
 
 hal_clk_id_t ahbmod_parents[] = {HAL_CLK_BUS_AHB};
@@ -726,7 +734,7 @@ SUNXI_CLK_PERIPH_CONFIG(spi3,           CLK_SPI3_CFG,    24,      3,            
 SUNXI_CLK_PERIPH_CONFIG(spif,           CLK_SPIF_CFG,    24,      3,            CLK_SPIF_CFG,       0,         4,          8,          2,          0,          CLK_SPI3_CFG,    CLK_SPI_GATE,   CLK_SPI_GATE,   0,             31,         20,         4,              0,              NULL,             0);
 SUNXI_CLK_PERIPH_CONFIG(gmac_25m,       0,               0,       0,            0,                  0,         0,          0,          0,          0,          CLK_GMAC25M_CFG, 0,              CLK_GMAC25M_CFG, 0,            31,         0,          30,             0,              NULL,             0);
 SUNXI_CLK_PERIPH_CONFIG(gmac,           0,               0,       0,            0,                  0,         0,          0,          0,          0,          0,               CLK_GMAC_GATE,  CLK_GMAC_GATE,  0,             0,          16,         0,              0,              NULL,             0);
-SUNXI_CLK_PERIPH_CONFIG(gpadc,          0,               0,       0,            0,                  0,         0,          0,          0,          0,          0,               CLK_GPADC_GATE, CLK_GPADC_GATE, 0,             0,          16,         0,              0,              NULL,             0);
+SUNXI_CLK_PERIPH_CONFIG(gpadc,          CLK_GPADC_SEL,   22,      3,            0,                  0,         0,          0,          0,          0,          0,               CLK_GPADC_GATE, CLK_GPADC_GATE, 0,             0,          16,         0,              0,              NULL,             0);
 SUNXI_CLK_PERIPH_CONFIG(ths,            0,               0,       0,            0,                  0,         0,          0,          0,          0,          0,               CLK_THS_GATE,   CLK_THS_GATE,   0,             0,          16,         0,              0,              NULL,             0);
 SUNXI_CLK_PERIPH_CONFIG(pll_audiox4,    0,               0,       0,            CLK_PLL_PRE_CFG,    5,         5,          0,          0,          0,          0,               0,              0,              0,             0,          0,          0,              0,              NULL,             0);
 SUNXI_CLK_PERIPH_CONFIG(pll_audio,      0,               0,       0,            CLK_PLL_PRE_CFG,    0,         5,          0,          0,          0,          0,               0,              0,              0,             0,          0,          0,              0,              NULL,             0);
@@ -809,7 +817,7 @@ SUNXI_CLK_PERIPH(spi3,      HAL_CLK_PERIPH_SPI3,    spi_parents);
 SUNXI_CLK_PERIPH(spif,      HAL_CLK_PERIPH_SPIF,    spi_parents);
 SUNXI_CLK_PERIPH(gmac_25m,  HAL_CLK_PERIPH_GMAC_25M,    gmac_25m_parents);
 SUNXI_CLK_PERIPH(gmac,      HAL_CLK_PERIPH_GMAC,     ahbmod_parents);
-SUNXI_CLK_PERIPH(gpadc,     HAL_CLK_PERIPH_GPADC,   apb0mod_parents);
+SUNXI_CLK_PERIPH(gpadc,     HAL_CLK_PERIPH_GPADC,   gpadc_parents);
 SUNXI_CLK_PERIPH(ths,       HAL_CLK_PERIPH_THS,     apb0mod_parents);
 /*
  * Strictly speaking, the pll_audiox4 and pll_audio are not pll clocks, although they are called pll
@@ -1149,7 +1157,7 @@ static int calc_rate_pll_csix4(u32 parent_rate,
 {
     u64 tmp_rate = (parent_rate ? parent_rate : 24000000);
     tmp_rate = tmp_rate * (factor->factorn + 1);
-    do_div(tmp_rate, 4 * (factor->factord1 + 1));
+    do_div(tmp_rate, (factor->factord1 + 1));
     return (u32)tmp_rate;
 }
 

@@ -122,7 +122,7 @@
 #define PWM_NUM 12
 
 #define SUNXI_PWM_CLK_TYPE HAL_SUNXI_CCU
-#define SUNXI_PWM_CLK_ID HAL_CLK_PERIPH_DMA
+#define SUNXI_PWM_CLK_ID HAL_CLK_PERIPH_PWM
 #define SUNXI_PWM_RESET_TYPE HAL_SUNXI_RESET
 #define SUNXI_PWM_RESET_ID 0
 
@@ -133,6 +133,9 @@ typedef struct pwm_gpio_t
 {
     gpio_pin_t pwm_pin;
     int pwm_function;
+    bool bind_mode;
+    u32 bind_channel;
+    u32 dead_time;
 } pwm_gpio_t;
 
 static pwm_gpio_t pwm_gpio[PWM_NUM] =

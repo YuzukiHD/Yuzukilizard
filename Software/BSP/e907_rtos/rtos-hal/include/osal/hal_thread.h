@@ -24,9 +24,14 @@ typedef struct rt_thread hal_thread;
 void *kthread_create(void (*threadfn)(void *data), void *data, const char *namefmt, int stacksize, int priority);
 int kthread_stop(void *thread);
 int kthread_start(void *thread);
+void *kthread_self(void);
 int kthread_wakeup(void *thread);
 int kthread_suspend(void *thread);
-int kthread_mdelay(int ms);
+int kthread_msleep(int ms);
+int kthread_sleep(int tick);
+int kthread_scheduler_is_running(void);
+int kthread_in_critical_context(void);
+void kthread_tick_increase(void);
 
 #define kthread_run(threadfn, data, namefmt, ...)			   \
 ({									   \

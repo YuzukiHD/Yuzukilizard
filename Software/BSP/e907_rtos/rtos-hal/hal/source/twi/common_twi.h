@@ -210,7 +210,7 @@ extern "C" {
 #define ADDR_BYTE   (0xff<<16)
 
 /* Offset:0x0210. Twi driver bus control register(Default Value:0x0000_00C0) */
-#define TWI_DRV_CLK_DUTY    (0x01<<16)
+#define TWI_DRV_CLK_DUTY    (0x01<<15)
 #define TWI_DRV_CLK_M       (0x0f<<8)
 #define TWI_DRV_CLK_N       (0x07<<12)
 
@@ -279,6 +279,8 @@ extern "C" {
 #define DMA_TIMEOUT 1000
 
 #define TWI_PIN_NUM 2 /*pin num of twi*/
+
+#define OSC24M			(24000000)
 
 #ifdef __cplusplus
 }

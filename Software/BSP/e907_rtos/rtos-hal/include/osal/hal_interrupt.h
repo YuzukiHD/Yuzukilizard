@@ -42,6 +42,9 @@ void hal_interrupt_clear_pending(int32_t irq);
 int32_t hal_interrupt_is_pending(int32_t irq);
 void hal_interrupt_set_pending(int32_t irq);
 
+void hal_interrupt_enter(void);
+void hal_interrupt_leave(void);
+
 #ifdef __cplusplus
 }
 #endif

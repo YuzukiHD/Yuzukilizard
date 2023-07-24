@@ -1,0 +1,17 @@
+menu "SPI Devices"
+
+config DRIVERS_SPI
+    bool "enable spi driver"
+        default n
+
+config DRIVERS_SPI_PANIC_TRANSFER
+    bool "support sp transfer if crash"
+    depends on DRIVERS_SPI
+        default n
+
+config HAL_TEST_SPI
+    bool "enable spi hal APIs test command"
+    depends on DRIVERS_SPI
+        default n
+
+endmenu

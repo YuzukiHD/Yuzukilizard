@@ -1,7 +1,5 @@
 #include <hal_log.h>
 #include <stdlib.h>
-#include <hal_clk.h>
-#include <hal_reset.h>
 #include <hal_gpio.h>
 #include <sunxi_hal_twi.h>
 #include <hal_dma.h>
@@ -95,19 +93,26 @@ static void twi_clk_write_reg(hal_twi_t *twi, unsigned int reg_clk,
 {
     const unsigned long base_addr = twi->base_addr;
     unsigned int reg_val = readl(base_addr + reg_clk);
+    u32 duty;
 
     if (reg_clk == TWI_DRIVER_BUSC)
     {
         reg_val &= ~(mask_clk_m | mask_clk_n);
         reg_val |= ((clk_m | (clk_n << 4)) << 8);
-        writel(reg_val, base_addr + reg_clk);
+        duty = TWI_DRV_CLK_DUTY;
     }
     else
     {
         reg_val &= ~(mask_clk_m | mask_clk_n);
         reg_val |= ((clk_m  << 3) | clk_n);
-        writel(reg_val, base_addr + reg_clk);
+        duty = TWI_CLK_DUTY;
     }
+    if (twi->freq > TWI_FREQUENCY_100K)
+        reg_val |= duty;
+    else
+        reg_val &= ~(duty);
+
+    writel(reg_val, base_addr + reg_clk);
 }
 
 /*
@@ -1699,13 +1704,18 @@ twi_status_t hal_twi_xfer(twi_port_t port, twi_msg_t *msgs, int32_t num)
         return TWI_STATUS_INVALID_PARAMETER;
     }
 
+#ifdef CONFIG_COMPONENTS_PM
+    pm_wakelocks_acquire(&twi->wl, PM_WL_TYPE_WAIT_INC, OS_WAIT_FOREVER);
+#endif
+
     if (twi->twi_drv_used)
     {
         TWI_INFO("[twi%d] twi driver xfer", twi->port);
         ret = hal_twi_drv_do_xfer(twi, msgs, num);
         if (ret < 0)
         {
-            return TWI_STATUS_ERROR;
+            ret = TWI_STATUS_ERROR;
+            goto end;
         }
     }
     else
@@ -1714,10 +1724,15 @@ twi_status_t hal_twi_xfer(twi_port_t port, twi_msg_t *msgs, int32_t num)
         ret = hal_twi_engine_do_xfer(twi, msgs, num);
         if (ret < 0)
         {
-            return TWI_STATUS_ERROR;
+            ret = TWI_STATUS_ERROR;
+            goto end;
         }
     }
 
+end:
+#ifdef CONFIG_COMPONENTS_PM
+    pm_wakelocks_release(&twi->wl);
+#endif
     return ret == num ? TWI_STATUS_OK : TWI_STATUS_ERROR;
 }
 
@@ -1733,7 +1748,7 @@ static twi_status_t hal_twi_sys_pinctrl_init(hal_twi_t *twi)
     count = Hal_Cfg_GetGPIOSecKeyCount(twi_name);
     if (!count)
     {
-        TWI_ERR("[twi%d] not support in sys_config\n", twi->port);
+	TWI_WARN("[twi%d] not support in sys_config\n", twi->port);
         return TWI_STATUS_ERROR;
     }
     Hal_Cfg_GetGPIOSecData(twi_name, gpio_cfg, count);
@@ -1926,76 +1941,78 @@ static twi_status_t hal_twi_clk_init(hal_twi_t *twi)
     }
 
 #else
-    rate =24000000;
+    //rate =OSC24M; /* use hal_clk_get_rate */
     hal_clk_type_t	clk_type = HAL_SUNXI_CCU;
     hal_clk_id_t	twi_clk_id;
-    hal_clk_t		clk;
-
     hal_reset_type_t	reset_type = HAL_SUNXI_RESET;
     hal_reset_id_t	twi_reset_id;
-    struct reset_control *reset;
 
     switch (twi->port)
     {
-	    case 0:
-		    twi_clk_id = SUNXI_CLK_TWI(0);
-		    twi_reset_id = SUNXI_CLK_RST_TWI(0);
-		    break;
-	    case 1:
-		    twi_clk_id = SUNXI_CLK_TWI(1);
-		    twi_reset_id = SUNXI_CLK_RST_TWI(1);
-		    break;
+        case 0:
+            twi_clk_id = SUNXI_CLK_TWI(0);
+            twi_reset_id = SUNXI_CLK_RST_TWI(0);
+            break;
+        case 1:
+            twi_clk_id = SUNXI_CLK_TWI(1);
+            twi_reset_id = SUNXI_CLK_RST_TWI(1);
+            break;
 #if !defined(CONFIG_ARCH_SUN20IW2)
-	    case 2:
-		    twi_clk_id = SUNXI_CLK_TWI(2);
-		    twi_reset_id = SUNXI_CLK_RST_TWI(2);
-		    break;
-	    case 3:
-		    twi_clk_id = SUNXI_CLK_TWI(3);
-		    twi_reset_id = SUNXI_CLK_RST_TWI(3);
-		    break;
+        case 2:
+            twi_clk_id = SUNXI_CLK_TWI(2);
+            twi_reset_id = SUNXI_CLK_RST_TWI(2);
+            break;
+        case 3:
+            twi_clk_id = SUNXI_CLK_TWI(3);
+            twi_reset_id = SUNXI_CLK_RST_TWI(3);
+            break;
 #endif
 #ifdef CONFIG_ARCH_SUN20IW3
-	    case 4:
-		    twi_clk_id = SUNXI_CLK_TWI(4);
-		    twi_reset_id = SUNXI_CLK_RST_TWI(4);
-		    break;
+        case 4:
+            twi_clk_id = SUNXI_CLK_TWI(4);
+            twi_reset_id = SUNXI_CLK_RST_TWI(4);
+            break;
 #endif
-	    default:
-		    TWI_ERR("twi%d is invalid\n", twi->port);
-		    return TWI_STATUS_ERROR;
+        default:
+            TWI_ERR("twi%d is invalid\n", twi->port);
+            return TWI_STATUS_ERROR;
     }
 
     if (twi_reset_id)
     {
-        reset = hal_reset_control_get(reset_type, twi_reset_id);
-        if (!reset)
+        twi->reset = hal_reset_control_get(reset_type, twi_reset_id);
+        if (!twi->reset)
         {
-	    TWI_ERR("twi reset control get error");
+            TWI_ERR("twi reset control get error");
             return TWI_STATUS_ERROR;
         }
-        hal_reset_control_deassert(reset);
-        hal_reset_control_put(reset);
+        hal_reset_control_reset(twi->reset);
     }
 
-    clk = hal_clock_get(clk_type, twi_clk_id);
-    if (!clk)
+    twi->clk = hal_clock_get(clk_type, twi_clk_id);
+    if (!twi->clk)
     {
-	    TWI_ERR("twi clock get error ");
-	    return TWI_STATUS_ERROR;
+        TWI_ERR("twi clock get error ");
+        return TWI_STATUS_ERROR;
     }
 
-    if (hal_clock_enable(clk))
+    rate = hal_clk_get_rate(twi->clk);
+    if (!rate) {
+        TWI_INFO("twi%d fail to get twi clk rate, use 24M\n", twi->port);
+        rate = OSC24M; /* FIXME: fixed to 24MHz */
+    }
+
+    if (hal_clock_enable(twi->clk))
     {
-	    TWI_ERR("twi clock enable error\n");
-	    return TWI_STATUS_ERROR;
+        TWI_ERR("twi clock enable error\n");
+        return TWI_STATUS_ERROR;
     }
 
 #endif
 
     if (twi->twi_drv_used)
     {
-        twi_set_clock(twi, TWI_DRIVER_BUSC, 24000000, twi->freq,
+        twi_set_clock(twi, TWI_DRIVER_BUSC, OSC24M, twi->freq,
                       TWI_DRV_CLK_M, TWI_DRV_CLK_N);
         twi_enable(twi->base_addr, TWI_DRIVER_CTRL, TWI_DRV_EN);
     }
@@ -2006,6 +2023,8 @@ static twi_status_t hal_twi_clk_init(hal_twi_t *twi)
         twi_enable(twi->base_addr, TWI_CTL_REG, TWI_CTL_BUSEN);
     }
 
+    TWI_INFO("twi clock_reg is %x\n", readl(twi->base_addr + TWI_CLK_REG));
+
     return TWI_STATUS_OK;
 }
 
@@ -2014,12 +2033,54 @@ static void hal_twi_clk_exit(hal_twi_t *twi)
     /* disable twi bus */
     twi_disable(twi->base_addr, TWI_DRIVER_CTRL, TWI_DRV_EN);
 
-    //hal_clock_disable(twi->mclk);
+#if !(defined(CONFIG_ARCH_SUN8IW20) || defined(CONFIG_SOC_SUN20IW1) || defined(CONFIG_ARCH_SUN20IW2) || defined(CONFIG_ARCH_SUN20IW3))
+    hal_clock_disable(twi->mclk);
+#else
+    hal_clock_disable(twi->clk);
+    hal_reset_control_assert(twi->reset);
+#endif
 }
+
+#ifdef CONFIG_COMPONENTS_PM
+static int hal_twi_suspend(struct pm_device *dev, suspend_mode_t mode)
+{
+    hal_twi_t *twi = (hal_twi_t *)dev->data;
+
+    hal_disable_irq(twi->irqnum);
+    hal_twi_pinctrl_exit(twi);
+    hal_twi_clk_exit(twi);
+
+    TWI_ERR("[twi%d] suspend\n", twi->port);
+    return 0;
+}
+
+static int hal_twi_resume(struct pm_device *dev, suspend_mode_t mode)
+{
+    hal_twi_t *twi = (hal_twi_t *)dev->data;
+
+    hal_twi_clk_init(twi);
+
+    if (hal_twi_sys_pinctrl_init(twi)) {
+        if (hal_twi_pinctrl_init(twi)) {
+            TWI_ERR("[twi%d] pinctrl init error\n", twi->port);
+            return TWI_STATUS_ERROR;
+        }
+    }
+
+    hal_enable_irq(twi->irqnum);
+
+    TWI_ERR("[twi%d] resume\n", twi->port);
+    return 0;
+}
+
+struct pm_devops pm_twi_ops = {
+    .suspend = hal_twi_suspend,
+    .resume = hal_twi_resume,
+};
+#endif
 
 twi_status_t hal_twi_init(twi_port_t port)
 {
-    char irqname[32];
     hal_twi_t *twi = &hal_twi[port];
 
     if (twi->already_init) //if twi has been inited, return ok
@@ -2077,16 +2138,16 @@ twi_status_t hal_twi_init(twi_port_t port)
         goto errclk;
     }
 
-	if (hal_twi_sys_pinctrl_init(twi)) {
-		if (hal_twi_pinctrl_init(twi)) {
-			TWI_ERR("[twi%d] pinctrl init error", port);
-			goto errpin;
-		}
-	}
+    if (hal_twi_sys_pinctrl_init(twi)) {
+        if (hal_twi_pinctrl_init(twi)) {
+            TWI_ERR("[twi%d] pinctrl init error", port);
+            goto errpin;
+        }
+    }
 
-	snprintf(irqname, 32, "twi%d", port);
+    snprintf(twi->irqname, 32, "twi%d", port);
 
-    if (hal_request_irq(twi->irqnum, hal_twi_handler, irqname, twi) < 0)
+    if (hal_request_irq(twi->irqnum, hal_twi_handler, twi->irqname, twi) < 0)
     {
 	TWI_ERR("[twi%d] request irq error", twi->port);
 	goto errirq;
@@ -2098,6 +2159,16 @@ twi_status_t hal_twi_init(twi_port_t port)
     {
         hal_dma_chan_request(&twi->dma_chan);
     }
+
+#ifdef CONFIG_COMPONENTS_PM
+    twi->wl.name = twi->irqname;
+    twi->wl.ref = 0;
+    twi->pm.name = twi->irqname;
+    twi->pm.ops = &pm_twi_ops;
+    twi->pm.data = twi;
+
+    pm_devops_register(&twi->pm);
+#endif
 
     twi->already_init++;
 
@@ -2134,13 +2205,16 @@ twi_status_t hal_twi_uninit(twi_port_t port)
         twi->already_init--;
         if (twi->already_init == 0)
         {
+#ifdef CONFIG_COMPONENTS_PM
+            pm_devops_unregister(&twi->pm);
+#endif
             hal_disable_irq(twi->irqnum);
             hal_free_irq(twi->irqnum);
             hal_twi_pinctrl_exit(twi);
-	    if (twi->twi_drv_used)
-	    {
+            if (twi->twi_drv_used)
+            {
                 hal_dma_chan_free(twi->dma_chan);
-	    }
+            }
             hal_twi_clk_exit(twi);
 #if !(defined(CONFIG_ARCH_SUN8IW18P1) || defined(CONFIG_SOC_SUN20IW1) || defined(CONFIG_ARCH_DSP))
             hal_twi_regulator_exit(twi);

@@ -9,6 +9,8 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
+void *hal_realloc(void *ptr, uint32_t size);
+void *hal_calloc(uint32_t numb, uint32_t size);
 
 void *hal_malloc(uint32_t size);
 void hal_free(void *p);

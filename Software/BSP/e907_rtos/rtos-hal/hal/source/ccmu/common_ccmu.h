@@ -81,6 +81,7 @@ typedef enum
 #if defined(CONFIG_DRIVERS_SUNXI_CLK)
 
 #define HAL_SUNXI_CCU (0)
+#define HAL_SUNXI_FIXED_CCU (1)
 
 #include "sunxi/clk.h"
 typedef hal_clk_id_t hal_clk_t;

@@ -54,7 +54,7 @@ extern "C" {
 #define GPIO_ERR(fmt, arg...) hal_log_err(fmt, ##arg)
 
 /**This enum defines the GPIO MUX function*/
-#if defined(CONFIG_SOC_SUN20IW1) || defined(CONFIG_ARCH_SUN8IW20) || defined(CONFIG_ARCH_SUN20IW2P1)
+#if defined(CONFIG_SOC_SUN20IW1) || defined(CONFIG_ARCH_SUN8IW20) || defined(CONFIG_ARCH_SUN20IW2) || defined(CONFIG_ARCH_SUN20IW3)
 typedef enum
 {
     GPIO_MUXSEL_IN = 0,

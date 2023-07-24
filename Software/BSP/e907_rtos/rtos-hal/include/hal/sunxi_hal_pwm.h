@@ -81,6 +81,13 @@ extern "C" {
 #define PWM_PERIOD_CYCLES_SHIFT 0x10
 #define PWM_PERIOD_CYCLES_WIDTH 0x10
 
+#define PWM_DZ_EN_SHIFT  0x0
+#define PWM_DZ_EN_WIDTH  0x1
+#define PWM_PDZINTV_SHIFT  0x8
+#define PWM_PDZINTV_WIDTH  0x8
+
+#define PWM_BIND_NUM 2
+
 /*****************************************************************************
  * Enums
  *****************************************************************************/
@@ -112,27 +119,50 @@ typedef struct pwm_config
     hal_pwm_polarity    polarity;
 } pwm_config_t;
 
+static u32 hal_pwm_regs_offset[] = {
+    PWM_PIER,
+    PWM_CIER,
+    PWM_PCCR01,
+    PWM_PCCR23,
+    PWM_PCCR45,
+    PWM_PCCR67,
+    PWM_PCGR,
+    PWM_PDZCR01,
+    PWM_PDZCR23,
+    PWM_PDZCR45,
+    PWM_PDZCR67,
+    PWM_PER,
+    PWM_CER,
+    PWM_PCR,
+    PWM_PPR,
+    PWM_CCR,
+    PWM_PCNTR,
+};
+
 typedef struct
 {
-   hal_clk_type_t pwm_clk_type;
-   hal_clk_id_t pwm_bus_clk_id;
-   hal_clk_t pwm_bus_clk;
-   hal_reset_type_t pwm_reset_type;
-   hal_reset_id_t pwm_reset_id;
-   struct reset_control *pwm_reset;
+    hal_clk_type_t pwm_clk_type;
+    hal_clk_id_t pwm_bus_clk_id;
+    hal_clk_t pwm_bus_clk;
+    hal_reset_type_t pwm_reset_type;
+    hal_reset_id_t pwm_reset_id;
+    struct reset_control *pwm_reset;
 
-    gpio_pin_t pin[8];
-    gpio_muxsel_t enable_muxsel[8];
+    bool pin_state[PWM_NUM];
+    gpio_pin_t pin[PWM_NUM];
+    gpio_muxsel_t enable_muxsel[PWM_NUM];
+    u32 regs_backup[ARRAY_SIZE(hal_pwm_regs_offset)];
 } hal_pwm_t;
 
 pwm_status_t hal_pwm_init(void);
 pwm_status_t hal_pwm_control(int channel, struct pwm_config *config_pwm);
+pwm_status_t hal_pwm_release(int channel);
 void hal_pwm_enable_controller(uint32_t channel_in);
 void hal_pwm_disable_controller(uint32_t channel_in);
 pwm_status_t hal_pwm_deinit(void);
 
-pwm_status_t hal_pwm_resume(void);
-pwm_status_t hal_pwm_suspend(void);
+int hal_pwm_resume(void *dev);
+int hal_pwm_suspend(void *dev);
 
 #ifdef __cplusplus
 }

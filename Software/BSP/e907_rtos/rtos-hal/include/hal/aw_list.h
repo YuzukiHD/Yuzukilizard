@@ -17,6 +17,15 @@ struct list_head {
         struct list_head *next, *prev;
 };
 
+struct hlist_head
+{
+    struct hlist_node *first;
+};
+
+struct hlist_node
+{
+    struct hlist_node *next, * *pprev;
+};
 
 #define LIST_POISON1  ((void *) 0x00100100)
 #define LIST_POISON2  ((void *) 0x00200)

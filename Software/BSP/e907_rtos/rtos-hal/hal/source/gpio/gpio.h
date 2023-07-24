@@ -34,6 +34,9 @@
 #define __GPIO_I_H__
 
 #include "hal_interrupt.h"
+#ifdef CONFIG_COMPONENTS_PM
+#include <pm_devops.h>
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -225,8 +228,14 @@ struct gpio_pm_reg_cache
 #endif
 
 const struct gpio_desc **gpio_get_platform_desc(void);
+#ifdef CONFIG_STANDBY
 int hal_gpio_suspend(void);
 int hal_gpio_resume(void);
+#endif
+#ifdef CONFIG_COMPONENTS_PM
+static int hal_gpio_suspend(struct pm_device *dev, suspend_mode_t mode);
+static int hal_gpio_resume(struct pm_device *dev, suspend_mode_t mode);
+#endif
 int hal_gpio_r_irq_disable(uint32_t irq);
 int hal_gpio_r_irq_enable(uint32_t irq);
 int hal_gpio_r_all_irq_disable(void);
