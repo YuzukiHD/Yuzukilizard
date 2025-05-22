@@ -1,5 +1,0 @@
-menuconfig CXX
-    bool "CXX Support"
-    default n
-    help
-        Support CXX compile.

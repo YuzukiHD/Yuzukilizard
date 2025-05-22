@@ -1,6 +1,0 @@
-#!/bin/sh
-
-echo "------ bring up e907 remoteprocesser -----"
-echo e907_firmware.elf > /sys/kernel/debug/remoteproc/remoteproc0/firmware
-echo start > /sys/kernel/debug/remoteproc/remoteproc0/state
-echo "------ e907 now online, using amp_shell to open e907 core console -----"

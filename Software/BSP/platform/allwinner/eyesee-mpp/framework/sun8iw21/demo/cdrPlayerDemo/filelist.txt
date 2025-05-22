@@ -1,4 +1,0 @@
-/mnt/extsd/aac.aac
-/mnt/extsd/mp3.mp3
-/mnt/extsd/mp4.mp4
-/mnt/extsd/ts.ts

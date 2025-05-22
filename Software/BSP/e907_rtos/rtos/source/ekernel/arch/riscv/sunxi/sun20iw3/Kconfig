@@ -1,5 +1,0 @@
-config E907_CPUFREQ
-	bool "E907 cpufreq"
-	default n
-	help
-		Enable e907 cpufreq.
